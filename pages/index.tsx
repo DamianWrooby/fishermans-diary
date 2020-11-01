@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import Link from 'next/link';
 // import styles from '../styles/Home.module.css';
 
 type HomeProps = {
@@ -9,12 +10,18 @@ const Home: React.FC<HomeProps> = () => {
   return (
     <>
       <Head>
-        <title>My page title</title>
+        <title>Fisherman`&apos`s Diary</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <div className="w-full justify-between flex flex-row">
-        <p>Lorem ipsum</p>
-        <p>Lorem ipsum 2</p>
+        <div>
+          <Link href="/">
+            <a>Home</a>
+          </Link>
+          <Link href="/login">
+            <a>Login</a>
+          </Link>
+        </div>
       </div>
     </>
   );
