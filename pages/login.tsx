@@ -5,7 +5,7 @@ import {
   FormHelperText,
   Button,
 } from '@chakra-ui/core';
-import { Formik, Form, Field } from 'formik';
+// import { Formik, Form, Field } from 'formik';
 import { fbAuth } from '../services/firebase';
 
 type LoginProps = {
@@ -15,8 +15,8 @@ type LoginProps = {
 const Login: React.FC<LoginProps> = () => {
   return (
     <div className="container h-screen flex justify-center items-center">
-      <Button variantColor="green" size="sm" onClick={fbAuth}>
-        Button
+      <Button variantColor="blue" size="sm" onClick={fbAuth}>
+        Login with Facebook
       </Button>
     </div>
   );

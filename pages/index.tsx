@@ -1,5 +1,7 @@
+import { useEffect } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
+import { auth } from '../services/firebase';
 // import styles from '../styles/Home.module.css';
 
 type HomeProps = {
@@ -7,6 +9,10 @@ type HomeProps = {
 };
 
 const Home: React.FC<HomeProps> = () => {
+  useEffect(() => {
+    auth().onAuthStateChanged((data) => console.log(data));
+  }, []);
+
   return (
     <>
       <Head>
