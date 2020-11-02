@@ -10,7 +10,14 @@ type HomeProps = {
 
 const Home: React.FC<HomeProps> = () => {
   useEffect(() => {
-    auth().onAuthStateChanged((data) => console.log(data));
+    const setUser = (user) => {
+      if (user) {
+        // setUser in UserContext
+      }
+    };
+    const unsubscribe = auth().onAuthStateChanged(setUser);
+
+    return () => unsubscribe();
   }, []);
 
   return (
