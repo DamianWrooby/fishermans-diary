@@ -6,9 +6,9 @@ import {
   Button,
 } from '@chakra-ui/core';
 // import { Formik, Form, Field } from 'formik';
-import { useContext, useState } from 'react';
+
 import { fbAuth, fbSignOut } from '../services/firebase';
-import { UserProvider, useUser } from '../context/userContext';
+import { UserProvider } from '../contexts/userContext';
 import NameLabel from '../components/NameLabel';
 
 type LoginProps = {
