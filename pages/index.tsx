@@ -1,5 +1,8 @@
 import Head from 'next/head';
+import { Button } from '@chakra-ui/core';
 import Link from 'next/link';
+import Menu from '../components/Menu';
+import { useUser } from '../contexts/userContext';
 // import styles from '../styles/Home.module.css';
 
 type HomeProps = {
@@ -7,25 +10,41 @@ type HomeProps = {
 };
 
 const Home: React.FC<HomeProps> = () => {
+  const user = useUser();
+
   return (
     <>
       <Head>
         <title>Fisherman&apos;s Diary</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <div className="w-full justify-between flex flex-row">
-        <div className="p-2">
-          <Link href="/">
-            <a>Home</a>
-          </Link>
+      <Menu />
+      {user ? (
+        <div>MAPA</div>
+      ) : (
+        <div className="container flex flex-col justify-center items-center h-screen">
+          <p className="p-2">You have to sign in.</p>
           <Link href="/login">
-            <a>Login</a>
+            <a className="p-2">
+              <Button variantColor="blue" size="sm">
+                Sign in
+              </Button>
+            </a>
           </Link>
-          <Link href="/account">
-            <a>My account</a>
+          <Link href="/">
+            <a className="p-2">
+              <Button
+                rightIcon="arrow-forward"
+                variantColor="blue"
+                variant="outline"
+                size="sm"
+              >
+                Create account
+              </Button>
+            </a>
           </Link>
         </div>
-      </div>
+      )}
     </>
   );
 };

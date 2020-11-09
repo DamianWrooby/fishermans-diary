@@ -1,13 +1,16 @@
 import '../styles/globals.css';
 import '../styles/tailwind.css';
 import { ThemeProvider, CSSReset } from '@chakra-ui/core';
+import { UserProvider } from '../contexts/userContext';
 
 function MyApp({ Component, pageProps }) {
   return (
-    <ThemeProvider>
-      <CSSReset />
-      <Component {...pageProps} />
-    </ThemeProvider>
+    <UserProvider>
+      <ThemeProvider>
+        <CSSReset />
+        <Component {...pageProps} />
+      </ThemeProvider>
+    </UserProvider>
   );
 }
 

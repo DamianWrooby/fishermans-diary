@@ -14,6 +14,7 @@ const UserProvider = ({ children }: UserProviderProps) => {
         console.log(newUser);
         setUser(newUser);
       } else {
+        console.log('no user');
         setUser(null);
       }
     };
