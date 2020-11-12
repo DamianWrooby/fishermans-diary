@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Button } from '@chakra-ui/core';
-import { useUser } from '../contexts/userContext';
+import { useAuth } from '../contexts/authContext';
 import { fbSignOut } from '../services/firebase';
 import Menu from '../components/Menu';
 
@@ -9,7 +9,7 @@ type AccountProps = {
 };
 
 const Account: React.FC<AccountProps> = () => {
-  const user = useUser();
+  const { user } = useAuth();
 
   useEffect(() => {
     console.log(user);

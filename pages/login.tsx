@@ -10,14 +10,14 @@ import { useRouter } from 'next/router';
 import { fbAuth } from '../services/firebase';
 import NameLabel from '../components/NameLabel';
 import Menu from '../components/Menu';
-import { useUser } from '../contexts/userContext';
+import { useAuth } from '../contexts/authContext';
 
 type LoginProps = {
   children: React.ReactNode;
 };
 
 const Login: React.FC<LoginProps> = () => {
-  const user = useUser();
+  const user = useAuth();
   const router = useRouter();
 
   const login = () => {
@@ -30,7 +30,7 @@ const Login: React.FC<LoginProps> = () => {
       <div className="container h-screen flex flex-col">
         <Menu />
         <div className="w-full h-full flex flex-col justify-center items-center">
-          {user ? (
+          {user.user ? (
             <p>You're logged in.</p>
           ) : (
             <>
