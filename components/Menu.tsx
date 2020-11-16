@@ -9,7 +9,7 @@ const Menu = (): React.ReactNode => {
         <Link href="/">
           <a className="p-1">Home</a>
         </Link>
-        {user ? (
+        {user.user ? (
           <Link href="/account">
             <a className="p-1">My account</a>
           </Link>

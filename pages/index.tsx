@@ -1,8 +1,9 @@
+import { useEffect } from 'react';
 import Head from 'next/head';
 import { Button } from '@chakra-ui/core';
 import Link from 'next/link';
 import Menu from '../components/Menu';
-import { useUser } from '../contexts/userContext';
+import { useAuth } from '../contexts/authContext';
 // import styles from '../styles/Home.module.css';
 
 type HomeProps = {
@@ -10,7 +11,11 @@ type HomeProps = {
 };
 
 const Home: React.FC<HomeProps> = () => {
-  const user = useUser();
+  const user = useAuth();
+
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
 
   return (
     <>
@@ -19,7 +24,7 @@ const Home: React.FC<HomeProps> = () => {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <Menu />
-      {user ? (
+      {user.user ? (
         <div>MAPA</div>
       ) : (
         <div className="container flex flex-col justify-center items-center h-screen">

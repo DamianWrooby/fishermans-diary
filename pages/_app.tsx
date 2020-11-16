@@ -2,7 +2,7 @@ import '../styles/globals.css';
 import '../styles/tailwind.css';
 import type { AppProps } from 'next/app';
 import { ThemeProvider, CSSReset } from '@chakra-ui/core';
-import AuthProvider from '../contexts/authContext';
+import AuthProvider, { ProtectRoute } from '../contexts/authContext';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
