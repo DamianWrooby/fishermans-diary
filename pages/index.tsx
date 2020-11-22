@@ -1,8 +1,11 @@
+import { useEffect } from 'react';
 import Head from 'next/head';
-import { Button } from '@chakra-ui/core';
+import { Button } from '@chakra-ui/react';
 import Link from 'next/link';
+import { FaArrowRight } from 'react-icons/fa';
 import Menu from '../components/Menu';
-import { useUser } from '../contexts/userContext';
+import { useAuth } from '../contexts/authContext';
+import CatchButton from '../components/CatchButton';
 // import styles from '../styles/Home.module.css';
 
 type HomeProps = {
@@ -10,23 +13,30 @@ type HomeProps = {
 };
 
 const Home: React.FC<HomeProps> = () => {
-  const user = useUser();
+  const user = useAuth();
+
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
 
   return (
-    <>
+    <div className="h-screen">
       <Head>
         <title>Fisherman&apos;s Diary</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <Menu />
-      {user ? (
-        <div>MAPA</div>
+      {user.data ? (
+        <>
+          <div>MAPA</div>
+          <CatchButton />
+        </>
       ) : (
         <div className="container flex flex-col justify-center items-center h-screen">
           <p className="p-2">You have to sign in.</p>
           <Link href="/login">
             <a className="p-2">
-              <Button variantColor="blue" size="sm">
+              <Button colorScheme="blue" size="sm">
                 Sign in
               </Button>
             </a>
@@ -34,8 +44,8 @@ const Home: React.FC<HomeProps> = () => {
           <Link href="/">
             <a className="p-2">
               <Button
-                rightIcon="arrow-forward"
-                variantColor="blue"
+                rightIcon={<FaArrowRight />}
+                colorScheme="blue"
                 variant="outline"
                 size="sm"
               >
@@ -45,7 +55,7 @@ const Home: React.FC<HomeProps> = () => {
           </Link>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

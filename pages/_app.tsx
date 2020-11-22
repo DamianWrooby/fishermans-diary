@@ -1,16 +1,16 @@
 import '../styles/globals.css';
 import '../styles/tailwind.css';
-import { ThemeProvider, CSSReset } from '@chakra-ui/core';
-import { UserProvider } from '../contexts/userContext';
+import type { AppProps } from 'next/app';
+import { ChakraProvider } from '@chakra-ui/react';
+import AuthProvider, { ProtectRoute } from '../contexts/authContext';
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <UserProvider>
-      <ThemeProvider>
-        <CSSReset />
+    <AuthProvider>
+      <ChakraProvider>
         <Component {...pageProps} />
-      </ThemeProvider>
-    </UserProvider>
+      </ChakraProvider>
+    </AuthProvider>
   );
 }
 

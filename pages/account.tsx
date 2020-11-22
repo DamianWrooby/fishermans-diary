@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
-import { Button } from '@chakra-ui/core';
-import { useUser } from '../contexts/userContext';
+import { Button } from '@chakra-ui/react';
+import { useAuth } from '../contexts/authContext';
 import { fbSignOut } from '../services/firebase';
 import Menu from '../components/Menu';
 
@@ -9,10 +9,10 @@ type AccountProps = {
 };
 
 const Account: React.FC<AccountProps> = () => {
-  const user = useUser();
+  const user = useAuth();
 
   useEffect(() => {
-    console.log(user);
+    console.log(user.data);
   }, []);
 
   return (
@@ -20,10 +20,10 @@ const Account: React.FC<AccountProps> = () => {
       <Menu />
       {user ? (
         <div className="container flex flex-col justify-center items-center h-screen">
-          <p className="p-2">{`Welcome ${user.email}`}</p>
+          <p className="p-2">{`Welcome ${user.data.email}`}</p>
           <Button
             className="p-2"
-            variantColor="blue"
+            colorScheme="blue"
             size="sm"
             onClick={fbSignOut}
           >
