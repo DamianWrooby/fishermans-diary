@@ -1,10 +1,5 @@
-import {
-  FormControl,
-  FormLabel,
-  FormErrorMessage,
-  FormHelperText,
-  Button,
-} from '@chakra-ui/core';
+import { Button } from '@chakra-ui/react';
+import { FaFacebook } from 'react-icons/fa';
 // import { Formik, Form, Field } from 'formik';
 import { useRouter } from 'next/router';
 import { fbAuth } from '../services/firebase';
@@ -13,7 +8,7 @@ import Menu from '../components/Menu';
 import { useAuth } from '../contexts/authContext';
 
 type LoginProps = {
-  children: React.ReactNode;
+  children: React.ReactChildren;
 };
 
 const Login: React.FC<LoginProps> = () => {
@@ -30,11 +25,16 @@ const Login: React.FC<LoginProps> = () => {
       <div className="container h-screen flex flex-col">
         <Menu />
         <div className="w-full h-full flex flex-col justify-center items-center">
-          {user.user ? (
+          {user.data ? (
             <p>You're logged in.</p>
           ) : (
             <>
-              <Button variantColor="blue" size="sm" onClick={login}>
+              <Button
+                colorScheme="facebook"
+                leftIcon={<FaFacebook />}
+                size="sm"
+                onClick={login}
+              >
                 Login with Facebook
               </Button>
               <NameLabel />

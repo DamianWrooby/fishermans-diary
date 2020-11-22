@@ -1,16 +1,21 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import nookies from 'nookies';
+import firebase from 'firebase/app';
 import { auth } from '../services/firebase';
 import LoadingScreen from '../components/LoadingScreen';
 
 type AuthProviderProps = { children: React.ReactNode };
 
-const AuthContext = createContext<{ user: firebase.User | null }>({
-  user: null,
+const AuthContext = createContext<{
+  isAuthenticated: boolean;
+  data: any | null;
+}>({
+  isAuthenticated: false,
+  data: null,
 });
 
 export default function AuthProvider({ children }: AuthProviderProps) {
-  const [user, setUser] = useState<firebase.User | null>(null);
+  const [user, setUser] = useState<fireabase.User | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -24,7 +29,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
       }
 
       const token = await user.getIdToken();
-      console.log('user:', user);
+      console.log(user);
       setUser(user);
       nookies.set(undefined, 'token', token);
       setLoading(false);
@@ -32,7 +37,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated: !!user, user }}>
+    <AuthContext.Provider value={{ isAuthenticated: !!user, data: user }}>
       {children}
     </AuthContext.Provider>
   );

@@ -2,6 +2,7 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
 
+let db;
 interface firebaseConfiguration {
   apiKey: string;
   authDomain: string;
@@ -25,6 +26,7 @@ const firebaseConfig: firebaseConfiguration = {
 if (typeof window !== 'undefined' && !firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
   firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION);
+  db = firebase.firestore();
 }
 
 const fbProvider = new firebase.auth.FacebookAuthProvider();
@@ -38,3 +40,4 @@ export const fbSignOut = (): unknown => {
 };
 
 export const { auth } = firebase;
+export { db };
