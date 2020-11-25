@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Button } from '@chakra-ui/react';
-import { useUser } from '../contexts/userContext';
+import { useUser } from '../../contexts/userContext';
 
 const NameLabel = () => {
   const user = useUser();

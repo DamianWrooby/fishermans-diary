@@ -3,9 +3,9 @@ import Head from 'next/head';
 import { Button } from '@chakra-ui/react';
 import Link from 'next/link';
 import { FaArrowRight } from 'react-icons/fa';
-import Menu from '../components/Menu';
+import Menu from '../components/molecules/Menu';
 import { useAuth } from '../contexts/authContext';
-import CatchButton from '../components/CatchButton';
+import AddCatch from '../components/molecules/AddCatch';
 // import styles from '../styles/Home.module.css';
 
 type HomeProps = {
@@ -29,7 +29,7 @@ const Home: React.FC<HomeProps> = () => {
       {user.data ? (
         <>
           <div>MAPA</div>
-          <CatchButton />
+          <AddCatch />
         </>
       ) : (
         <div className="container flex flex-col justify-center items-center h-screen">

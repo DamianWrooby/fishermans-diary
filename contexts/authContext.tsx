@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import nookies from 'nookies';
 import firebase from 'firebase/app';
 import { auth } from '../services/firebase';
-import LoadingScreen from '../components/LoadingScreen';
+import LoadingScreen from '../components/molecules/LoadingScreen';
 
 type AuthProviderProps = { children: React.ReactNode };
 

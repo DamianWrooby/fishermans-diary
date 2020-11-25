@@ -3,8 +3,8 @@ import { FaFacebook } from 'react-icons/fa';
 // import { Formik, Form, Field } from 'formik';
 import { useRouter } from 'next/router';
 import { fbAuth } from '../services/firebase';
-import NameLabel from '../components/NameLabel';
-import Menu from '../components/Menu';
+import NameLabel from '../components/atoms/NameLabel';
+import Menu from '../components/molecules/Menu';
 import { useAuth } from '../contexts/authContext';
 
 type LoginProps = {

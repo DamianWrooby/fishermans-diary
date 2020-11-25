@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Button } from '@chakra-ui/react';
 import { useAuth } from '../contexts/authContext';
 import { fbSignOut } from '../services/firebase';
-import Menu from '../components/Menu';
+import Menu from '../components/molecules/Menu';
 
 type AccountProps = {
   children: React.ReactNode;

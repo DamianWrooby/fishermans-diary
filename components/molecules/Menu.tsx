@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { useAuth } from '../contexts/authContext';
+import { useAuth } from '../../contexts/authContext';
 
 const Menu = (): React.ReactNode => {
   const user = useAuth();

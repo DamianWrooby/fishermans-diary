@@ -1,9 +1,9 @@
 import { IconButton } from '@chakra-ui/react';
 import { FaPlus } from 'react-icons/fa';
-import { db } from '../services/firebase';
-import { useAuth } from '../contexts/authContext';
+import { db } from '../../services/firebase';
+import { useAuth } from '../../contexts/authContext';
 
-type CatchButtonReturn = React.ReactNode;
+type addButtonReturn = React.ReactNode;
 
 const addCatch = async (uid) => {
   console.log(uid);
@@ -15,7 +15,7 @@ const addCatch = async (uid) => {
   });
 };
 
-const CatchButton = (): CatchButtonReturn => {
+const AddButton = (): addButtonReturn => {
   const user = useAuth();
   return (
     <div className="absolute m-16 bottom-0 right-0">
@@ -31,4 +31,4 @@ const CatchButton = (): CatchButtonReturn => {
   );
 };
 
-export default CatchButton;
+export default AddButton;
