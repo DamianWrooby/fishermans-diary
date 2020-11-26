@@ -1,8 +1,6 @@
 import AddButton from '../atoms/AddButton';
 
-type addCatchReturn = React.ReactNode;
-
-const AddCatch = (): addCatchReturn => {
+const AddCatch = (): JSX.Element => {
   return (
     <div>
       <AddButton />

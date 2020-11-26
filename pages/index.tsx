@@ -8,11 +8,7 @@ import { useAuth } from '../contexts/authContext';
 import AddCatch from '../components/molecules/AddCatch';
 // import styles from '../styles/Home.module.css';
 
-type HomeProps = {
-  children: React.ReactNode;
-};
-
-const Home: React.FC<HomeProps> = () => {
+const Home = (): React.ReactNode => {
   const user = useAuth();
 
   useEffect(() => {

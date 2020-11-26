@@ -15,7 +15,7 @@ const addCatch = async (uid) => {
   });
 };
 
-const AddButton = (): addButtonReturn => {
+const AddButton = (): JSX.Element => {
   const user = useAuth();
   return (
     <div className="absolute m-16 bottom-0 right-0">
