@@ -30,12 +30,17 @@ if (typeof window !== 'undefined' && !firebase.apps.length) {
 }
 
 const fbProvider = new firebase.auth.FacebookAuthProvider();
+const gProvider = new firebase.auth.GoogleAuthProvider();
 
 export const fbAuth = (): unknown => {
   return firebase.auth().signInWithPopup(fbProvider);
 };
 
-export const fbSignOut = (): unknown => {
+export const gAuth = (): unknown => {
+  return firebase.auth().signInWithPopup(gProvider);
+};
+
+export const signOut = (): unknown => {
   return firebase.auth().signOut();
 };
 

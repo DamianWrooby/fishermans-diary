@@ -1,8 +1,8 @@
 import { Button } from '@chakra-ui/react';
-import { FaFacebook } from 'react-icons/fa';
+import { FaFacebook, FaGoogle } from 'react-icons/fa';
 // import { Formik, Form, Field } from 'formik';
 import { useRouter } from 'next/router';
-import { fbAuth } from '../services/firebase';
+import { fbAuth, gAuth } from '../services/firebase';
 import NameLabel from '../components/atoms/NameLabel';
 import Menu from '../components/molecules/Menu';
 import { useAuth } from '../contexts/authContext';
@@ -15,8 +15,12 @@ const Login: React.FC<LoginProps> = () => {
   const user = useAuth();
   const router = useRouter();
 
-  const login = () => {
+  const fbLogin = () => {
     fbAuth();
+    router.push('/account');
+  };
+  const gLogin = () => {
+    gAuth();
     router.push('/account');
   };
 
@@ -28,17 +32,26 @@ const Login: React.FC<LoginProps> = () => {
           {user.data ? (
             <p>You're logged in.</p>
           ) : (
-            <>
+            <div className="p-4 flex flex-col">
               <Button
+                className="min-w-full m-2"
                 colorScheme="facebook"
                 leftIcon={<FaFacebook />}
                 size="sm"
-                onClick={login}
+                onClick={fbLogin}
               >
                 Login with Facebook
               </Button>
-              <NameLabel />
-            </>
+              <Button
+                className="min-w-full m-2"
+                colorScheme="orange"
+                leftIcon={<FaGoogle />}
+                size="sm"
+                onClick={gLogin}
+              >
+                Login with Google
+              </Button>
+            </div>
           )}
         </div>
       </div>

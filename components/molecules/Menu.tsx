@@ -7,15 +7,21 @@ const Menu = (): React.ReactNode => {
     <div className="w-full justify-between flex flex-row">
       <div className="p-2">
         <Link href="/">
-          <a className="p-1">Home</a>
+          <a href="/" className="p-1">
+            Home
+          </a>
         </Link>
-        {user.user ? (
+        {user.data ? (
           <Link href="/account">
-            <a className="p-1">My account</a>
+            <a href="/account" className="p-1">
+              My account
+            </a>
           </Link>
         ) : (
           <Link href="/login">
-            <a className="p-1">Login</a>
+            <a href="/login" className="p-1">
+              Login
+            </a>
           </Link>
         )}
       </div>

@@ -1,15 +1,11 @@
 import { useEffect } from 'react';
 import { Button } from '@chakra-ui/react';
-import { useUser } from '../../contexts/userContext';
+import { useAuth } from '../../contexts/authContext';
 
 const NameLabel = () => {
-  const user = useUser();
+  const user = useAuth();
 
-  useEffect(() => {
-    console.log(user);
-  }, []);
-
-  return <>{user ? <div>{`${user.email}`}</div> : null}</>;
+  return <>{user ? <div>{`${user.data.email}`}</div> : null}</>;
 };
 
 export default NameLabel;

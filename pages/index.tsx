@@ -22,9 +22,9 @@ const Home = (): React.ReactNode => {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <Menu />
-      {user.data ? (
+      {user ? (
         <>
-          <div>MAPA</div>
+          <p>Recent catches</p>
           <AddCatch />
         </>
       ) : (

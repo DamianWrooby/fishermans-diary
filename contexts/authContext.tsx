@@ -7,16 +7,20 @@ import LoadingScreen from '../components/molecules/LoadingScreen';
 interface Context {
   isAuthenticated: boolean;
   data: firebase.User | null;
+  loading: boolean;
+}
+
+interface Props {
+  children: React.ReactNode;
 }
 
 const AuthContext = createContext<Context>({
   isAuthenticated: false,
   data: null,
+  loading: false,
 });
 
-export default function AuthProvider({
-  children,
-}: React.ReactNode): React.ReactNode {
+export default function AuthProvider({ children }: Props): React.ReactNode {
   const [user, setUser] = useState<firebase.User | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -30,7 +34,7 @@ export default function AuthProvider({
         return;
       }
 
-      const token = await user.getIdToken();
+      const token = await fbUser.getIdToken();
       console.log(fbUser);
       setUser(fbUser);
       nookies.set(undefined, 'token', token, '');
@@ -39,7 +43,9 @@ export default function AuthProvider({
   }, []);
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated: !!user, data: user }}>
+    <AuthContext.Provider
+      value={{ isAuthenticated: !!user, data: user, loading }}
+    >
       {children}
     </AuthContext.Provider>
   );
@@ -53,12 +59,9 @@ export function useAuth(): Context {
   return context;
 }
 
-export const ProtectRoute = ({ children }) => {
-  const { isAuthenticated, isLoading } = useAuth();
-  if (
-    isLoading ||
-    (!isAuthenticated && window.location.pathname !== '/login')
-  ) {
+export const ProtectRoute = ({ children }: Props): React.ReactNode => {
+  const { isAuthenticated, loading } = useAuth();
+  if (loading || (!isAuthenticated && window.location.pathname !== '/login')) {
     return <LoadingScreen />;
   }
   return children;
