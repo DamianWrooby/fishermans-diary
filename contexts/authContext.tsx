@@ -20,7 +20,7 @@ const AuthContext = createContext<Context>({
   loading: false,
 });
 
-export default function AuthProvider({ children }: Props): React.ReactNode {
+export default function AuthProvider({ children }: Props): JSX.Element {
   const [user, setUser] = useState<firebase.User | null>(null);
   const [loading, setLoading] = useState(true);
 

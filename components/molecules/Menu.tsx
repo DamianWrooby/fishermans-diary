@@ -1,10 +1,13 @@
+import { IconButton, useColorMode } from '@chakra-ui/react';
+import { RiSunLine, RiMoonLine } from 'react-icons/ri';
 import Link from 'next/link';
 import { useAuth } from '../../contexts/authContext';
 
-const Menu = (): React.ReactNode => {
+const Menu = (): JSX.Element => {
   const user = useAuth();
+  const { colorMode, toggleColorMode } = useColorMode();
   return (
-    <div className="w-full justify-between flex flex-row">
+    <div className="w-full absolute justify-between flex flex-row">
       <div className="p-2">
         <Link href="/">
           <a href="/" className="p-1">
@@ -24,6 +27,12 @@ const Menu = (): React.ReactNode => {
             </a>
           </Link>
         )}
+      </div>
+      <div className="m-2">
+        <IconButton
+          onClick={toggleColorMode}
+          icon={colorMode === 'light' ? <RiMoonLine /> : <RiSunLine />}
+        />
       </div>
     </div>
   );

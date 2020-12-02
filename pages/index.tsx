@@ -22,7 +22,7 @@ const Home = (): React.ReactNode => {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <Menu />
-      {user ? (
+      {user.data ? (
         <>
           <p>Recent catches</p>
           <AddCatch />
@@ -37,7 +37,7 @@ const Home = (): React.ReactNode => {
               </Button>
             </a>
           </Link>
-          <Link href="/">
+          <Link href="/create-account">
             <a className="p-2">
               <Button
                 rightIcon={<FaArrowRight />}
