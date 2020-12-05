@@ -32,6 +32,10 @@ if (typeof window !== 'undefined' && !firebase.apps.length) {
 const fbProvider = new firebase.auth.FacebookAuthProvider();
 const gProvider = new firebase.auth.GoogleAuthProvider();
 
+export const createUser = (email, password): unknown => {
+  return firebase.auth().createUserWithEmailAndPassword(email, password);
+};
+
 export const fbAuth = (): unknown => {
   return firebase.auth().signInWithPopup(fbProvider);
 };
