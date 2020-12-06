@@ -2,48 +2,56 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import nookies from 'nookies';
 import firebase from 'firebase/app';
 import { auth } from '../services/firebase';
-import LoadingScreen from '../components/LoadingScreen';
+import LoadingScreen from '../components/molecules/LoadingScreen';
 
-type AuthProviderProps = { children: React.ReactNode };
-
-const AuthContext = createContext<{
+interface Context {
   isAuthenticated: boolean;
-  data: any | null;
-}>({
+  data: firebase.User | null;
+  loading: boolean;
+}
+
+interface Props {
+  children: React.ReactNode;
+}
+
+const AuthContext = createContext<Context>({
   isAuthenticated: false,
   data: null,
+  loading: false,
 });
 
-export default function AuthProvider({ children }: AuthProviderProps) {
-  const [user, setUser] = useState<fireabase.User | null>(null);
+export default function AuthProvider({ children }: Props): JSX.Element {
+  const [user, setUser] = useState<firebase.User | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    return auth().onIdTokenChanged(async (user) => {
-      if (!user) {
+    return auth().onIdTokenChanged(async (fbUser) => {
+      if (!fbUser) {
         setLoading(true);
         console.log('no user');
         setUser(null);
-        nookies.set(undefined, 'token', '');
+        nookies.set(undefined, 'token', '', '');
         return;
       }
 
-      const token = await user.getIdToken();
-      console.log(user);
-      setUser(user);
-      nookies.set(undefined, 'token', token);
+      const token = await fbUser.getIdToken();
+      console.log(fbUser);
+      setUser(fbUser);
+      nookies.set(undefined, 'token', token, '');
       setLoading(false);
     });
   }, []);
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated: !!user, data: user }}>
+    <AuthContext.Provider
+      value={{ isAuthenticated: !!user, data: user, loading }}
+    >
       {children}
     </AuthContext.Provider>
   );
 }
 
-export function useAuth() {
+export function useAuth(): Context {
   const context = useContext(AuthContext);
   if (context === undefined) {
     throw new Error('useUser must be used within a AuthProvider');
@@ -51,12 +59,9 @@ export function useAuth() {
   return context;
 }
 
-export const ProtectRoute = ({ children }) => {
-  const { isAuthenticated, isLoading } = useAuth();
-  if (
-    isLoading ||
-    (!isAuthenticated && window.location.pathname !== '/login')
-  ) {
+export const ProtectRoute = ({ children }: Props): React.ReactNode => {
+  const { isAuthenticated, loading } = useAuth();
+  if (loading || (!isAuthenticated && window.location.pathname !== '/login')) {
     return <LoadingScreen />;
   }
   return children;

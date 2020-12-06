@@ -3,16 +3,12 @@ import Head from 'next/head';
 import { Button } from '@chakra-ui/react';
 import Link from 'next/link';
 import { FaArrowRight } from 'react-icons/fa';
-import Menu from '../components/Menu';
+import Menu from '../components/molecules/Menu';
 import { useAuth } from '../contexts/authContext';
-import CatchButton from '../components/CatchButton';
+import AddCatch from '../components/molecules/AddCatch';
 // import styles from '../styles/Home.module.css';
 
-type HomeProps = {
-  children: React.ReactNode;
-};
-
-const Home: React.FC<HomeProps> = () => {
+const Home = (): React.ReactNode => {
   const user = useAuth();
 
   useEffect(() => {
@@ -28,8 +24,8 @@ const Home: React.FC<HomeProps> = () => {
       <Menu />
       {user.data ? (
         <>
-          <div>MAPA</div>
-          <CatchButton />
+          <p>Recent catches</p>
+          <AddCatch />
         </>
       ) : (
         <div className="container flex flex-col justify-center items-center h-screen">
@@ -41,7 +37,7 @@ const Home: React.FC<HomeProps> = () => {
               </Button>
             </a>
           </Link>
-          <Link href="/">
+          <Link href="/create-account">
             <a className="p-2">
               <Button
                 rightIcon={<FaArrowRight />}
