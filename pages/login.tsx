@@ -1,9 +1,8 @@
 import { Button } from '@chakra-ui/react';
 import { FaFacebook, FaGoogle } from 'react-icons/fa';
-// import { Formik, Form, Field } from 'formik';
 import { useRouter } from 'next/router';
+import SignInForm from '../components/molecules/SignInForm';
 import { fbAuth, gAuth } from '../services/firebase';
-import NameLabel from '../components/atoms/NameLabel';
 import Menu from '../components/molecules/Menu';
 import { useAuth } from '../contexts/authContext';
 
@@ -32,26 +31,30 @@ const Login: React.FC<LoginProps> = () => {
           {user.data ? (
             <p>You're logged in.</p>
           ) : (
-            <div className="p-4 flex flex-col">
-              <Button
-                className="min-w-full m-2"
-                colorScheme="facebook"
-                leftIcon={<FaFacebook />}
-                size="sm"
-                onClick={fbLogin}
-              >
-                Login with Facebook
-              </Button>
-              <Button
-                className="min-w-full m-2"
-                colorScheme="orange"
-                leftIcon={<FaGoogle />}
-                size="sm"
-                onClick={gLogin}
-              >
-                Login with Google
-              </Button>
-            </div>
+            <>
+              <SignInForm />
+              <div className="p-4 flex flex-col">
+                <p className="m-auto p-4">OR</p>
+                <Button
+                  className="min-w-full m-2"
+                  colorScheme="facebook"
+                  leftIcon={<FaFacebook />}
+                  size="sm"
+                  onClick={fbLogin}
+                >
+                  Login with Facebook
+                </Button>
+                <Button
+                  className="min-w-full m-2"
+                  colorScheme="orange"
+                  leftIcon={<FaGoogle />}
+                  size="sm"
+                  onClick={gLogin}
+                >
+                  Login with Google
+                </Button>
+              </div>
+            </>
           )}
         </div>
       </div>

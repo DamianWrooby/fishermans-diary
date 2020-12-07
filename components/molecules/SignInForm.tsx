@@ -12,28 +12,17 @@ import {
   Box,
 } from '@chakra-ui/react';
 import * as Yup from 'yup';
-import { createUser } from '../../services/firebase';
+import { emailAuth } from '../../services/firebase';
 
-const SignUpForm: React.ReactNode = () => {
+const SignInForm: React.ReactNode = () => {
   const [show, setShow] = useState(false);
-  const [showConfirm, setShowConfirm] = useState(false);
   const router = useRouter();
 
-  const showHidden = (type: string): void => {
-    switch (type) {
-      case 'password':
-        setShow(!show);
-        break;
-      case 'confirm':
-        setShowConfirm(!showConfirm);
-        break;
-      default:
-        console.log('default switch case');
-        break;
-    }
+  const showHidden = (): void => {
+    setShow(!show);
   };
 
-  const SignUpSchema = Yup.object().shape({
+  const SignInSchema = Yup.object().shape({
     email: Yup.string()
       .email('Email address is invalid!')
       .required('Email address is required!'),
@@ -44,13 +33,10 @@ const SignUpForm: React.ReactNode = () => {
         /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
         'Min 8 characters, one uppercase, one lowercase, one number and one special case character'
       ),
-    confirmPassword: Yup.string()
-      .required('Must confirm password')
-      .oneOf([Yup.ref('password'), null], 'Passwords must match'),
   });
 
   return (
-    <div className="h-screen flex justify-center items-center">
+    <div className="flex justify-center items-center">
       <Box
         maxW="md"
         borderWidth="1px"
@@ -59,10 +45,10 @@ const SignUpForm: React.ReactNode = () => {
         p="8"
       >
         <Formik
-          initialValues={{ email: '', password: '', confirmPassword: '' }}
-          validationSchema={SignUpSchema}
+          initialValues={{ email: '', password: '' }}
+          validationSchema={SignInSchema}
           onSubmit={(values, actions) => {
-            createUser(values.email, values.password)
+            emailAuth(values.email, values.password)
               .then((user) => {
                 console.log(user);
                 router.push('/account');
@@ -71,7 +57,7 @@ const SignUpForm: React.ReactNode = () => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
                 alert(errorCode, errorMessage);
-                router.push('/create-account');
+                router.push('/login');
               });
             actions.setSubmitting(false);
           }}
@@ -110,11 +96,7 @@ const SignUpForm: React.ReactNode = () => {
                           placeholder="Enter password"
                         />
                         <InputRightElement width="4.5rem">
-                          <Button
-                            h="1.75rem"
-                            size="sm"
-                            onClick={() => showHidden('password')}
-                          >
+                          <Button h="1.75rem" size="sm" onClick={showHidden}>
                             {show ? 'Hide' : 'Show'}
                           </Button>
                         </InputRightElement>
@@ -126,52 +108,23 @@ const SignUpForm: React.ReactNode = () => {
                   </Box>
                 )}
               </Field>
-              <Field name="confirmPassword">
-                {({ field, form }) => (
-                  <Box mb="5">
-                    <FormControl
-                      isInvalid={
-                        form.errors.confirmPassword &&
-                        form.touched.confirmPassword
-                      }
-                      isRequired
-                    >
-                      <FormLabel htmlFor="confirmPassword">
-                        Confirm password
-                      </FormLabel>
-                      <InputGroup size="md">
-                        <Input
-                          {...field}
-                          pr="4.5rem"
-                          type={showConfirm ? 'text' : 'password'}
-                          placeholder="Confirm password"
-                        />
-                        <InputRightElement width="4.5rem">
-                          <Button
-                            h="1.75rem"
-                            size="sm"
-                            onClick={() => showHidden('confirm')}
-                          >
-                            {showConfirm ? 'Hide' : 'Show'}
-                          </Button>
-                        </InputRightElement>
-                      </InputGroup>
-                      <FormErrorMessage mb="5">
-                        {props.errors.confirmPassword}
-                      </FormErrorMessage>
-                    </FormControl>
-                  </Box>
-                )}
-              </Field>
-              <Button
-                mt={4}
-                colorScheme="teal"
-                isLoading={props.isSubmitting}
-                type="submit"
-                isDisabled={!props.isValid}
-              >
-                Create account
-              </Button>
+              <div className="flex flex-row items-center">
+                <Button
+                  mt={4}
+                  colorScheme="teal"
+                  isLoading={props.isSubmitting}
+                  type="submit"
+                  isDisabled={!props.isValid}
+                >
+                  Sign In
+                </Button>
+                <a
+                  className="mt-4 ml-auto mr-auto text-xs hover:text-gray-400"
+                  href="/password-reset"
+                >
+                  Forgot password?
+                </a>
+              </div>
             </Form>
           )}
         </Formik>
@@ -180,4 +133,4 @@ const SignUpForm: React.ReactNode = () => {
   );
 };
 
-export default SignUpForm;
+export default SignInForm;

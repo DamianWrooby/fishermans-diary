@@ -36,6 +36,14 @@ export const createUser = (email, password): unknown => {
   return firebase.auth().createUserWithEmailAndPassword(email, password);
 };
 
+export const resetPassword = (email): unknown => {
+  return firebase.auth().sendPasswordResetEmail(email);
+};
+
+export const emailAuth = (email, password): unknown => {
+  return firebase.auth().signInWithEmailAndPassword(email, password);
+};
+
 export const fbAuth = (): unknown => {
   return firebase.auth().signInWithPopup(fbProvider);
 };

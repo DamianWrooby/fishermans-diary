@@ -9,22 +9,16 @@ const Menu = (): JSX.Element => {
   return (
     <div className="w-full absolute justify-between flex flex-row">
       <div className="p-2">
-        <Link href="/">
-          <a href="/" className="p-1">
-            Home
-          </a>
+        <Link href="/" passHref>
+          <a className="p-1">Home</a>
         </Link>
         {user.data ? (
-          <Link href="/account">
-            <a href="/account" className="p-1">
-              My account
-            </a>
+          <Link href="/account" passHref>
+            <a className="p-1">My account</a>
           </Link>
         ) : (
-          <Link href="/login">
-            <a href="/login" className="p-1">
-              Login
-            </a>
+          <Link href="/login" passHref>
+            <a className="p-1">Login</a>
           </Link>
         )}
       </div>
