@@ -56,5 +56,9 @@ export const signOut = (): unknown => {
   return firebase.auth().signOut();
 };
 
+export const deleteUser = (): unknown => {
+  return firebase.auth().currentUser.delete();
+};
+
 export const { auth } = firebase;
 export { db };

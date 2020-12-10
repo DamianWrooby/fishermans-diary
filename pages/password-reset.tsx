@@ -24,18 +24,7 @@ const PasswordReset = () => {
       .required('Email address is required!'),
   });
 
-  const sendResetEmail = (email) => {
-    resetPassword(email)
-      .then(() => {
-        setEmailHasBeenSent(true);
-        setTimeout(() => {
-          setEmailHasBeenSent(false);
-        }, 3000);
-      })
-      .catch(() => {
-        setError('Error resetting password');
-      });
-  };
+  const sendResetEmail = (email) => {};
 
   return (
     <div className="flex h-screen justify-center items-center">
@@ -50,22 +39,32 @@ const PasswordReset = () => {
           Reset your Password
         </h1>
         {emailHasBeenSent && (
-          <div className="py-3 bg-green-400 w-full text-white text-center mb-3">
+          <div className="text-green-600 text-center mb-3">
             An email has been sent to you!
           </div>
         )}
         {error !== null && (
-          <div className="py-3 bg-red-600 w-full text-white text-center mb-3">
-            {error}
-          </div>
+          <div className="text-red-600 text-center mb-3">{error}</div>
         )}
 
         <Formik
           initialValues={{ email: '' }}
           validationSchema={passwordResetSchema}
           onSubmit={(values, actions) => {
-            sendResetEmail(values.email);
-            actions.setSubmitting(false);
+            console.log(actions.setSubmitting);
+            actions.setSubmitting(true);
+            resetPassword(values.email)
+              .then(() => {
+                setEmailHasBeenSent(true);
+                setTimeout(() => {
+                  setEmailHasBeenSent(false);
+                }, 3000);
+                actions.setSubmitting(false);
+              })
+              .catch(() => {
+                setError('Error resetting password');
+                actions.setSubmitting(false);
+              });
           }}
         >
           {(props) => (
@@ -99,7 +98,7 @@ const PasswordReset = () => {
           )}
         </Formik>
         <Link href="/" passHref>
-          <a className="my-2 hover:text-blue-800 text-center block">
+          <a className="my-2 hover:text-gray-500 text-center block">
             &larr; back to sign in page
           </a>
         </Link>

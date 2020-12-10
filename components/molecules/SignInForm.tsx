@@ -26,13 +26,7 @@ const SignInForm: React.ReactNode = () => {
     email: Yup.string()
       .email('Email address is invalid!')
       .required('Email address is required!'),
-    password: Yup.string()
-      .min(8, 'Password is too short!')
-      .required('Password is required!')
-      .matches(
-        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
-        'Min 8 characters, one uppercase, one lowercase, one number and one special case character'
-      ),
+    password: Yup.string().required('Password is required!'),
   });
 
   return (
