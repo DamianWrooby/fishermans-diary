@@ -2,7 +2,6 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
 
-let db;
 interface firebaseConfiguration {
   apiKey: string;
   authDomain: string;
@@ -23,6 +22,9 @@ const firebaseConfig: firebaseConfiguration = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
+// eslint-disable-next-line import/no-mutable-exports
+let db: firebase.firestore.Firestore;
+
 if (typeof window !== 'undefined' && !firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
   firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION);
@@ -32,20 +34,38 @@ if (typeof window !== 'undefined' && !firebase.apps.length) {
 const fbProvider = new firebase.auth.FacebookAuthProvider();
 const gProvider = new firebase.auth.GoogleAuthProvider();
 
-export const createUser = (email, password): unknown => {
+export const createUser = (
+  email: string,
+  password: string
+): Promise<unknown> => {
   return firebase.auth().createUserWithEmailAndPassword(email, password);
 };
 
-export const fbAuth = (): unknown => {
+export const resetPassword = (email: string): Promise<unknown> => {
+  return firebase.auth().sendPasswordResetEmail(email);
+};
+
+export const emailAuth = (
+  email: string,
+  password: string
+): Promise<unknown> => {
+  return firebase.auth().signInWithEmailAndPassword(email, password);
+};
+
+export const fbAuth = (): Promise<unknown> => {
   return firebase.auth().signInWithPopup(fbProvider);
 };
 
-export const gAuth = (): unknown => {
+export const gAuth = (): Promise<unknown> => {
   return firebase.auth().signInWithPopup(gProvider);
 };
 
-export const signOut = (): unknown => {
+export const signOut = (): Promise<unknown> => {
   return firebase.auth().signOut();
+};
+
+export const deleteUser = (): Promise<unknown> => {
+  return firebase.auth().currentUser.delete();
 };
 
 export const { auth } = firebase;

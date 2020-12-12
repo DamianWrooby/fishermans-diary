@@ -3,10 +3,10 @@ import { useEffect } from 'react';
 import { Button } from '@chakra-ui/react';
 import Link from 'next/link';
 import { useAuth } from '../contexts/authContext';
-import { signOut } from '../services/firebase';
+import { deleteUser } from '../services/firebase';
 import Menu from '../components/molecules/Menu';
 
-const Account: React.FC<React.ReactNode> = () => {
+const DeleteAccount: React.FC<React.ReactNode> = () => {
   const user = useAuth();
   const router = useRouter();
 
@@ -22,24 +22,21 @@ const Account: React.FC<React.ReactNode> = () => {
   return (
     <>
       <Menu />
-      {user.data ? (
+      {user.isAuthenticated ? (
         <div className="container flex flex-col justify-center items-center h-screen">
-          <p className="p-2">{`Welcome ${user.data.email}`}</p>
+          <p className="p-2">Are you crazy?</p>
           <Button
             className="p-4 m-4"
-            colorScheme="blue"
+            colorScheme="red"
             size="sm"
-            onClick={signOut}
+            onClick={deleteUser}
           >
-            Logout
+            Delete my account
           </Button>
-          <Link href="/delete-account" passHref>
-            <a className="text-red-300 m-8">Delete my account</a>
-          </Link>
         </div>
       ) : null}
     </>
   );
 };
 
-export default Account;
+export default DeleteAccount;

@@ -30,6 +30,7 @@ const Menu = (): JSX.Element => {
       </div>
       <div className="m-2">
         <IconButton
+          aria-label="Toggle dark mode"
           onClick={toggleColorMode}
           icon={colorMode === 'light' ? <RiMoonLine /> : <RiSunLine />}
         />

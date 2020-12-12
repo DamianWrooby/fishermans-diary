@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 import { Formik, Form, Field } from 'formik';
 import {
   FormControl,
@@ -8,17 +9,17 @@ import {
   Button,
   InputGroup,
   InputRightElement,
-  FormHelperText,
   Box,
 } from '@chakra-ui/react';
 import * as Yup from 'yup';
-// import { fbAuth, gAuth } from '../services/firebase';
-// import Menu from '../components/molecules/Menu';
-// import { useAuth } from '../contexts/authContext';
+import { createUser } from '../../services/firebase';
 
-const SignUpForm: React.ReactNode = () => {
+const SignUpForm = (): JSX.Element => {
   const [show, setShow] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const router = useRouter();
+
   const showHidden = (type: string): void => {
     switch (type) {
       case 'password':
@@ -32,13 +33,6 @@ const SignUpForm: React.ReactNode = () => {
         break;
     }
   };
-  // function validateEmail(value) {
-  //   let error;
-  //   if (!value) {
-  //     error = 'Name is required';
-  //   }
-  //   return error;
-  // }
 
   const SignUpSchema = Yup.object().shape({
     email: Yup.string()
@@ -66,13 +60,19 @@ const SignUpForm: React.ReactNode = () => {
         p="8"
       >
         <Formik
-          initialValues={{ email: '', password: '' }}
+          initialValues={{ email: '', password: '', confirmPassword: '' }}
           validationSchema={SignUpSchema}
           onSubmit={(values, actions) => {
-            setTimeout(() => {
-              alert(JSON.stringify(values, null, 2));
-              actions.setSubmitting(false);
-            }, 1000);
+            createUser(values.email, values.password)
+              .then((user) => {
+                console.log(user);
+                router.push('/account');
+              })
+              .catch((error) => {
+                setErrorMessage(error.code + error.message);
+                router.push('/create-account');
+              });
+            actions.setSubmitting(false);
           }}
         >
           {(props) => (
@@ -174,6 +174,11 @@ const SignUpForm: React.ReactNode = () => {
             </Form>
           )}
         </Formik>
+        {errorMessage ? (
+          <Box mt="5" color="red.500">
+            {errorMessage}
+          </Box>
+        ) : null}
       </Box>
     </div>
   );
