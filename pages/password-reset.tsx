@@ -12,9 +12,7 @@ import {
 } from '@chakra-ui/react';
 import { resetPassword } from '../services/firebase';
 
-// DODAĆ SPINNER NA PRZYCISKU PODCZAS WYSYŁANIA
-
-const PasswordReset = () => {
+const PasswordReset = (): React.ReactNode => {
   const [emailHasBeenSent, setEmailHasBeenSent] = useState(false);
   const [error, setError] = useState(null);
 
@@ -23,8 +21,6 @@ const PasswordReset = () => {
       .email('Email address is invalid!')
       .required('Email address is required!'),
   });
-
-  const sendResetEmail = (email) => {};
 
   return (
     <div className="flex h-screen justify-center items-center">
@@ -51,7 +47,6 @@ const PasswordReset = () => {
           initialValues={{ email: '' }}
           validationSchema={passwordResetSchema}
           onSubmit={(values, actions) => {
-            console.log(actions.setSubmitting);
             actions.setSubmitting(true);
             resetPassword(values.email)
               .then(() => {
@@ -97,8 +92,8 @@ const PasswordReset = () => {
             </Form>
           )}
         </Formik>
-        <Link href="/" passHref>
-          <a className="my-2 hover:text-gray-500 text-center block">
+        <Link href="/">
+          <a href="/" className="my-2 hover:text-gray-500 text-center block">
             &larr; back to sign in page
           </a>
         </Link>

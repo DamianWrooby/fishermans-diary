@@ -31,14 +31,14 @@ const Home = (): React.ReactNode => {
         <div className="container flex flex-col justify-center items-center h-screen">
           <p className="p-2">You have to sign in.</p>
           <Link href="/login">
-            <a className="p-2">
+            <a href="/login" className="p-2">
               <Button colorScheme="blue" size="sm">
                 Sign in
               </Button>
             </a>
           </Link>
           <Link href="/create-account">
-            <a className="p-2">
+            <a href="/create-account" className="p-2">
               <Button
                 rightIcon={<FaArrowRight />}
                 colorScheme="blue"

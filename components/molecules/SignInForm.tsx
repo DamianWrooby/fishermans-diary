@@ -16,6 +16,7 @@ import { emailAuth } from '../../services/firebase';
 
 const SignInForm: React.ReactNode = () => {
   const [show, setShow] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const router = useRouter();
 
   const showHidden = (): void => {
@@ -48,9 +49,7 @@ const SignInForm: React.ReactNode = () => {
                 router.push('/account');
               })
               .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                alert(errorCode, errorMessage);
+                setErrorMessage(error.code + error.message);
                 router.push('/login');
               });
             actions.setSubmitting(false);
@@ -122,6 +121,11 @@ const SignInForm: React.ReactNode = () => {
             </Form>
           )}
         </Formik>
+        {errorMessage ? (
+          <Box mt="5" color="red.500">
+            {errorMessage}
+          </Box>
+        ) : null}
       </Box>
     </div>
   );

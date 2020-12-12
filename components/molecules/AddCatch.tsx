@@ -14,7 +14,7 @@ import { useAuth } from '../../contexts/authContext';
 //   });
 // };
 
-const CatchButton = (): React.ReactNode => {
+const CatchButton = (): JSX.Element => {
   const router = useRouter();
   const user = useAuth();
   return (

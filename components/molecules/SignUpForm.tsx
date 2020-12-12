@@ -14,9 +14,10 @@ import {
 import * as Yup from 'yup';
 import { createUser } from '../../services/firebase';
 
-const SignUpForm: React.ReactNode = () => {
+const SignUpForm = (): JSX.Element => {
   const [show, setShow] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const router = useRouter();
 
   const showHidden = (type: string): void => {
@@ -68,9 +69,7 @@ const SignUpForm: React.ReactNode = () => {
                 router.push('/account');
               })
               .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                alert(errorCode, errorMessage);
+                setErrorMessage(error.code + error.message);
                 router.push('/create-account');
               });
             actions.setSubmitting(false);
@@ -175,6 +174,11 @@ const SignUpForm: React.ReactNode = () => {
             </Form>
           )}
         </Formik>
+        {errorMessage ? (
+          <Box mt="5" color="red.500">
+            {errorMessage}
+          </Box>
+        ) : null}
       </Box>
     </div>
   );
