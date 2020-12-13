@@ -15,12 +15,14 @@ const Login: React.FC<LoginProps> = () => {
   const router = useRouter();
 
   const fbLogin = () => {
-    fbAuth();
-    router.push('/account');
+    fbAuth().then(() => {
+      router.push('/');
+    });
   };
   const gLogin = () => {
-    gAuth();
-    router.push('/account');
+    gAuth().then(() => {
+      router.push('/');
+    });
   };
 
   return (
