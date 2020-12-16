@@ -3,12 +3,18 @@ import 'ol/ol.css';
 import { Map, View } from 'ol';
 import TileLayer from 'ol/layer/Tile';
 import TileJSON from 'ol/source/TileJSON';
-import { fromLonLat, toLonLat } from 'ol/proj';
+import Style from 'ol/style/Style';
+import VectorSource from 'ol/source/Vector';
+import VectorLayer from 'ol/layer/Vector';
+import Icon from 'ol/style/Icon';
+import Feature from 'ol/Feature';
+import Point from 'ol/geom/Point';
+import { fromLonLat, toLonLat, transform } from 'ol/proj';
 import olms from 'ol-mapbox-style';
 
-// Dokończyć geolocation API
+// NIE POJAWIA SIĘ PUNKT!!!
 
-const CatchMap = () => {
+const CatchMap = ({ getDataCallback }) => {
   const mapRef = useRef(null);
 
   useEffect(() => {
@@ -22,12 +28,41 @@ const CatchMap = () => {
       crossOrigin: 'anonymous',
     });
 
+    const vectorSource = new VectorSource({
+      // empty vector
+    });
+
+    const iconStyle = new Style({
+      image: new Icon(
+        /** @type {olx.style.IconOptions} */ {
+          anchor: [0.5, 46],
+          anchorXUnits: 'fraction',
+          anchorYUnits: 'pixels',
+          opacity: 0.75,
+          src: 'http://ol3js.org/en/master/examples/data/icon.png',
+        }
+      ),
+    });
+    const iconFeature = new Feature({
+      geometry: new Point(transform([18.01, 53.12], 'EPSG:4326', 'EPSG:3857')),
+      name: 'Null Island',
+      population: 4000,
+      rainfall: 500,
+    });
+    vectorSource.addFeature(iconFeature);
+
+    const vectorLayer = new VectorLayer({
+      source: vectorSource,
+      style: iconStyle,
+    });
+
     const mapInit = (position) => {
       const map = new Map({
         layers: [
           new TileLayer({
             source,
           }),
+          vectorLayer,
         ],
         target: mapRef.current,
         view: new View({
@@ -40,6 +75,7 @@ const CatchMap = () => {
       map.on('click', (evt) => {
         console.info(evt.pixel);
         const coords = toLonLat(evt.coordinate);
+        getDataCallback(coords);
         const [lon, lat] = coords;
       });
     };

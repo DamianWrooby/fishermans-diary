@@ -12,6 +12,7 @@ import {
   NumberDecrementStepper,
   FormErrorMessage,
   Button,
+  Select,
   InputGroup,
   InputRightElement,
   Box,
@@ -26,16 +27,13 @@ const CatchForm = (): JSX.Element => {
     species: Yup.string()
       .min(2, 'Species is too short!')
       .required('Species is required!'),
-    password: Yup.string()
-      .min(8, 'Password is too short!')
-      .required('Password is required!')
-      .matches(
-        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
-        'Min 8 characters, one uppercase, one lowercase, one number and one special case character'
-      ),
-    confirmPassword: Yup.string()
-      .required('Must confirm password')
-      .oneOf([Yup.ref('password'), null], 'Passwords must match'),
+    weight: Yup.number()
+      .max(2, 'max 2')
+      .positive('Weight should be positive number!')
+      .required('Weight is required!'),
+    length: Yup.number()
+      .positive('Length should be positive number!')
+      .required('Length is required!'),
   });
 
   return (
@@ -48,7 +46,7 @@ const CatchForm = (): JSX.Element => {
         p="8"
       >
         <Formik
-          initialValues={{}}
+          initialValues={{ species: '', weight: undefined, length: undefined }}
           validationSchema={CatchFormSchema}
           onSubmit={(values, actions) => {
             actions.setSubmitting(false);
@@ -64,7 +62,10 @@ const CatchForm = (): JSX.Element => {
                       isRequired
                     >
                       <FormLabel htmlFor="species">Species</FormLabel>
-                      <Input {...field} id="species" placeholder="species" />
+                      <Input {...field} id="species" placeholder="Species" />
+                      <FormErrorMessage mb="5">
+                        {props.errors.species}
+                      </FormErrorMessage>
                     </FormControl>
                   </Box>
                 )}
@@ -77,13 +78,68 @@ const CatchForm = (): JSX.Element => {
                       isRequired
                     >
                       <FormLabel htmlFor="weight">Weight (kg)</FormLabel>
-                      <NumberInput defaultValue={0} precision={3} step={0.1}>
+                      <NumberInput
+                        {...field}
+                        onChange={(val) => form.setFieldValue(field.name, val)}
+                        id="weight"
+                        defaultValue={0}
+                        precision={3}
+                        step={0.1}
+                      >
                         <NumberInputField />
                         <NumberInputStepper>
                           <NumberIncrementStepper />
                           <NumberDecrementStepper />
                         </NumberInputStepper>
                       </NumberInput>
+                      <FormErrorMessage mb="5">
+                        {props.errors.weight}
+                      </FormErrorMessage>
+                    </FormControl>
+                  </Box>
+                )}
+              </Field>
+              <Field name="length">
+                {({ field, form }) => (
+                  <Box mb="5">
+                    <FormControl
+                      isInvalid={form.errors.length && form.touched.length}
+                      isRequired
+                    >
+                      <FormLabel htmlFor="length">Length (cm)</FormLabel>
+                      <NumberInput
+                        {...field}
+                        onChange={(val) => form.setFieldValue(field.name, val)}
+                        id="length"
+                        defaultValue={0}
+                        precision={0}
+                        step={1}
+                      >
+                        <NumberInputField />
+                        <NumberInputStepper>
+                          <NumberIncrementStepper />
+                          <NumberDecrementStepper />
+                        </NumberInputStepper>
+                      </NumberInput>
+                      <FormErrorMessage mb="5">
+                        {props.errors.length}
+                      </FormErrorMessage>
+                    </FormControl>
+                  </Box>
+                )}
+              </Field>
+              <Field name="method">
+                {({ field, form }) => (
+                  <Box mb="5">
+                    <FormControl isRequired>
+                      <FormLabel htmlFor="method">Method</FormLabel>
+                      <Select {...field}>
+                        <option value="spinning">Spinning</option>
+                        <option value="bottom">Bottom</option>
+                        <option value="trolling">Trolling</option>
+                        <option value="float">Float</option>
+                        <option value="fly">Fly</option>
+                      </Select>
                     </FormControl>
                   </Box>
                 )}

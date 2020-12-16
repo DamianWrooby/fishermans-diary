@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Menu from '../../components/molecules/Menu';
@@ -9,9 +9,10 @@ import { useAuth } from '../../contexts/authContext';
 const AddCatch = (): React.ReactNode => {
   const user = useAuth();
   const router = useRouter();
+  const [coords, setCoords] = useState([]);
 
-  const redirect = (): void => {
-    router.push('/login');
+  const getData = (data): Array => {
+    setCoords(data);
   };
 
   return (
@@ -19,7 +20,7 @@ const AddCatch = (): React.ReactNode => {
       <Menu />
       {user.isAuthenticated ? (
         <>
-          <CatchMap />
+          <CatchMap getDataCallback={getData} />
           <CatchForm />
         </>
       ) : (
