@@ -1,16 +1,15 @@
 import { useEffect, useRef } from 'react';
 import 'ol/ol.css';
-import { Map, View } from 'ol';
+import Map from 'ol/Map';
+import View from 'ol/View';
 import TileLayer from 'ol/layer/Tile';
 import TileJSON from 'ol/source/TileJSON';
-import Style from 'ol/style/Style';
+import { Icon, Style } from 'ol/style';
 import VectorSource from 'ol/source/Vector';
 import VectorLayer from 'ol/layer/Vector';
-import Icon from 'ol/style/Icon';
 import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
 import { fromLonLat, toLonLat, transform } from 'ol/proj';
-import olms from 'ol-mapbox-style';
 
 // NIE POJAWIA SIĘ PUNKT!!!
 
@@ -28,33 +27,49 @@ const CatchMap = ({ getDataCallback }) => {
       crossOrigin: 'anonymous',
     });
 
+    const berlin = new Feature({
+      geometry: new Point(fromLonLat([18, 53])),
+      name: 'Berlin',
+      population: 40000,
+      rainfall: 500,
+    });
+
+    berlin.setStyle(
+      new Style({
+        image: new Icon({
+          crossOrigin: 'anonymous',
+          // For Internet Explorer 11
+          scale: 0.04,
+          src: '/fish.svg',
+        }),
+      })
+    );
+
     const vectorSource = new VectorSource({
-      // empty vector
+      features: [berlin],
     });
 
     const iconStyle = new Style({
-      image: new Icon(
-        /** @type {olx.style.IconOptions} */ {
-          anchor: [0.5, 46],
-          anchorXUnits: 'fraction',
-          anchorYUnits: 'pixels',
-          opacity: 0.75,
-          src: 'http://ol3js.org/en/master/examples/data/icon.png',
-        }
-      ),
+      image: new Icon({
+        anchor: [0.5, 46],
+        anchorXUnits: 'fraction',
+        anchorYUnits: 'pixels',
+        opacity: 0.75,
+        src: 'http://ol3js.org/en/master/examples/data/icon.png',
+      }),
     });
     const iconFeature = new Feature({
-      geometry: new Point(transform([18.01, 53.12], 'EPSG:4326', 'EPSG:3857')),
+      geometry: new Point(transform([18, 53], 'EPSG:4326', 'EPSG:3857')),
       name: 'Null Island',
       population: 4000,
       rainfall: 500,
     });
-    vectorSource.addFeature(iconFeature);
 
     const vectorLayer = new VectorLayer({
       source: vectorSource,
-      style: iconStyle,
     });
+
+    console.log(vectorSource, berlin);
 
     const mapInit = (position) => {
       const map = new Map({
@@ -73,10 +88,10 @@ const CatchMap = ({ getDataCallback }) => {
       });
 
       map.on('click', (evt) => {
-        console.info(evt.pixel);
-        const coords = toLonLat(evt.coordinate);
-        getDataCallback(coords);
-        const [lon, lat] = coords;
+        // console.info(evt.pixel);
+        // const coords = toLonLat(evt.coordinate);
+        // getDataCallback(coords);
+        // const [lon, lat] = coords;
       });
     };
 
