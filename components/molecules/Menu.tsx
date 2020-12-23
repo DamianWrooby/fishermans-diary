@@ -7,7 +7,7 @@ const Menu = (): JSX.Element => {
   const user = useAuth();
   const { colorMode, toggleColorMode } = useColorMode();
   return (
-    <div className="w-full absolute justify-between flex flex-row">
+    <div className="w-full justify-between flex flex-row">
       <div className="p-2">
         <Link href="/">
           <a href="/" className="p-1">

@@ -18,7 +18,7 @@ const CatchButton = (): JSX.Element => {
   const router = useRouter();
   const user = useAuth();
   return (
-    <a href="/catches/addcatch">
+    <a href="/catches/add-catch">
       <div className="absolute m-16 bottom-0 right-0">
         <IconButton
           aria-label="Add catch"

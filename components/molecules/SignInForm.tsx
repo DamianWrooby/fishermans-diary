@@ -46,7 +46,7 @@ const SignInForm: React.ReactNode = () => {
             emailAuth(values.email, values.password)
               .then((user) => {
                 console.log(user);
-                router.push('/account');
+                router.push('/');
               })
               .catch((error) => {
                 setErrorMessage(error.code + error.message);

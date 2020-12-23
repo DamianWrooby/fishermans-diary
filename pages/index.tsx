@@ -24,7 +24,9 @@ const Home = (): React.ReactNode => {
       <Menu />
       {user.data ? (
         <>
-          <p>Recent catches</p>
+          <div className="pt-12">
+            <p>Recent catches</p>
+          </div>
           <AddCatch />
         </>
       ) : (
