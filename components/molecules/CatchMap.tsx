@@ -13,7 +13,7 @@ import { fromLonLat, toLonLat, transform } from 'ol/proj';
 
 // NIE POJAWIA SIĘ PUNKT!!!
 
-const CatchMap = ({ getDataCallback }) => {
+const CatchMap = ({ getDataCallback, showFormCallback }) => {
   const mapRef = useRef(null);
 
   useEffect(() => {
@@ -49,22 +49,6 @@ const CatchMap = ({ getDataCallback }) => {
       features: [berlin],
     });
 
-    const iconStyle = new Style({
-      image: new Icon({
-        anchor: [0.5, 46],
-        anchorXUnits: 'fraction',
-        anchorYUnits: 'pixels',
-        opacity: 0.75,
-        src: 'http://ol3js.org/en/master/examples/data/icon.png',
-      }),
-    });
-    const iconFeature = new Feature({
-      geometry: new Point(transform([18, 53], 'EPSG:4326', 'EPSG:3857')),
-      name: 'Null Island',
-      population: 4000,
-      rainfall: 500,
-    });
-
     const vectorLayer = new VectorLayer({
       source: vectorSource,
     });
@@ -88,10 +72,11 @@ const CatchMap = ({ getDataCallback }) => {
       });
 
       map.on('click', (evt) => {
-        // console.info(evt.pixel);
-        // const coords = toLonLat(evt.coordinate);
-        // getDataCallback(coords);
-        // const [lon, lat] = coords;
+        console.info(evt.pixel);
+        const coords = toLonLat(evt.coordinate);
+        getDataCallback(coords);
+        const [lon, lat] = coords;
+        showFormCallback();
       });
     };
 
