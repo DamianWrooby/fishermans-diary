@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { Formik, Form, Field } from 'formik';
 import {
@@ -18,7 +18,7 @@ import {
 } from '@chakra-ui/react';
 import * as Yup from 'yup';
 
-const CatchForm = ({ show }): JSX.Element => {
+const CatchForm = (): JSX.Element => {
   const [errorMessage, setErrorMessage] = useState('');
   const router = useRouter();
   const bg = useColorModeValue('white', 'gray.800');
@@ -36,22 +36,9 @@ const CatchForm = ({ show }): JSX.Element => {
       .required('Length is required!'),
   });
 
-  const formVisibility = show ? '' : 'hidden';
-
   return (
-    <div
-      className={`absolute flex top-0 justify-center items-center w-full h-full ${formVisibility}`}
-    >
-      <div className="absolute w-full h-full bg-black bg-opacity-90" />
-      <Box
-        zIndex="2"
-        bg={bg}
-        maxW="md"
-        borderWidth="1px"
-        borderRadius="lg"
-        overflow="hidden"
-        p="8"
-      >
+    <div className="flex justify-center items-center w-full h-full">
+      <Box overflow="hidden" width="full" p="8">
         <Formik
           initialValues={{
             species: '',
