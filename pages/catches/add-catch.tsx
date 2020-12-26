@@ -9,10 +9,15 @@ import { useAuth } from '../../contexts/authContext';
 const AddCatch = (): React.ReactNode => {
   const user = useAuth();
   const router = useRouter();
+  const [showCatchForm, setShowCatchForm] = useState(false);
   const [coords, setCoords] = useState([]);
 
   const getData = (data): Array => {
     setCoords(data);
+  };
+
+  const toggleForm = () => {
+    setShowCatchForm(!showCatchForm);
   };
 
   return (
@@ -20,8 +25,8 @@ const AddCatch = (): React.ReactNode => {
       <Menu />
       {user.isAuthenticated ? (
         <>
-          <CatchMap getDataCallback={getData} />
-          <CatchForm />
+          <CatchMap getDataCallback={getData} showFormCallback={toggleForm} />
+          <CatchForm show={showCatchForm} />
         </>
       ) : (
         <p>
