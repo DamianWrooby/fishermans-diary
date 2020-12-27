@@ -31,7 +31,8 @@
     "import/extensions": 0,
     "react/prop-types": 0,
     "react/jsx-props-no-spreading": ["error", { "custom": "ignore" }],
-    "prettier/prettier": "error"
+    "prettier/prettier": "error",
+    "allowTernary": true
   },
   "settings": {
     "import/resolver": {

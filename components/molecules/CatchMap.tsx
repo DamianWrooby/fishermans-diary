@@ -9,109 +9,119 @@ import VectorSource from 'ol/source/Vector';
 import VectorLayer from 'ol/layer/Vector';
 import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
+import Control from 'ol/control/Control';
+import { defaults } from 'ol/control';
 import { fromLonLat, toLonLat, transform } from 'ol/proj';
-
-// NIE POJAWIA SIĘ PUNKT!!!
 
 const CatchMap = ({ getDataCallback, showFormCallback }) => {
   const mapRef = useRef(null);
 
+  let map = undefined;
+
+  const fishMarker = new Feature({
+    geometry: new Point(fromLonLat([18, 53])),
+    name: 'Berlin',
+    population: 40000,
+    rainfall: 500,
+  });
+  fishMarker.setStyle(
+    new Style({
+      image: new Icon({
+        crossOrigin: 'anonymous',
+        // For Internet Explorer 11
+        scale: 0.04,
+        src: '/fish.svg',
+      }),
+    })
+  );
+
   useEffect(() => {
-    let viewPosition: string;
     const polandLonLat = [19.408318, 52.121216];
     const polandWebMercator = fromLonLat(polandLonLat);
+
     const source = new TileJSON({
       url:
         'https://api.maptiler.com/maps/outdoor/tiles.json?key=GflTzOMvFDCYQ9RjOmMu',
       tileSize: 512,
       crossOrigin: 'anonymous',
     });
-
-    const berlin = new Feature({
-      geometry: new Point(fromLonLat([18, 53])),
-      name: 'Berlin',
-      population: 40000,
-      rainfall: 500,
-    });
-
-    berlin.setStyle(
-      new Style({
-        image: new Icon({
-          crossOrigin: 'anonymous',
-          // For Internet Explorer 11
-          scale: 0.04,
-          src: '/fish.svg',
-        }),
-      })
-    );
-
     const vectorSource = new VectorSource({
-      features: [berlin],
+      features: [fishMarker],
     });
+    const button = document.createElement('button');
+    button.innerHTML = '<i></i>';
+    const element = document.createElement('div');
+    element.className = 'rotate-north ol-unselectable ol-control';
+    element.appendChild(button);
+    const myControl = new Control({ element: element });
 
-    const vectorLayer = new VectorLayer({
-      source: vectorSource,
-    });
-
-    console.log(vectorSource, berlin);
-
-    const mapInit = (position) => {
-      const map = new Map({
-        layers: [
-          new TileLayer({
-            source,
-          }),
-          vectorLayer,
-        ],
-        target: mapRef.current,
-        view: new View({
-          constrainResolution: true,
-          center: position,
-          zoom: 19,
+    map = new Map({
+      layers: [
+        new TileLayer({
+          source,
         }),
-      });
+        new VectorLayer({
+          source: vectorSource,
+        }),
+      ],
+      target: mapRef.current,
+      view: new View({
+        constrainResolution: true,
+        center: polandWebMercator,
+        zoom: 6,
+      }),
+      controls: defaults().extend([myControl]),
+    });
 
-      map.on('click', (evt) => {
-        console.info(evt.pixel);
-        const coords = toLonLat(evt.coordinate);
-        getDataCallback(coords);
-        const [lon, lat] = coords;
-        showFormCallback();
-      });
-    };
-
-    const getLocation = async () => {
-      await navigator.geolocation.getCurrentPosition((position) => {
-        viewPosition = fromLonLat([
-          position.coords.longitude,
-          position.coords.latitude,
-        ]);
-        mapInit(viewPosition);
-      });
-    };
+    map.on('click', (evt) => {
+      console.info(evt.pixel);
+      const coords = toLonLat(evt.coordinate);
+      getDataCallback(coords);
+      const [lon, lat] = coords;
+      showFormCallback();
+    });
 
     if ('geolocation' in navigator) {
       console.log('Geolocation API available');
-      getLocation();
-    } else {
-      console.log('Geolocation API not available');
-      viewPosition = polandWebMercator;
-      mapInit(viewPosition);
+
+      const watchLocation = () => {
+        const userMarker = new Feature({
+          geometry: new Point(polandWebMercator),
+        });
+        userMarker.setStyle(
+          new Style({
+            image: new Icon({
+              color: '#4271AE',
+              crossOrigin: 'anonymous',
+              src: '/fish.svg',
+              scale: 0.04,
+            }),
+          })
+        );
+        console.log('Add feature');
+        vectorSource.addFeature(userMarker);
+        navigator.geolocation.watchPosition((position) => {
+          const newPosition = fromLonLat([
+            position.coords.longitude,
+            position.coords.latitude,
+          ]);
+          console.log('Dynamic position changed:', newPosition);
+          userMarker.setGeometry(new Point(newPosition));
+        });
+      };
+      const centerOnUser = () => {
+        navigator.geolocation.getCurrentPosition((position) => {
+          const viewPosition = fromLonLat([
+            position.coords.longitude,
+            position.coords.latitude,
+          ]);
+          map.getView().animate({ zoom: 19, center: viewPosition });
+        });
+      };
+
+      watchLocation();
+      centerOnUser();
     }
-
-    // const styleJson =
-    //   'https://api.maptiler.com/maps/76c95155-3672-495b-a1b0-e2cf76a359d6/style.json?key=GflTzOMvFDCYQ9RjOmMu';
-
-    // const olMap1 = new Map({
-    //   target: mapRef.current,
-    //   view: new View({
-    //     constrainResolution: true,
-    //     center: polandWebMercator,
-    //     zoom: 6,
-    //   }),
-    // });
-
-    // olms(olMap, styleJson);
   }, []);
 
   return (
