@@ -16,8 +16,6 @@ import { fromLonLat, toLonLat, transform } from 'ol/proj';
 const CatchMap = ({ getDataCallback, showFormCallback }) => {
   const mapRef = useRef(null);
 
-  let map = undefined;
-
   const fishMarker = new Feature({
     geometry: new Point(fromLonLat([18, 53])),
     name: 'Berlin',
@@ -38,6 +36,7 @@ const CatchMap = ({ getDataCallback, showFormCallback }) => {
   useEffect(() => {
     const polandLonLat = [19.408318, 52.121216];
     const polandWebMercator = fromLonLat(polandLonLat);
+    let id;
 
     const source = new TileJSON({
       url:
@@ -45,17 +44,17 @@ const CatchMap = ({ getDataCallback, showFormCallback }) => {
       tileSize: 512,
       crossOrigin: 'anonymous',
     });
-    const vectorSource = new VectorSource({
-      features: [fishMarker],
-    });
-    const button = document.createElement('button');
-    button.innerHTML = '<i></i>';
-    const element = document.createElement('div');
-    element.className = 'rotate-north ol-unselectable ol-control';
-    element.appendChild(button);
-    const myControl = new Control({ element: element });
+    const vectorSource = new VectorSource({});
 
-    map = new Map({
+    const button = document.createElement('button');
+    button.innerHTML = '<div class="center-btn-icon"></div>';
+    const element = document.createElement('div');
+    element.className = 'center-btn ol-unselectable ol-control';
+    element.appendChild(button);
+
+    const centerBtn = new Control({ element: element });
+
+    const map = new Map({
       layers: [
         new TileLayer({
           source,
@@ -70,7 +69,7 @@ const CatchMap = ({ getDataCallback, showFormCallback }) => {
         center: polandWebMercator,
         zoom: 6,
       }),
-      controls: defaults().extend([myControl]),
+      controls: defaults().extend([centerBtn]),
     });
 
     map.on('click', (evt) => {
@@ -86,21 +85,21 @@ const CatchMap = ({ getDataCallback, showFormCallback }) => {
 
       const watchLocation = () => {
         const userMarker = new Feature({
+          name: 'User',
           geometry: new Point(polandWebMercator),
         });
         userMarker.setStyle(
           new Style({
             image: new Icon({
-              color: '#4271AE',
               crossOrigin: 'anonymous',
-              src: '/fish.svg',
-              scale: 0.04,
+              src: '/point.svg',
+              scale: 0.1,
             }),
           })
         );
         console.log('Add feature');
         vectorSource.addFeature(userMarker);
-        navigator.geolocation.watchPosition((position) => {
+        id = navigator.geolocation.watchPosition((position) => {
           const newPosition = fromLonLat([
             position.coords.longitude,
             position.coords.latitude,
@@ -122,6 +121,9 @@ const CatchMap = ({ getDataCallback, showFormCallback }) => {
       watchLocation();
       centerOnUser();
     }
+    return () => {
+      navigator.geolocation.clearWatch(id);
+    };
   }, []);
 
   return (
