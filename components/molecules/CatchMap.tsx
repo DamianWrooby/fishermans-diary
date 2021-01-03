@@ -10,7 +10,6 @@ import VectorLayer from 'ol/layer/Vector';
 import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
 import Control from 'ol/control/Control';
-import { defaults } from 'ol/control';
 import { fromLonLat, toLonLat, transform } from 'ol/proj';
 
 const CatchMap = ({ getDataCallback, showFormCallback }) => {
@@ -46,14 +45,6 @@ const CatchMap = ({ getDataCallback, showFormCallback }) => {
     });
     const vectorSource = new VectorSource({});
 
-    const button = document.createElement('button');
-    button.innerHTML = '<div class="center-btn-icon"></div>';
-    const element = document.createElement('div');
-    element.className = 'center-btn ol-unselectable ol-control';
-    element.appendChild(button);
-
-    const centerBtn = new Control({ element: element });
-
     const map = new Map({
       layers: [
         new TileLayer({
@@ -69,7 +60,7 @@ const CatchMap = ({ getDataCallback, showFormCallback }) => {
         center: polandWebMercator,
         zoom: 6,
       }),
-      controls: defaults().extend([centerBtn]),
+      // controls: defaultControls().extend([myZoomToExtent]),
     });
 
     map.on('click', (evt) => {
@@ -82,6 +73,11 @@ const CatchMap = ({ getDataCallback, showFormCallback }) => {
 
     if ('geolocation' in navigator) {
       console.log('Geolocation API available');
+      let currPosition;
+
+      const errorCallback = (err) => {
+        console.log(err.code, err.message);
+      };
 
       const watchLocation = () => {
         const userMarker = new Feature({
@@ -99,28 +95,48 @@ const CatchMap = ({ getDataCallback, showFormCallback }) => {
         );
         console.log('Add feature');
         vectorSource.addFeature(userMarker);
+
         id = navigator.geolocation.watchPosition((position) => {
-          const newPosition = fromLonLat([
+          currPosition = fromLonLat([
             position.coords.longitude,
             position.coords.latitude,
           ]);
-          console.log('Dynamic position changed:', newPosition);
-          userMarker.setGeometry(new Point(newPosition));
-        });
+          console.log('Dynamic position changed:', currPosition);
+          userMarker.setGeometry(new Point(currPosition));
+        }, errorCallback);
       };
+
       const centerOnUser = () => {
-        navigator.geolocation.getCurrentPosition((position) => {
-          const viewPosition = fromLonLat([
-            position.coords.longitude,
-            position.coords.latitude,
-          ]);
-          map.getView().animate({ zoom: 19, center: viewPosition });
-        });
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const viewPosition = fromLonLat([
+              position.coords.longitude,
+              position.coords.latitude,
+            ]);
+            map.getView().animate({ zoom: 19, center: viewPosition });
+          },
+          errorCallback,
+          { timeout: 10000, enableHighAccuracy: true }
+        );
       };
+
+      const button = document.createElement('button');
+      button.innerHTML = '<div class="center-btn-icon"></div>';
+      const element = document.createElement('div');
+      element.className = 'center-btn ol-unselectable ol-control';
+      button.addEventListener('click', function () {
+        map.getView().animate({ zoom: 19, center: currPosition });
+      });
+      element.appendChild(button);
+
+      const centerBtn = new Control({ element: element });
+
+      map.addControl(centerBtn);
 
       watchLocation();
       centerOnUser();
     }
+
     return () => {
       navigator.geolocation.clearWatch(id);
     };
