@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { Ref, useEffect, useRef } from 'react';
 import 'ol/ol.css';
 import Map from 'ol/Map';
 import View from 'ol/View';
@@ -11,11 +11,20 @@ import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
 import Control from 'ol/control/Control';
 import { fromLonLat, toLonLat, transform } from 'ol/proj';
+import { control } from 'openlayers';
 
-const CatchMap = ({ getDataCallback, showFormCallback }) => {
-  const mapRef = useRef(null);
+type MapProps = {
+  getDataCallback: (args: Array<Number>) => void;
+  showFormCallback: () => void;
+};
 
-  const fishMarker = new Feature({
+const CatchMap = ({
+  getDataCallback,
+  showFormCallback,
+}: MapProps): JSX.Element => {
+  const mapRef: Ref<any> = useRef(null);
+
+  const fishMarker: Feature = new Feature({
     geometry: new Point(fromLonLat([18, 53])),
     name: 'Berlin',
     population: 40000,
@@ -33,8 +42,8 @@ const CatchMap = ({ getDataCallback, showFormCallback }) => {
   );
 
   useEffect(() => {
-    const polandLonLat = [19.408318, 52.121216];
-    const polandWebMercator = fromLonLat(polandLonLat);
+    const polandLonLat: Array<Number> = [19.408318, 52.121216];
+    const polandWebMercator: Array<Number> = fromLonLat(polandLonLat);
     let id;
 
     const source = new TileJSON({
@@ -45,7 +54,7 @@ const CatchMap = ({ getDataCallback, showFormCallback }) => {
     });
     const vectorSource = new VectorSource({});
 
-    const map = new Map({
+    const map: Map = new Map({
       layers: [
         new TileLayer({
           source,
@@ -66,6 +75,7 @@ const CatchMap = ({ getDataCallback, showFormCallback }) => {
     map.on('click', (evt) => {
       console.info(evt.pixel);
       const coords = toLonLat(evt.coordinate);
+      console.log('coords:', coords);
       getDataCallback(coords);
       const [lon, lat] = coords;
       showFormCallback();
@@ -75,12 +85,12 @@ const CatchMap = ({ getDataCallback, showFormCallback }) => {
       console.log('Geolocation API available');
       let currPosition;
 
-      const errorCallback = (err) => {
+      const errorCallback = (err: any): void => {
         console.log(err.code, err.message);
       };
 
-      const watchLocation = () => {
-        const userMarker = new Feature({
+      const watchLocation = (): void => {
+        const userMarker: Feature = new Feature({
           name: 'User',
           geometry: new Point(polandWebMercator),
         });
@@ -93,7 +103,6 @@ const CatchMap = ({ getDataCallback, showFormCallback }) => {
             }),
           })
         );
-        console.log('Add feature');
         vectorSource.addFeature(userMarker);
 
         id = navigator.geolocation.watchPosition((position) => {
@@ -106,10 +115,10 @@ const CatchMap = ({ getDataCallback, showFormCallback }) => {
         }, errorCallback);
       };
 
-      const centerOnUser = () => {
+      const centerOnUser = (): void => {
         navigator.geolocation.getCurrentPosition(
           (position) => {
-            const viewPosition = fromLonLat([
+            const viewPosition: Array<Number> = fromLonLat([
               position.coords.longitude,
               position.coords.latitude,
             ]);
@@ -120,11 +129,11 @@ const CatchMap = ({ getDataCallback, showFormCallback }) => {
         );
       };
 
-      const button = document.createElement('button');
+      const button: HTMLButtonElement = document.createElement('button');
       button.innerHTML = '<div class="center-btn-icon"></div>';
-      const element = document.createElement('div');
+      const element: HTMLDivElement = document.createElement('div');
       element.className = 'center-btn ol-unselectable ol-control';
-      button.addEventListener('click', function () {
+      button.addEventListener('click', function (): void {
         map.getView().animate({ zoom: 19, center: currPosition });
       });
       element.appendChild(button);

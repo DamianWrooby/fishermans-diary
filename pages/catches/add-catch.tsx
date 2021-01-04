@@ -23,12 +23,8 @@ const AddCatch = (): React.ReactNode => {
 
   const [coords, setCoords] = useState([]);
 
-  const getData = (data): Array => {
+  const getData = (data: Array<Number>): void => {
     setCoords(data);
-  };
-
-  const toggleForm = () => {
-    setShowCatchForm(!showCatchForm);
   };
 
   return (
