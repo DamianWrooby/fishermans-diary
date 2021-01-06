@@ -1,6 +1,7 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
+import 'firebase/storage';
 
 interface firebaseConfiguration {
   apiKey: string;
@@ -24,11 +25,13 @@ const firebaseConfig: firebaseConfiguration = {
 
 // eslint-disable-next-line import/no-mutable-exports
 let db: firebase.firestore.Firestore;
+let storage: firebase.storage.Storage;
 
 if (typeof window !== 'undefined' && !firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
   firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION);
   db = firebase.firestore();
+  storage = firebase.storage();
 }
 
 const fbProvider = new firebase.auth.FacebookAuthProvider();
@@ -69,4 +72,4 @@ export const deleteUser = (): Promise<unknown> => {
 };
 
 export const { auth } = firebase;
-export { db };
+export { db, storage };

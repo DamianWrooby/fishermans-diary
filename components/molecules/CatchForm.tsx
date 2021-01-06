@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+import CustomUploadButton from 'react-firebase-file-uploader/lib/CustomUploadButton';
+import { storage } from '../../services/firebase';
 import { Formik, Form, Field } from 'formik';
 import {
   FormControl,
@@ -20,13 +22,36 @@ import * as Yup from 'yup';
 
 const CatchForm = (): JSX.Element => {
   const [errorMessage, setErrorMessage] = useState('');
+  const [uploadErrorMessage, setUploadErrorMessage] = useState('');
+  const [image, setImage] = useState('');
+  const [imageURL, setImageURL] = useState('');
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [isUploading, setIsUploading] = useState(false);
+
   const router = useRouter();
   const bg = useColorModeValue('white', 'gray.800');
 
+  const handleUploadStart = () => {
+    setIsUploading(true);
+    setUploadProgress(0);
+  };
+  const handleProgress = (progress) => setUploadProgress(progress);
+  const handleUploadError = (error) => {
+    setIsUploading(false);
+    setUploadErrorMessage(error);
+  };
+  const handleUploadSuccess = (filename) => {
+    setImage(filename);
+    setUploadProgress(100);
+    setIsUploading(false);
+    storage
+      .ref('images/catches')
+      .child(filename)
+      .getDownloadURL()
+      .then((url) => setImageURL(url));
+  };
+
   const CatchFormSchema = Yup.object().shape({
-    species: Yup.string()
-      .min(2, 'Species is too short!')
-      .required('Species is required!'),
     weight: Yup.number()
       .max(2, 'max 2')
       .positive('Weight should be positive number!')
@@ -47,6 +72,7 @@ const CatchForm = (): JSX.Element => {
           }}
           validationSchema={CatchFormSchema}
           onSubmit={(values, actions) => {
+            console.log({ ...values, imageURL });
             actions.setSubmitting(false);
           }}
         >
@@ -56,14 +82,14 @@ const CatchForm = (): JSX.Element => {
                 {({ field, form }) => (
                   <Box mb="5">
                     <FormControl
-                      isInvalid={form.errors.species && form.touched.species}
                       isRequired
+                      isInvalid={form.errors.species && form.touched.species}
                     >
                       <FormLabel htmlFor="species">Species</FormLabel>
-                      <Input {...field} id="species" placeholder="Species" />
-                      <FormErrorMessage mb="5">
-                        {props.errors.species}
-                      </FormErrorMessage>
+                      <Select {...field}>
+                        <option value="perch">Perch</option>
+                        <option value="carp">Carp</option>
+                      </Select>
                     </FormControl>
                   </Box>
                 )}
@@ -142,7 +168,34 @@ const CatchForm = (): JSX.Element => {
                   </Box>
                 )}
               </Field>
-
+              <div className="flex flex-col">
+                {isUploading && <p>Progress: {uploadProgress}</p>}
+                {imageURL && (
+                  <div className="w-16">
+                    <img src={imageURL} />
+                  </div>
+                )}
+                <CustomUploadButton
+                  accept="image/*"
+                  storageRef={storage.ref('images/catches')}
+                  onUploadStart={handleUploadStart}
+                  onUploadError={handleUploadError}
+                  onUploadSuccess={handleUploadSuccess}
+                  onProgress={handleProgress}
+                  style={{
+                    backgroundColor: 'steelblue',
+                    color: 'white',
+                    padding: 10,
+                    borderRadius: 7,
+                    cursor: 'pointer',
+                    // position: 'absolute',
+                    // right: '55px',
+                    // bottom: '37px',
+                  }}
+                >
+                  Add Picture
+                </CustomUploadButton>
+              </div>
               <Button
                 mt={4}
                 colorScheme="teal"
@@ -158,6 +211,11 @@ const CatchForm = (): JSX.Element => {
         {errorMessage ? (
           <Box mt="5" color="red.500">
             {errorMessage}
+          </Box>
+        ) : null}
+        {uploadErrorMessage ? (
+          <Box mt="5" color="red.500">
+            {uploadErrorMessage}
           </Box>
         ) : null}
       </Box>

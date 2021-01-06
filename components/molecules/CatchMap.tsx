@@ -11,7 +11,6 @@ import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
 import Control from 'ol/control/Control';
 import { fromLonLat, toLonLat, transform } from 'ol/proj';
-import { control } from 'openlayers';
 
 type MapProps = {
   getDataCallback: (args: Array<Number>) => void;

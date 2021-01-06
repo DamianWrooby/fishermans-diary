@@ -20,9 +20,13 @@ const Login: React.FC<LoginProps> = () => {
     });
   };
   const gLogin = () => {
-    gAuth().then(() => {
-      router.push('/');
-    });
+    gAuth()
+      .then(() => {
+        router.push('/');
+      })
+      .catch((err) => {
+        console.warn(err);
+      });
   };
 
   return (

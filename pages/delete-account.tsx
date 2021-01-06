@@ -1,7 +1,6 @@
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { Button } from '@chakra-ui/react';
-import Link from 'next/link';
 import { useAuth } from '../contexts/authContext';
 import { deleteUser } from '../services/firebase';
 import Menu from '../components/molecules/Menu';
