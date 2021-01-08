@@ -151,10 +151,10 @@ const CatchMap = ({
   }, []);
 
   return (
-    <div className="w-screen m-auto">
+    <div className="w-screen h-screen m-auto">
       <div
         id="map"
-        className="w-9/12 h-2/3 m-auto  cursor-pointer"
+        className="w-9/12 h-2/3 m-auto  cursor-pointer border border-gray-400 bg-gray-600 rounded"
         ref={mapRef}
       >
         {' '}

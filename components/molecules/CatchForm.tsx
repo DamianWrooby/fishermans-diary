@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import CustomUploadButton from 'react-firebase-file-uploader/lib/CustomUploadButton';
-import { storage } from '../../services/firebase';
+// import { storage } from '../../services/firebase';
+import firebase from 'firebase/app';
 import { Formik, Form, Field } from 'formik';
 import {
   FormControl,
@@ -19,6 +20,8 @@ import {
   Box,
 } from '@chakra-ui/react';
 import * as Yup from 'yup';
+
+const storage = firebase.storage();
 
 const CatchForm = (): JSX.Element => {
   const [errorMessage, setErrorMessage] = useState('');
@@ -42,13 +45,14 @@ const CatchForm = (): JSX.Element => {
     setIsUploading(false);
     setUploadErrorMessage(error);
   };
-  const handleUploadSuccess = (filename) => {
-    setImage(filename);
+  const handleUploadSuccess = async (filename) => {
+    const name = await filename;
+    setImage(name);
     setUploadProgress(100);
     setIsUploading(false);
     storage
       .ref('images/catches')
-      .child(filename)
+      .child(name)
       .getDownloadURL()
       .then((url) => setImageURL(url));
   };
@@ -171,11 +175,11 @@ const CatchForm = (): JSX.Element => {
                 )}
               </Field>
               <div className="flex flex-row items-end justify-end">
-                {/* {isUploading && (
-                    )} */}
-                <div className="relative">
-                  <p className="text-xs">Progress: {uploadProgress}</p>
-                </div>
+                {isUploading && (
+                  <div className="relative left-20 -top-8">
+                    <p className="text-xs">Uploading: {uploadProgress}</p>
+                  </div>
+                )}
                 <CustomUploadButton
                   accept="image/*"
                   storageRef={storage.ref('images/catches')}
