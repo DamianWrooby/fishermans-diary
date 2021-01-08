@@ -30,6 +30,8 @@ const CatchForm = (): JSX.Element => {
 
   const router = useRouter();
   const bg = useColorModeValue('white', 'gray.800');
+  const uploadBtn = useColorModeValue('#2d3748', 'lightgreen');
+  const uploadBtnText = useColorModeValue('white', '#2d3748');
 
   const handleUploadStart = () => {
     setIsUploading(true);
@@ -63,7 +65,7 @@ const CatchForm = (): JSX.Element => {
 
   return (
     <div className="flex justify-center items-center w-full h-full">
-      <Box overflow="hidden" width="full" p="8">
+      <Box overflow="hidden" width="full" p="8" pt="2">
         <Formik
           initialValues={{
             species: '',
@@ -168,13 +170,12 @@ const CatchForm = (): JSX.Element => {
                   </Box>
                 )}
               </Field>
-              <div className="flex flex-col">
-                {isUploading && <p>Progress: {uploadProgress}</p>}
-                {imageURL && (
-                  <div className="w-16">
-                    <img src={imageURL} />
-                  </div>
-                )}
+              <div className="flex flex-row items-end justify-end">
+                {/* {isUploading && (
+                    )} */}
+                <div className="relative">
+                  <p className="text-xs">Progress: {uploadProgress}</p>
+                </div>
                 <CustomUploadButton
                   accept="image/*"
                   storageRef={storage.ref('images/catches')}
@@ -183,18 +184,25 @@ const CatchForm = (): JSX.Element => {
                   onUploadSuccess={handleUploadSuccess}
                   onProgress={handleProgress}
                   style={{
-                    backgroundColor: 'steelblue',
-                    color: 'white',
-                    padding: 10,
+                    backgroundColor: uploadBtn,
+                    fontSize: '0.8rem',
+                    color: uploadBtnText,
+                    padding: 6,
+                    marginRight: '20px',
                     borderRadius: 7,
+                    lineHeight: '1.2',
                     cursor: 'pointer',
-                    // position: 'absolute',
-                    // right: '55px',
-                    // bottom: '37px',
                   }}
                 >
                   Add Picture
                 </CustomUploadButton>
+                {imageURL ? (
+                  <div className="w-16 h-16 rounded">
+                    <img src={imageURL} />
+                  </div>
+                ) : (
+                  <div className="w-16 h-16 border border-gray200 rounded"></div>
+                )}
               </div>
               <Button
                 mt={4}
