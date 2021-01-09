@@ -1,8 +1,8 @@
-import { useState } from 'react';
-import { useRouter } from 'next/router';
+import { useState, useEffect } from 'react';
+import { db } from '../../services/firebase';
+import { useAuth } from '../../contexts/authContext';
 import CustomUploadButton from 'react-firebase-file-uploader/lib/CustomUploadButton';
-// import { storage } from '../../services/firebase';
-import firebase from 'firebase/app';
+import { storage } from '../../services/firebase';
 import { Formik, Form, Field } from 'formik';
 import {
   FormControl,
@@ -21,18 +21,25 @@ import {
 } from '@chakra-ui/react';
 import * as Yup from 'yup';
 
-const storage = firebase.storage();
+type FormProps = {
+  passCoords: Array<Number>;
+};
 
-const CatchForm = (): JSX.Element => {
+const CatchForm = ({ passCoords }: FormProps): JSX.Element => {
   const [errorMessage, setErrorMessage] = useState('');
   const [uploadErrorMessage, setUploadErrorMessage] = useState('');
   const [image, setImage] = useState('');
   const [imageURL, setImageURL] = useState('');
   const [uploadProgress, setUploadProgress] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
+  const [coords, setCoords] = useState(null);
+  const {
+    data: { uid },
+  } = useAuth();
 
-  const router = useRouter();
-  const bg = useColorModeValue('white', 'gray.800');
+  const now = new Date();
+  const date = `${now.getDate()}-${now.getMonth() + 1}-${now.getFullYear()}`;
+
   const uploadBtn = useColorModeValue('#2d3748', 'lightgreen');
   const uploadBtnText = useColorModeValue('white', '#2d3748');
 
@@ -40,12 +47,12 @@ const CatchForm = (): JSX.Element => {
     setIsUploading(true);
     setUploadProgress(0);
   };
-  const handleProgress = (progress) => setUploadProgress(progress);
+  const handleProgress = (progress: number) => setUploadProgress(progress);
   const handleUploadError = (error) => {
     setIsUploading(false);
     setUploadErrorMessage(error);
   };
-  const handleUploadSuccess = async (filename) => {
+  const handleUploadSuccess = async (filename: string) => {
     const name = await filename;
     setImage(name);
     setUploadProgress(100);
@@ -56,6 +63,20 @@ const CatchForm = (): JSX.Element => {
       .getDownloadURL()
       .then((url) => setImageURL(url));
   };
+  const submitForm = async (values, actions) => {
+    console.log({ coords, ...values, imageURL });
+    actions.setSubmitting(false);
+    await db.collection('catches').add({
+      author_uid: uid,
+      date: date,
+      coords: coords,
+      species: values.species,
+      weight: values.weight,
+      length: values.length,
+      method: values.method,
+      image: imageURL,
+    });
+  };
 
   const CatchFormSchema = Yup.object().shape({
     weight: Yup.number()
@@ -65,7 +86,14 @@ const CatchForm = (): JSX.Element => {
     length: Yup.number()
       .positive('Length should be positive number!')
       .required('Length is required!'),
+    bait: Yup.string()
+      .min(2, 'Bait should have min 2 characters')
+      .required('Bait is required'),
   });
+
+  useEffect(() => {
+    setCoords(passCoords);
+  }, [passCoords]);
 
   return (
     <div className="flex justify-center items-center w-full h-full">
@@ -75,24 +103,22 @@ const CatchForm = (): JSX.Element => {
             species: '',
             weight: undefined,
             length: undefined,
+            method: '',
+            bait: '',
           }}
           validationSchema={CatchFormSchema}
-          onSubmit={(values, actions) => {
-            console.log({ ...values, imageURL });
-            actions.setSubmitting(false);
-          }}
+          onSubmit={submitForm}
         >
           {(props) => (
             <Form>
               <Field name="species">
                 {({ field, form }) => (
                   <Box mb="5">
-                    <FormControl
-                      isRequired
-                      isInvalid={form.errors.species && form.touched.species}
-                    >
-                      <FormLabel htmlFor="species">Species</FormLabel>
-                      <Select {...field}>
+                    <FormControl isRequired>
+                      <FormLabel mb="1" htmlFor="species">
+                        Species
+                      </FormLabel>
+                      <Select size="sm" placeholder="Select option" {...field}>
                         <option value="perch">Perch</option>
                         <option value="carp">Carp</option>
                       </Select>
@@ -107,8 +133,11 @@ const CatchForm = (): JSX.Element => {
                       isInvalid={form.errors.weight && form.touched.weight}
                       isRequired
                     >
-                      <FormLabel htmlFor="weight">Weight (kg)</FormLabel>
+                      <FormLabel mb="1" htmlFor="weight">
+                        Weight (kg)
+                      </FormLabel>
                       <NumberInput
+                        size="sm"
                         {...field}
                         onChange={(val) => form.setFieldValue(field.name, val)}
                         id="weight"
@@ -136,8 +165,11 @@ const CatchForm = (): JSX.Element => {
                       isInvalid={form.errors.length && form.touched.length}
                       isRequired
                     >
-                      <FormLabel htmlFor="length">Length (cm)</FormLabel>
+                      <FormLabel mb="1" htmlFor="length">
+                        Length (cm)
+                      </FormLabel>
                       <NumberInput
+                        size="sm"
                         {...field}
                         onChange={(val) => form.setFieldValue(field.name, val)}
                         id="length"
@@ -162,14 +194,39 @@ const CatchForm = (): JSX.Element => {
                 {({ field, form }) => (
                   <Box mb="5">
                     <FormControl isRequired>
-                      <FormLabel htmlFor="method">Method</FormLabel>
-                      <Select {...field}>
+                      <FormLabel mb="1" htmlFor="method">
+                        Method
+                      </FormLabel>
+                      <Select size="sm" placeholder="Select option" {...field}>
                         <option value="spinning">Spinning</option>
                         <option value="bottom">Bottom</option>
                         <option value="trolling">Trolling</option>
                         <option value="float">Float</option>
                         <option value="fly">Fly</option>
                       </Select>
+                    </FormControl>
+                  </Box>
+                )}
+              </Field>
+              <Field name="bait">
+                {({ field, form }) => (
+                  <Box mb="5">
+                    <FormControl
+                      isRequired
+                      isInvalid={form.errors.bait && form.touched.bait}
+                    >
+                      <FormLabel mb="1" htmlFor="bait">
+                        Bait
+                      </FormLabel>
+                      <Input
+                        size="sm"
+                        {...field}
+                        id="bait"
+                        placeholder="Bait"
+                      />
+                      <FormErrorMessage mb="5">
+                        {props.errors.bait}
+                      </FormErrorMessage>
                     </FormControl>
                   </Box>
                 )}

@@ -68,15 +68,12 @@ const CatchMap = ({
         center: polandWebMercator,
         zoom: 6,
       }),
-      // controls: defaultControls().extend([myZoomToExtent]),
     });
 
     map.on('click', (evt) => {
       console.info(evt.pixel);
       const coords = toLonLat(evt.coordinate);
-      console.log('coords:', coords);
       getDataCallback(coords);
-      const [lon, lat] = coords;
       showFormCallback();
     });
 

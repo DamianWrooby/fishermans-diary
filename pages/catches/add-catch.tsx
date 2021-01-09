@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useRouter } from 'next/router';
 import Link from 'next/link';
 import {
   Modal,
@@ -17,7 +16,6 @@ import { useAuth } from '../../contexts/authContext';
 
 const AddCatch = (): React.ReactNode => {
   const user = useAuth();
-  const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [coords, setCoords] = useState([]);
@@ -38,7 +36,7 @@ const AddCatch = (): React.ReactNode => {
               <ModalHeader>Catch Form</ModalHeader>
               <ModalCloseButton />
               <ModalBody>
-                <CatchForm />
+                <CatchForm passCoords={coords} />
               </ModalBody>
             </ModalContent>
           </Modal>

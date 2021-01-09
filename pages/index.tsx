@@ -5,8 +5,7 @@ import Link from 'next/link';
 import { FaArrowRight } from 'react-icons/fa';
 import Menu from '../components/molecules/Menu';
 import { useAuth } from '../contexts/authContext';
-import AddCatch from '../components/molecules/AddCatch';
-// import styles from '../styles/Home.module.css';
+import CatchButton from '../components/molecules/CatchButton';
 
 const Home = (): React.ReactNode => {
   const user = useAuth();
@@ -27,7 +26,7 @@ const Home = (): React.ReactNode => {
           <div className="pt-12">
             <p>Recent catches</p>
           </div>
-          <AddCatch />
+          <CatchButton />
         </>
       ) : (
         <div className="container flex flex-col justify-center items-center h-screen">

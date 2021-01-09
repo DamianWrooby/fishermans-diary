@@ -6,11 +6,7 @@ import { fbAuth, gAuth } from '../services/firebase';
 import Menu from '../components/molecules/Menu';
 import { useAuth } from '../contexts/authContext';
 
-type LoginProps = {
-  children: React.ReactChildren;
-};
-
-const Login: React.FC<LoginProps> = () => {
+const Login = (): JSX.Element => {
   const user = useAuth();
   const router = useRouter();
 

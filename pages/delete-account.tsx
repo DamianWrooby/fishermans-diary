@@ -5,7 +5,7 @@ import { useAuth } from '../contexts/authContext';
 import { deleteUser } from '../services/firebase';
 import Menu from '../components/molecules/Menu';
 
-const DeleteAccount: React.FC<React.ReactNode> = () => {
+const DeleteAccount = (): JSX.Element => {
   const user = useAuth();
   const router = useRouter();
 

@@ -14,7 +14,7 @@ import {
 import * as Yup from 'yup';
 import { emailAuth } from '../../services/firebase';
 
-const SignInForm: React.ReactNode = () => {
+const SignInForm = (): JSX.Element => {
   const [show, setShow] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const router = useRouter();
