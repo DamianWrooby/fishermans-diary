@@ -36,7 +36,7 @@ const AddCatch = (): React.ReactNode => {
               <ModalHeader>Catch Form</ModalHeader>
               <ModalCloseButton />
               <ModalBody>
-                <CatchForm passCoords={coords} />
+                <CatchForm passCoords={coords} closeFormCallback={onClose} />
               </ModalBody>
             </ModalContent>
           </Modal>

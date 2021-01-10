@@ -23,9 +23,13 @@ import * as Yup from 'yup';
 
 type FormProps = {
   passCoords: Array<Number>;
+  closeFormCallback: () => void;
 };
 
-const CatchForm = ({ passCoords }: FormProps): JSX.Element => {
+const CatchForm = ({
+  passCoords,
+  closeFormCallback,
+}: FormProps): JSX.Element => {
   const [errorMessage, setErrorMessage] = useState('');
   const [uploadErrorMessage, setUploadErrorMessage] = useState('');
   const [image, setImage] = useState('');
@@ -33,6 +37,9 @@ const CatchForm = ({ passCoords }: FormProps): JSX.Element => {
   const [uploadProgress, setUploadProgress] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
   const [coords, setCoords] = useState(null);
+  const [sending, setSending] = useState(false);
+  const [sendBtnText, setSendBtnText] = useState('Add Catch');
+
   const {
     data: { uid },
   } = useAuth();
@@ -63,19 +70,36 @@ const CatchForm = ({ passCoords }: FormProps): JSX.Element => {
       .getDownloadURL()
       .then((url) => setImageURL(url));
   };
+
   const submitForm = async (values, actions) => {
-    console.log({ coords, ...values, imageURL });
-    actions.setSubmitting(false);
-    await db.collection('catches').add({
-      author_uid: uid,
-      date: date,
-      coords: coords,
-      species: values.species,
-      weight: values.weight,
-      length: values.length,
-      method: values.method,
-      image: imageURL,
-    });
+    setSending(true);
+    try {
+      actions.setSubmitting(false);
+      await db.collection('catches').add({
+        author_uid: uid,
+        date: date,
+        coords: coords,
+        species: values.species,
+        weight: values.weight,
+        length: values.length,
+        method: values.method,
+        image: imageURL,
+      });
+      setSendBtnText('Success');
+      window.setTimeout(() => {
+        setSendBtnText('Add Catch');
+        closeFormCallback();
+      }, 1000);
+    } catch (err) {
+      console.log(err);
+      setSendBtnText('Error');
+      window.setTimeout(() => {
+        setSendBtnText('Add Catch');
+        closeFormCallback();
+      }, 1000);
+    }
+    setSending(false);
+    actions.resetForm({});
   };
 
   const CatchFormSchema = Yup.object().shape({
@@ -266,13 +290,13 @@ const CatchForm = ({ passCoords }: FormProps): JSX.Element => {
                 )}
               </div>
               <Button
+                isLoading={sending}
                 mt={4}
                 colorScheme="teal"
-                isLoading={props.isSubmitting}
                 type="submit"
-                isDisabled={!props.isValid}
+                isDisabled={!props.isValid || sending}
               >
-                Add Catch
+                {sendBtnText}
               </Button>
             </Form>
           )}
