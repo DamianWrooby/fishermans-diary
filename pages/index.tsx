@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { FaArrowRight } from 'react-icons/fa';
 import Menu from '../components/molecules/Menu';
 import { useAuth } from '../contexts/authContext';
-import CatchButton from '../components/molecules/CatchButton';
+import CatchButton from '../components/atoms/CatchButton';
 
 const Home = (): React.ReactNode => {
   const user = useAuth();

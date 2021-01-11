@@ -2,7 +2,6 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import nookies from 'nookies';
 import firebase from 'firebase/app';
 import { auth } from '../services/firebase';
-import LoadingScreen from '../components/molecules/LoadingScreen';
 
 interface Context {
   isAuthenticated: boolean;
@@ -59,10 +58,10 @@ export function useAuth(): Context {
   return context;
 }
 
-export const ProtectRoute = ({ children }: Props): React.ReactNode => {
-  const { isAuthenticated, loading } = useAuth();
-  if (loading || (!isAuthenticated && window.location.pathname !== '/login')) {
-    return <LoadingScreen />;
-  }
-  return children;
-};
+// export const ProtectRoute = ({ children }: Props): React.ReactNode => {
+//   const { isAuthenticated, loading } = useAuth();
+//   if (loading || (!isAuthenticated && window.location.pathname !== '/login')) {
+//     return <LoadingScreen />;
+//   }
+//   return children;
+// };

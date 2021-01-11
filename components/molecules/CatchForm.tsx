@@ -59,14 +59,13 @@ const CatchForm = ({
     setIsUploading(false);
     setUploadErrorMessage(error);
   };
-  const handleUploadSuccess = async (filename: string) => {
-    const name = await filename;
-    setImage(name);
+  const handleUploadSuccess = (filename: string) => {
+    setImage(filename);
     setUploadProgress(100);
     setIsUploading(false);
     storage
       .ref('images/catches')
-      .child(name)
+      .child(filename)
       .getDownloadURL()
       .then((url) => setImageURL(url));
   };
