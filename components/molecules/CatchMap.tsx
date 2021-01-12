@@ -1,4 +1,4 @@
-import { Ref, useEffect, useRef } from 'react';
+import { Ref, useEffect, useRef, memo } from 'react';
 import 'ol/ol.css';
 import Map from 'ol/Map';
 import View from 'ol/View';
@@ -10,7 +10,7 @@ import VectorLayer from 'ol/layer/Vector';
 import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
 import Control from 'ol/control/Control';
-import { fromLonLat, toLonLat, transform } from 'ol/proj';
+import { fromLonLat, toLonLat } from 'ol/proj';
 
 type MapProps = {
   getDataCallback: (args: Array<Number>) => void;
@@ -22,6 +22,8 @@ const CatchMap = ({
   showFormCallback,
 }: MapProps): JSX.Element => {
   const mapRef: Ref<any> = useRef(null);
+
+  console.log('CatchMap rendered');
 
   const fishMarker: Feature = new Feature({
     geometry: new Point(fromLonLat([18, 53])),
@@ -71,7 +73,6 @@ const CatchMap = ({
     });
 
     map.on('click', (evt) => {
-      console.info(evt.pixel);
       const coords = toLonLat(evt.coordinate);
       getDataCallback(coords);
       showFormCallback();
@@ -160,4 +161,10 @@ const CatchMap = ({
   );
 };
 
-export default CatchMap;
+export const MemoCatchMap = memo(CatchMap, (prevProps, nextProps) => {
+  if (prevProps.showFormCallback === nextProps.showFormCallback) {
+    return true;
+  } else {
+    return false;
+  }
+});

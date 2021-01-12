@@ -36,9 +36,10 @@ const CatchForm = ({
   const [imageURL, setImageURL] = useState('');
   const [uploadProgress, setUploadProgress] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
-  const [coords, setCoords] = useState(null);
   const [sending, setSending] = useState(false);
   const [sendBtnText, setSendBtnText] = useState('Add Catch');
+
+  const coords = passCoords;
 
   const {
     data: { uid },
@@ -74,6 +75,7 @@ const CatchForm = ({
     setSending(true);
     try {
       actions.setSubmitting(false);
+      console.log(coords);
       await db.collection('catches').add({
         author_uid: uid,
         date: date,
@@ -113,10 +115,6 @@ const CatchForm = ({
       .min(2, 'Bait should have min 2 characters')
       .required('Bait is required'),
   });
-
-  useEffect(() => {
-    setCoords(passCoords);
-  }, [passCoords]);
 
   return (
     <div className="flex justify-center items-center w-full h-full">

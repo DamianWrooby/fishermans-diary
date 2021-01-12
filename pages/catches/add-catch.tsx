@@ -10,7 +10,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import Menu from '../../components/molecules/Menu';
-import CatchMap from '../../components/molecules/CatchMap';
+import { MemoCatchMap } from '../../components/molecules/CatchMap';
 import CatchForm from '../../components/molecules/CatchForm';
 import { useAuth } from '../../contexts/authContext';
 
@@ -29,7 +29,7 @@ const AddCatch = (): React.ReactNode => {
       <Menu />
       {user.isAuthenticated ? (
         <>
-          <CatchMap getDataCallback={getData} showFormCallback={onOpen} />
+          <MemoCatchMap getDataCallback={getData} showFormCallback={onOpen} />
           <Modal isOpen={isOpen} onClose={onClose}>
             <ModalOverlay />
             <ModalContent>
