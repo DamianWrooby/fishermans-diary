@@ -47,6 +47,9 @@ const CatchForm = ({
 
   const now = new Date();
   const date = `${now.getDate()}-${now.getMonth() + 1}-${now.getFullYear()}`;
+  const time = `${now.getHours()}:${
+    now.getMinutes() < 10 ? '0' : ''
+  }${now.getMinutes()}:${now.getSeconds()}`;
 
   const uploadBtn = useColorModeValue('#2d3748', 'lightgreen');
   const uploadBtnText = useColorModeValue('white', '#2d3748');
@@ -75,10 +78,11 @@ const CatchForm = ({
     setSending(true);
     try {
       actions.setSubmitting(false);
-      console.log(coords);
+      console.log(coords, time, imageURL);
       await db.collection('catches').add({
         author_uid: uid,
         date: date,
+        time: time,
         coords: coords,
         species: values.species,
         weight: values.weight,
@@ -259,6 +263,7 @@ const CatchForm = ({
                   </div>
                 )}
                 <CustomUploadButton
+                  randomizeFilename
                   accept="image/*"
                   storageRef={storage.ref('images/catches')}
                   onUploadStart={handleUploadStart}

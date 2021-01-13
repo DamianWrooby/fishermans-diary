@@ -6,6 +6,7 @@ import { FaArrowRight } from 'react-icons/fa';
 import Menu from '../components/molecules/Menu';
 import { useAuth } from '../contexts/authContext';
 import CatchButton from '../components/atoms/CatchButton';
+import CatchList from '../components/organisms/CatchList';
 
 const Home = (): React.ReactNode => {
   const user = useAuth();
@@ -23,8 +24,9 @@ const Home = (): React.ReactNode => {
       <Menu />
       {user.data ? (
         <>
-          <div className="pt-12">
-            <p>Recent catches</p>
+          <div className="p-5 pt-12">
+            <h1 className="p-3">Your last catches</h1>
+            <CatchList />
           </div>
           <CatchButton />
         </>
