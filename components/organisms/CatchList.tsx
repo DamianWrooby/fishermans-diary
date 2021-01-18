@@ -1,5 +1,6 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import CatchRow from '../atoms/CatchRow';
+import { db } from '../../services/firebase';
 
 const data = {
   imageURL: '/fish-logo-01.png',
@@ -13,6 +14,20 @@ const data = {
 };
 
 const CatchList = (): JSX.Element => {
+  const [catches, setCatches] = useState([]);
+  useEffect(() => {
+    const fetchCatches = async () => {
+      const results = await db.collection('catches').get();
+      const tmp = [];
+      results.docs.map((doc) => {
+        tmp.push({ ...doc.data() });
+      });
+      setCatches(tmp);
+      console.log(catches);
+    };
+    fetchCatches();
+  }, []);
+
   return (
     <>
       <div className="w-full flex flex-row justify-between p-3 items-center">
@@ -25,7 +40,9 @@ const CatchList = (): JSX.Element => {
         <p className="w-1/8">time</p>
         <p className="w-1/8">date</p>
       </div>
-      <CatchRow data={data} />
+      {catches.map((el) => {
+        return <CatchRow data={el} />;
+      })}
     </>
   );
 };

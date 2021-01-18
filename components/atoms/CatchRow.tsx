@@ -2,10 +2,10 @@ import { useEffect } from 'react';
 
 const CatchRow = ({ data }) => {
   return (
-    <div className="w-full bordered border-2 flex flex-row justify-between p-3 items-center">
+    <div className="w-full bordered border-2 flex flex-row justify-between p-3 mb-4 items-center">
       <div className="w-1/8">
         <div className="rounded-full w-10 overflow-hidden bg-blue-300 p-1">
-          <img src={data.imageURL} />
+          <img src={data.image} />
         </div>
       </div>
       <p className="w-1/8">{data.species}</p>
