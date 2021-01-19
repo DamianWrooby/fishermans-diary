@@ -30,15 +30,15 @@ const CatchList = (): JSX.Element => {
 
   return (
     <>
-      <div className="w-full flex flex-row justify-between p-3 items-center">
-        <p className="w-1/8">image</p>
+      <div className="w-full max-w-screen-lg flex flex-row justify-between p-3 items-center">
+        <p className="w-1/8"></p>
         <p className="w-1/8">species</p>
         <p className="w-1/8">weight</p>
         <p className="w-1/8">length</p>
         <p className="w-1/8">method</p>
         <p className="w-1/8">bait</p>
-        <p className="w-1/8">time</p>
         <p className="w-1/8">date</p>
+        <p className="w-1/8">time</p>
       </div>
       {catches.map((el) => {
         return <CatchRow data={el} />;

@@ -1,20 +1,53 @@
-import { useEffect } from 'react';
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
+} from '@chakra-ui/react';
 
 const CatchRow = ({ data }) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
-    <div className="w-full bordered border-2 flex flex-row justify-between p-3 mb-4 items-center">
+    <div className="w-full max-w-screen-lg bordered border rounded-lg flex flex-row justify-between p-3 mb-4 items-center">
       <div className="w-1/8">
-        <div className="rounded-full w-10 overflow-hidden bg-blue-300 p-1">
-          <img src={data.image} />
-        </div>
+        {data.image ? (
+          <>
+            <div
+              onClick={onOpen}
+              className="rounded-full w-16 h-16 overflow-hidden bg-blue-300 p-0 cursor-zoom-in"
+            >
+              <img src={data.image} />
+            </div>
+            <Modal isOpen={isOpen} onClose={onClose}>
+              <ModalOverlay />
+              <ModalContent>
+                <ModalHeader>{`${
+                  data.species.charAt(0).toUpperCase() + data.species.slice(1)
+                } - ${data.weight}kg / ${data.length}cm`}</ModalHeader>
+                <ModalCloseButton />
+                <ModalBody>
+                  <img src={data.image} />
+                </ModalBody>
+              </ModalContent>
+            </Modal>
+          </>
+        ) : (
+          <div className="rounded-full w-16 h-16 overflow-hidden bg-blue-300 p-1">
+            <img src="/fish-logo-01.png" />
+          </div>
+        )}
       </div>
       <p className="w-1/8">{data.species}</p>
       <p className="w-1/8">{data.weight} kg</p>
       <p className="w-1/8">{data.length} cm</p>
       <p className="w-1/8">{data.method}</p>
       <p className="w-1/8">{data.bait}</p>
-      <p className="w-1/8">{data.time}</p>
       <p className="w-1/8">{data.date}</p>
+      <p className="w-1/8">{data.time}</p>
     </div>
   );
 };

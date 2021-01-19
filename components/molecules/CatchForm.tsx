@@ -69,7 +69,7 @@ const CatchForm = ({
     setIsUploading(false);
     storage
       .ref('images/catches')
-      .child(filename)
+      .child(filename + '')
       .getDownloadURL()
       .then((url) => setImageURL(url));
   };
@@ -88,6 +88,7 @@ const CatchForm = ({
         weight: values.weight,
         length: values.length,
         method: values.method,
+        bait: values.bait,
         image: imageURL,
       });
       setSendBtnText('Success');
@@ -109,7 +110,6 @@ const CatchForm = ({
 
   const CatchFormSchema = Yup.object().shape({
     weight: Yup.number()
-      .max(2, 'max 2')
       .positive('Weight should be positive number!')
       .required('Weight is required!'),
     length: Yup.number()
