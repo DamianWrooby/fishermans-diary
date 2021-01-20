@@ -31,7 +31,7 @@ const Account: React.FC<React.ReactNode> = () => {
     <>
       <Menu />
       {user.data ? (
-        <div className="container flex flex-col justify-center items-center h-screen">
+        <div className="flex flex-col justify-center items-center h-screen">
           <p className="p-2">{`Welcome ${user.data.email}`}</p>
           <Button
             className="p-4 m-4"

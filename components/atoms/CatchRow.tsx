@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import {
   Modal,
   ModalOverlay,
@@ -18,9 +19,14 @@ const CatchRow = ({ data }) => {
           <>
             <div
               onClick={onOpen}
-              className="rounded-full w-16 h-16 overflow-hidden bg-blue-300 p-0 cursor-zoom-in"
+              className="flex justify-center rounded-full w-16 h-16 overflow-hidden bg-blue-300 p-0 cursor-zoom-in"
             >
-              <img src={data.image} />
+              <Image
+                src={data.image}
+                alt={data.species}
+                width={64}
+                height={64}
+              />
             </div>
             <Modal isOpen={isOpen} onClose={onClose}>
               <ModalOverlay />
@@ -30,7 +36,13 @@ const CatchRow = ({ data }) => {
                 } - ${data.weight}kg / ${data.length}cm`}</ModalHeader>
                 <ModalCloseButton />
                 <ModalBody>
-                  <img src={data.image} />
+                  <Image
+                    src={data.image}
+                    alt={data.species}
+                    width={400}
+                    height={300}
+                  />
+                  {/* <img src={data.image} /> */}
                 </ModalBody>
               </ModalContent>
             </Modal>

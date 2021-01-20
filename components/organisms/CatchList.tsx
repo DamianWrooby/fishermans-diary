@@ -20,12 +20,12 @@ const CatchList = (): JSX.Element => {
       const results = await db.collection('catches').get();
       const tmp = [];
       results.docs.map((doc) => {
-        tmp.push({ ...doc.data() });
+        tmp.push({ id: doc.id, ...doc.data() });
       });
       setCatches(tmp);
-      console.log(catches);
     };
     fetchCatches();
+    console.log(catches);
   }, []);
 
   return (
@@ -41,7 +41,7 @@ const CatchList = (): JSX.Element => {
         <p className="w-1/8">time</p>
       </div>
       {catches.map((el) => {
-        return <CatchRow data={el} />;
+        return <CatchRow key={el.id} data={el} />;
       })}
     </>
   );
