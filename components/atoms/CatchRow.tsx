@@ -34,7 +34,7 @@ const CatchRow = ({ data, rowFeatures }: CatchRowProps): JSX.Element => {
   return (
     <>
       <div
-        className="w-full max-w-screen-lg bordered border rounded-lg flex flex-row justify-between p-3 mb-4 items-center cursor-pointer hover:bg-gray-800 hover:border-white transform hover:-translate-y-1 hover:translate-x-1 transition duration-100 ease-in-out"
+        className="group w-full max-w-screen-lg bordered border rounded-lg flex flex-row justify-between p-3 mb-4 items-center cursor-pointer hover:bg-gray-800 hover:border-white transform hover:-translate-y-1 hover:translate-x-1 transition duration-100 ease-in-out"
         onClick={onOpen}
       >
         {rowFeatures.map((feature) => {
@@ -63,6 +63,9 @@ const CatchRow = ({ data, rowFeatures }: CatchRowProps): JSX.Element => {
             </p>
           );
         })}
+        <div className="w-4 absolute right-2 top-2 rounded-full transition duration-200 ease-in-out opacity-0 group-hover:opacity-100	transform hover:scale-125">
+          <img src="/remove.svg" />
+        </div>
       </div>
 
       <Modal isOpen={isOpen} onClose={onClose}>
