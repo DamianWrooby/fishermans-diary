@@ -3,7 +3,7 @@ import { FaPlus } from 'react-icons/fa';
 
 const CatchButton = (): JSX.Element => {
   return (
-    <a href="/catches/add-catch">
+    <a title="Add catch" href="/catches/add-catch">
       <div className="fixed m-16 bottom-0 right-0">
         <IconButton
           aria-label="Add catch"

@@ -2,19 +2,14 @@ import { useEffect, useState } from 'react';
 import CatchRow from '../atoms/CatchRow';
 import { db } from '../../services/firebase';
 
-const data = {
-  imageURL: '/fish-logo-01.png',
-  length: '3',
-  method: 'bottom',
-  species: 'carp',
-  weight: '0.200',
-  date: '11-1-2021',
-  time: '19:54:21',
-  bait: 'worm',
+type CatchListProps = {
+  features: Array<string>;
 };
 
-const CatchList = (): JSX.Element => {
+const CatchList = ({ features }: CatchListProps): JSX.Element => {
   const [catches, setCatches] = useState([]);
+  const [sorting, setSorting] = useState('date');
+
   useEffect(() => {
     const fetchCatches = async () => {
       const results = await db.collection('catches').get();
@@ -25,23 +20,64 @@ const CatchList = (): JSX.Element => {
       setCatches(tmp);
     };
     fetchCatches();
-    console.log(catches);
   }, []);
+
+  const dynamicSort = (property) => {
+    let sortOrder = 1;
+    if (property[0] === '-') {
+      sortOrder = -1;
+      property = property.substr(1);
+    }
+    return function (a, b) {
+      const result =
+        a[property] < b[property] ? -1 : a[property] > b[property] ? 1 : 0;
+      return result * sortOrder;
+    };
+  };
+
+  const sortRows = (id: string) => {
+    let sortedCatches = [];
+    if (sorting === id) {
+      setSorting(`-${id}`);
+      sortedCatches = catches.sort(dynamicSort(`-${id}`));
+    } else {
+      setSorting(id);
+      sortedCatches = catches.sort(dynamicSort(id));
+    }
+    setCatches(sortedCatches);
+  };
 
   return (
     <>
       <div className="w-full max-w-screen-lg flex flex-row justify-between p-3 items-center">
-        <p className="w-1/8"></p>
-        <p className="w-1/8">species</p>
-        <p className="w-1/8">weight</p>
-        <p className="w-1/8">length</p>
-        <p className="w-1/8">method</p>
-        <p className="w-1/8">bait</p>
-        <p className="w-1/8">date</p>
-        <p className="w-1/8">time</p>
+        {features.map((feature) => {
+          return feature === 'image' ? (
+            <p key={feature} className={`w-1/${features.length}`}></p>
+          ) : (
+            <div
+              key={feature}
+              className={`w-1/${features.length} flex flex-row cursor-pointer`}
+              onClick={() => sortRows(feature)}
+            >
+              <p>{feature}</p>
+              {sorting === feature && (
+                <img
+                  className="w-2 ml-2 transform rotate-90"
+                  src="/arrow.svg"
+                />
+              )}
+              {sorting === `-${feature}` && (
+                <img
+                  className="w-2 ml-2 transform -rotate-90"
+                  src="/arrow.svg"
+                />
+              )}
+            </div>
+          );
+        })}
       </div>
       {catches.map((el) => {
-        return <CatchRow key={el.id} data={el} />;
+        return <CatchRow rowFeatures={features} key={el.id} data={el} />;
       })}
     </>
   );

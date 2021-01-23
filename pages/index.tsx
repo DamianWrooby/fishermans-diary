@@ -7,6 +7,7 @@ import Menu from '../components/molecules/Menu';
 import { useAuth } from '../contexts/authContext';
 import CatchButton from '../components/atoms/CatchButton';
 import CatchList from '../components/organisms/CatchList';
+import { date } from 'yup/lib/locale';
 
 const Home = (): React.ReactNode => {
   const user = useAuth();
@@ -26,7 +27,18 @@ const Home = (): React.ReactNode => {
         <>
           <div className="p-5 pt-12">
             <h1 className="p-3">Your last catches</h1>
-            <CatchList />
+            <CatchList
+              features={[
+                'image',
+                'species',
+                'weight',
+                'length',
+                'method',
+                'bait',
+                'date',
+                'time',
+              ]}
+            />
           </div>
           <CatchButton />
         </>
