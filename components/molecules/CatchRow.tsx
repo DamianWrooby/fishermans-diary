@@ -1,13 +1,6 @@
 import Image from 'next/image';
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalCloseButton,
-  useDisclosure,
-} from '@chakra-ui/react';
+import { useDisclosure } from '@chakra-ui/react';
+import CatchCard from './CatchCard';
 
 interface Data {
   author_uid: string;
@@ -26,9 +19,14 @@ interface Data {
 type CatchRowProps = {
   data: Data;
   rowFeatures: Array<string>;
+  removeRowCallback: () => void;
 };
 
-const CatchRow = ({ data, rowFeatures }: CatchRowProps): JSX.Element => {
+const CatchRow = ({
+  data,
+  rowFeatures,
+  removeRowCallback,
+}: CatchRowProps): JSX.Element => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -63,28 +61,14 @@ const CatchRow = ({ data, rowFeatures }: CatchRowProps): JSX.Element => {
             </p>
           );
         })}
-        <div className="w-4 absolute right-2 top-2 rounded-full transition duration-200 ease-in-out opacity-0 group-hover:opacity-100	transform hover:scale-125">
+        <div
+          onClick={removeRowCallback}
+          className="w-4 absolute right-2 top-2 rounded-full transition duration-200 ease-in-out opacity-0 group-hover:opacity-100	transform hover:scale-125"
+        >
           <img src="/remove.svg" />
         </div>
       </div>
-
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>{`${
-            data.species.charAt(0).toUpperCase() + data.species.slice(1)
-          } - ${data.weight}kg / ${data.length}cm`}</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <Image
-              src={data.image}
-              alt={data.species}
-              width={400}
-              height={300}
-            />
-          </ModalBody>
-        </ModalContent>
-      </Modal>
+      <CatchCard data={data} open={isOpen} close={onClose} />
     </>
   );
 };

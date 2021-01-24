@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { db } from '../../services/firebase';
 import { useAuth } from '../../contexts/authContext';
 import CustomUploadButton from 'react-firebase-file-uploader/lib/CustomUploadButton';
@@ -42,7 +42,7 @@ const CatchForm = ({
   const coords = passCoords;
 
   const {
-    data: { uid },
+    data: { uid, displayName, email, photoURL },
   } = useAuth();
 
   const now = new Date();
@@ -81,6 +81,9 @@ const CatchForm = ({
       console.log(coords, time, imageURL);
       await db.collection('catches').add({
         author_uid: uid,
+        author_name: displayName,
+        author_email: email,
+        author_photo: photoURL,
         date: date,
         time: time,
         coords: coords,
@@ -259,7 +262,7 @@ const CatchForm = ({
               <div className="flex flex-row items-end justify-end">
                 {isUploading && (
                   <div className="relative left-20 -top-8">
-                    <p className="text-xs">Uploading: {uploadProgress}</p>
+                    <p className="text-xs">Uploading: {uploadProgress}%</p>
                   </div>
                 )}
                 <CustomUploadButton

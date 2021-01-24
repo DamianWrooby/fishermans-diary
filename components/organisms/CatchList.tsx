@@ -1,9 +1,33 @@
 import { useEffect, useState } from 'react';
-import CatchRow from '../atoms/CatchRow';
+import CatchRow from '../molecules/CatchRow';
 import { db } from '../../services/firebase';
 
 type CatchListProps = {
   features: Array<string>;
+};
+
+const dynamicSort = (property) => {
+  let sortOrder = 1;
+  if (property[0] === '-') {
+    sortOrder = -1;
+    property = property.substr(1);
+  }
+  return function (a, b) {
+    const result =
+      a[property] < b[property] ? -1 : a[property] > b[property] ? 1 : 0;
+    return result * sortOrder;
+  };
+};
+
+const fetchCatches = async (handleSetCatches, handleSetSorting) => {
+  const results = await db.collection('catches').get();
+  const tmp = [];
+  results.docs.map((doc) => {
+    tmp.push({ id: doc.id, ...doc.data() });
+  });
+  tmp.sort(dynamicSort('-date'));
+  handleSetSorting('-date');
+  handleSetCatches(tmp);
 };
 
 const CatchList = ({ features }: CatchListProps): JSX.Element => {
@@ -11,29 +35,8 @@ const CatchList = ({ features }: CatchListProps): JSX.Element => {
   const [sorting, setSorting] = useState('date');
 
   useEffect(() => {
-    const fetchCatches = async () => {
-      const results = await db.collection('catches').get();
-      const tmp = [];
-      results.docs.map((doc) => {
-        tmp.push({ id: doc.id, ...doc.data() });
-      });
-      setCatches(tmp);
-    };
-    fetchCatches();
+    fetchCatches(setCatches, setSorting);
   }, []);
-
-  const dynamicSort = (property) => {
-    let sortOrder = 1;
-    if (property[0] === '-') {
-      sortOrder = -1;
-      property = property.substr(1);
-    }
-    return function (a, b) {
-      const result =
-        a[property] < b[property] ? -1 : a[property] > b[property] ? 1 : 0;
-      return result * sortOrder;
-    };
-  };
 
   const sortRows = (id: string) => {
     let sortedCatches = [];
@@ -45,6 +48,20 @@ const CatchList = ({ features }: CatchListProps): JSX.Element => {
       sortedCatches = catches.sort(dynamicSort(id));
     }
     setCatches(sortedCatches);
+  };
+
+  const handleRemoveRow = (event, id) => {
+    event.stopPropagation();
+    db.collection('catches')
+      .doc(id)
+      .delete()
+      .then(function () {
+        console.log('Document successfully deleted!');
+      })
+      .catch(function (error) {
+        console.error('Error removing document: ', error);
+      });
+    fetchCatches(setCatches, setSorting);
   };
 
   return (
@@ -62,13 +79,13 @@ const CatchList = ({ features }: CatchListProps): JSX.Element => {
               <p>{feature}</p>
               {sorting === feature && (
                 <img
-                  className="w-2 ml-2 transform rotate-90"
+                  className="w-2 ml-2 transform -rotate-90"
                   src="/arrow.svg"
                 />
               )}
               {sorting === `-${feature}` && (
                 <img
-                  className="w-2 ml-2 transform -rotate-90"
+                  className="w-2 ml-2 transform rotate-90"
                   src="/arrow.svg"
                 />
               )}
@@ -77,7 +94,14 @@ const CatchList = ({ features }: CatchListProps): JSX.Element => {
         })}
       </div>
       {catches.map((el) => {
-        return <CatchRow rowFeatures={features} key={el.id} data={el} />;
+        return (
+          <CatchRow
+            rowFeatures={features}
+            key={el.id}
+            removeRowCallback={(e) => handleRemoveRow(e, el.id)}
+            data={el}
+          />
+        );
       })}
     </>
   );
