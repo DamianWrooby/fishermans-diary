@@ -16,6 +16,7 @@ import {
   FormErrorMessage,
   Button,
   Select,
+  Switch,
   useColorModeValue,
   Box,
 } from '@chakra-ui/react';
@@ -93,6 +94,7 @@ const CatchForm = ({
         method: values.method,
         bait: values.bait,
         image: imageURL,
+        private: values.private,
       });
       setSendBtnText('Success');
       window.setTimeout(() => {
@@ -133,6 +135,7 @@ const CatchForm = ({
             length: undefined,
             method: '',
             bait: '',
+            private: false,
           }}
           validationSchema={CatchFormSchema}
           onSubmit={submitForm}
@@ -257,6 +260,16 @@ const CatchForm = ({
                       </FormErrorMessage>
                     </FormControl>
                   </Box>
+                )}
+              </Field>
+              <Field name="private">
+                {({ field, form }) => (
+                  <FormControl display="flex" alignItems="center">
+                    <FormLabel htmlFor="private" mb="0">
+                      Private
+                    </FormLabel>
+                    <Switch id="private" {...field} />
+                  </FormControl>
                 )}
               </Field>
               <div className="flex flex-row items-end justify-end">

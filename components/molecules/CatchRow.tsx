@@ -19,7 +19,7 @@ interface Data {
 type CatchRowProps = {
   data: Data;
   rowFeatures: Array<string>;
-  removeRowCallback: () => void;
+  removeRowCallback: (e: EventListenerObject) => void;
 };
 
 const CatchRow = ({
