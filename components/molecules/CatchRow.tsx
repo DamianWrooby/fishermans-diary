@@ -2,6 +2,8 @@ import Image from 'next/image';
 import { useDisclosure } from '@chakra-ui/react';
 import CatchCard from './CatchCard';
 
+// IMPROVE IMAGE QUALITY
+
 interface Data {
   author_uid: string;
   bait: string;
@@ -19,13 +21,13 @@ interface Data {
 type CatchRowProps = {
   data: Data;
   rowFeatures: Array<string>;
-  removeRowCallback: (e: EventListenerObject) => void;
+  handleRemove: (e: EventListenerObject) => void;
 };
 
 const CatchRow = ({
   data,
   rowFeatures,
-  removeRowCallback,
+  handleRemove,
 }: CatchRowProps): JSX.Element => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -62,7 +64,7 @@ const CatchRow = ({
           );
         })}
         <div
-          onClick={removeRowCallback}
+          onClick={handleRemove}
           className="w-4 absolute right-2 top-2 rounded-full transition duration-200 ease-in-out opacity-0 group-hover:opacity-100	transform hover:scale-125"
         >
           <img src="/remove.svg" />

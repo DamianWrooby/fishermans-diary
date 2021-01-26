@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
+import { useDisclosure } from '@chakra-ui/react';
 import CatchRow from '../molecules/CatchRow';
+import ConfirmationDialog from '../molecules/ConfirmationDialog';
 import { db } from '../../services/firebase';
 
 type CatchListProps = {
@@ -33,9 +35,13 @@ const fetchCatches = async (handleSetCatches, handleSetSorting) => {
 const CatchList = ({ features }: CatchListProps): JSX.Element => {
   const [catches, setCatches] = useState([]);
   const [sorting, setSorting] = useState('date');
+  const [elementToRemove, setElementToRemove] = useState('');
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
     fetchCatches(setCatches, setSorting);
+    console.log('onOpen:', onOpen);
   }, []);
 
   const sortRows = (id: string) => {
@@ -50,8 +56,13 @@ const CatchList = ({ features }: CatchListProps): JSX.Element => {
     setCatches(sortedCatches);
   };
 
-  const handleRemoveRow = (event, id) => {
+  const prepareRemove = (event, id) => {
     event.stopPropagation();
+    setElementToRemove(id);
+    onOpen();
+  };
+
+  const removeRow = (id) => {
     db.collection('catches')
       .doc(id)
       .delete()
@@ -62,6 +73,7 @@ const CatchList = ({ features }: CatchListProps): JSX.Element => {
         console.error('Error removing document: ', error);
       });
     fetchCatches(setCatches, setSorting);
+    onClose();
   };
 
   return (
@@ -98,11 +110,19 @@ const CatchList = ({ features }: CatchListProps): JSX.Element => {
           <CatchRow
             rowFeatures={features}
             key={el.id}
-            removeRowCallback={(e) => handleRemoveRow(e, el.id)}
+            handleRemove={(e) => prepareRemove(e, el.id)}
             data={el}
           />
         );
       })}
+      <ConfirmationDialog
+        handleIsOpen={isOpen}
+        handleOnClose={onClose}
+        handleAction={() => removeRow(elementToRemove)}
+        text="Do you really want to delete this catch?"
+        confirmButtonText="Delete"
+        cancelButtonText="Cancel"
+      />
     </>
   );
 };

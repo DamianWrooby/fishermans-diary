@@ -22,6 +22,9 @@ import {
 } from '@chakra-ui/react';
 import * as Yup from 'yup';
 
+// MAKE DISABLE SUBMIT BUTTON DURING UPLOADING
+// SET MAX FILE SIZE
+
 type FormProps = {
   passCoords: Array<Number>;
   closeFormCallback: () => void;
