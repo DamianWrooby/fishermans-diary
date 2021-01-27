@@ -23,8 +23,6 @@ const CatchMap = ({
 }: MapProps): JSX.Element => {
   const mapRef: Ref<any> = useRef(null);
 
-  console.log('CatchMap rendered');
-
   const fishMarker: Feature = new Feature({
     geometry: new Point(fromLonLat([18, 53])),
     name: 'Berlin',
@@ -79,7 +77,6 @@ const CatchMap = ({
     });
 
     if ('geolocation' in navigator) {
-      console.log('Geolocation API available');
       let currPosition;
 
       const errorCallback = (err: any): void => {
@@ -107,7 +104,6 @@ const CatchMap = ({
             position.coords.longitude,
             position.coords.latitude,
           ]);
-          console.log('Dynamic position changed:', currPosition);
           userMarker.setGeometry(new Point(currPosition));
         }, errorCallback);
       };

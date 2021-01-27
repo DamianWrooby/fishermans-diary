@@ -1,11 +1,10 @@
-import { IconButton, useColorMode } from '@chakra-ui/react';
-import { RiSunLine, RiMoonLine } from 'react-icons/ri';
 import Link from 'next/link';
+import DarkModeToggler from '../atoms/DarkModeToggler';
 import { useAuth } from '../../contexts/authContext';
 
 const Menu = (): JSX.Element => {
   const user = useAuth();
-  const { colorMode, toggleColorMode } = useColorMode();
+
   return (
     <div className="w-full justify-between flex flex-row">
       <nav className="p-4">
@@ -63,11 +62,7 @@ const Menu = (): JSX.Element => {
           </nav>
         )}
         <div className="p-1 mr-4">
-          <IconButton
-            aria-label="Toggle dark mode"
-            onClick={toggleColorMode}
-            icon={colorMode === 'light' ? <RiMoonLine /> : <RiSunLine />}
-          />
+          <DarkModeToggler />
         </div>
       </div>
     </div>

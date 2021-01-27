@@ -13,18 +13,31 @@ const CatchCard = ({ data, open, close }) => {
     <Modal isOpen={open} onClose={close}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>{`${
+        <ModalHeader className="pb-0">{`${
           data.species.charAt(0).toUpperCase() + data.species.slice(1)
         } - ${data.weight}kg / ${data.length}cm`}</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
+          <div className="flex flex-row text-sm -mt-3 text-gray-100">
+            <p className="mr-3">
+              <strong>Method: </strong>
+              {`${data.method}`}
+            </p>
+            <p className="mr-3">
+              <strong>Bait: </strong>
+              {`${data.bait}`}
+            </p>
+          </div>
+
           {data.image ? (
-            <Image
-              src={data.image}
-              alt={data.species}
-              width={400}
-              height={300}
-            />
+            <div className="w-full h-80 relative">
+              <Image
+                src={data.image}
+                alt={data.species}
+                layout="fill"
+                objectFit="contain"
+              />
+            </div>
           ) : null}
         </ModalBody>
       </ModalContent>

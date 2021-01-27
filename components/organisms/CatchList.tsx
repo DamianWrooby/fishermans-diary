@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDisclosure } from '@chakra-ui/react';
+import Image from 'next/image';
 import CatchRow from '../molecules/CatchRow';
 import ConfirmationDialog from '../molecules/ConfirmationDialog';
 import { db } from '../../services/firebase';
@@ -89,10 +90,13 @@ const CatchList = ({ features }: CatchListProps): JSX.Element => {
             >
               <p>{feature}</p>
               {sorting === feature && (
-                <img
-                  className="w-2 ml-2 transform -rotate-90"
-                  src="/arrow.svg"
-                />
+                // <img
+                //   className="fill-current text-green-500 w-2 ml-2 transform -rotate-90"
+                //   src="/arrow.svg"
+                // />
+                <div className="fill-current text-green-500 w-2 ml-2 transform -rotate-90">
+                  <Image src="/arrow.svg" width={24} height={24} />
+                </div>
               )}
               {sorting === `-${feature}` && (
                 <img

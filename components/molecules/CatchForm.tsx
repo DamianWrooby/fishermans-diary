@@ -23,9 +23,6 @@ import {
 import * as Yup from 'yup';
 import { SpeciesList } from '../../data/SpeciesList';
 
-// MAKE DISABLE SUBMIT BUTTON DURING UPLOADING
-// SET MAX FILE SIZE
-
 type FormProps = {
   passCoords: Array<Number>;
   closeFormCallback: () => void;
@@ -329,7 +326,7 @@ const CatchForm = ({
                 mt={4}
                 colorScheme="teal"
                 type="submit"
-                isDisabled={!props.isValid || sending}
+                isDisabled={!props.isValid || sending || isUploading}
               >
                 {sendBtnText}
               </Button>

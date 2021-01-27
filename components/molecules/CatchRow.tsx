@@ -32,7 +32,7 @@ const CatchRow = ({
   return (
     <>
       <div
-        className="group w-full max-w-screen-lg bordered border rounded-lg flex flex-row justify-between p-3 mb-4 items-center cursor-pointer hover:bg-gray-800 hover:border-white transform hover:-translate-y-1 hover:translate-x-1 transition duration-100 ease-in-out"
+        className="group w-full max-w-screen-lg bordered border rounded-lg flex flex-row justify-between p-3 mb-4 items-center cursor-pointer bg-transparent hover:bg-gray-100 dark:hover:bg-gray-800 hover:border-gray-800 dark:hover:border-white  transform hover:-translate-y-1 hover:translate-x-1 transition duration-100 ease-in-out"
         onClick={onOpen}
       >
         {rowFeatures.map((feature) => {
@@ -40,12 +40,12 @@ const CatchRow = ({
             <div key={feature} className={`w-1/${rowFeatures.length}`}>
               {data.image ? (
                 <>
-                  <div className="flex justify-center rounded-full w-16 h-16 overflow-hidden bg-blue-300 p-0">
+                  <div className="flex relative justify-center rounded-full w-16 h-16 overflow-hidden bg-blue-300 p-0">
                     <Image
                       src={data.image}
                       alt={data.species}
-                      width={256}
-                      height={256}
+                      layout="fill"
+                      objectFit="cover"
                     />
                   </div>
                 </>

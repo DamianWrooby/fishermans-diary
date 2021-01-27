@@ -34,7 +34,11 @@ const ConfirmationDialog = ({
         <ModalCloseButton />
         <ModalBody margin="auto">
           <ButtonGroup marginBottom="1rem" variant="outline" spacing="6">
-            <Button onClick={handleAction} colorScheme="red">
+            <Button
+              onClick={handleAction}
+              borderColor="red.400"
+              color="red.400"
+            >
               {confirmButtonText}
             </Button>
             <Button onClick={handleOnClose}>{cancelButtonText}</Button>
