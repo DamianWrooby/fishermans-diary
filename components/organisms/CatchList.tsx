@@ -41,7 +41,6 @@ const CatchList = ({ features }: CatchListProps): JSX.Element => {
 
   useEffect(() => {
     fetchCatches(setCatches, setSorting);
-    console.log('onOpen:', onOpen);
   }, []);
 
   const sortRows = (id: string) => {

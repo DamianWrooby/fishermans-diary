@@ -46,8 +46,8 @@ const CatchRow = ({
                     <Image
                       src={data.image}
                       alt={data.species}
-                      width={64}
-                      height={64}
+                      width={256}
+                      height={256}
                     />
                   </div>
                 </>

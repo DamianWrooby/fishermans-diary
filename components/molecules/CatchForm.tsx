@@ -21,6 +21,7 @@ import {
   Box,
 } from '@chakra-ui/react';
 import * as Yup from 'yup';
+import { SpeciesList } from '../../data/SpeciesList';
 
 // MAKE DISABLE SUBMIT BUTTON DURING UPLOADING
 // SET MAX FILE SIZE
@@ -153,8 +154,10 @@ const CatchForm = ({
                         Species
                       </FormLabel>
                       <Select size="sm" placeholder="Select option" {...field}>
-                        <option value="perch">Perch</option>
-                        <option value="carp">Carp</option>
+                        {SpeciesList.sort().map((el) => {
+                          return <option value={el}>{el.toUpperCase()}</option>;
+                        })}
+                        ;
                       </Select>
                     </FormControl>
                   </Box>
