@@ -9,6 +9,15 @@ import {
   ButtonGroup,
 } from '@chakra-ui/react';
 
+type ConfirmationDialogProps = {
+  handleIsOpen: boolean;
+  handleAction: () => void;
+  handleOnClose: () => void;
+  text: string;
+  confirmButtonText: string;
+  cancelButtonText: string;
+};
+
 const ConfirmationDialog = ({
   handleIsOpen,
   handleAction,
@@ -16,7 +25,7 @@ const ConfirmationDialog = ({
   text,
   confirmButtonText,
   cancelButtonText,
-}): JSX.Element => {
+}: ConfirmationDialogProps): JSX.Element => {
   return (
     <Modal isOpen={handleIsOpen} onClose={handleOnClose} isCentered>
       <ModalOverlay />

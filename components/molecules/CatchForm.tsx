@@ -66,7 +66,8 @@ const CatchForm = ({
   const handleProgress = (progress: number) => setUploadProgress(progress);
   const handleUploadError = (error) => {
     setIsUploading(false);
-    setUploadErrorMessage(error);
+    console.log(error);
+    setUploadErrorMessage(error.message);
   };
   const handleUploadSuccess = (filename: string) => {
     setImage(filename);
@@ -155,7 +156,11 @@ const CatchForm = ({
                       </FormLabel>
                       <Select size="sm" placeholder="Select option" {...field}>
                         {SpeciesList.sort().map((el) => {
-                          return <option value={el}>{el.toUpperCase()}</option>;
+                          return (
+                            <option key={el} value={el}>
+                              {el.toUpperCase()}
+                            </option>
+                          );
                         })}
                         ;
                       </Select>
@@ -163,70 +168,76 @@ const CatchForm = ({
                   </Box>
                 )}
               </Field>
-              <Field name="weight">
-                {({ field, form }) => (
-                  <Box mb="5">
-                    <FormControl
-                      isInvalid={form.errors.weight && form.touched.weight}
-                      isRequired
-                    >
-                      <FormLabel mb="1" htmlFor="weight">
-                        Weight (kg)
-                      </FormLabel>
-                      <NumberInput
-                        size="sm"
-                        {...field}
-                        onChange={(val) => form.setFieldValue(field.name, val)}
-                        id="weight"
-                        defaultValue={0}
-                        precision={3}
-                        step={0.1}
+              <div className="flex flex-row justify-between">
+                <Field name="weight">
+                  {({ field, form }) => (
+                    <Box w="45%" mb="5">
+                      <FormControl
+                        isInvalid={form.errors.weight && form.touched.weight}
+                        isRequired
                       >
-                        <NumberInputField />
-                        <NumberInputStepper>
-                          <NumberIncrementStepper />
-                          <NumberDecrementStepper />
-                        </NumberInputStepper>
-                      </NumberInput>
-                      <FormErrorMessage mb="5">
-                        {props.errors.weight}
-                      </FormErrorMessage>
-                    </FormControl>
-                  </Box>
-                )}
-              </Field>
-              <Field name="length">
-                {({ field, form }) => (
-                  <Box mb="5">
-                    <FormControl
-                      isInvalid={form.errors.length && form.touched.length}
-                      isRequired
-                    >
-                      <FormLabel mb="1" htmlFor="length">
-                        Length (cm)
-                      </FormLabel>
-                      <NumberInput
-                        size="sm"
-                        {...field}
-                        onChange={(val) => form.setFieldValue(field.name, val)}
-                        id="length"
-                        defaultValue={0}
-                        precision={0}
-                        step={1}
+                        <FormLabel mb="1" htmlFor="weight">
+                          Weight (kg)
+                        </FormLabel>
+                        <NumberInput
+                          size="sm"
+                          {...field}
+                          onChange={(val) =>
+                            form.setFieldValue(field.name, val)
+                          }
+                          id="weight"
+                          defaultValue={0}
+                          precision={3}
+                          step={0.1}
+                        >
+                          <NumberInputField />
+                          <NumberInputStepper>
+                            <NumberIncrementStepper />
+                            <NumberDecrementStepper />
+                          </NumberInputStepper>
+                        </NumberInput>
+                        <FormErrorMessage>
+                          {props.errors.weight}
+                        </FormErrorMessage>
+                      </FormControl>
+                    </Box>
+                  )}
+                </Field>
+                <Field name="length">
+                  {({ field, form }) => (
+                    <Box w="45%" mb="5">
+                      <FormControl
+                        isInvalid={form.errors.length && form.touched.length}
+                        isRequired
                       >
-                        <NumberInputField />
-                        <NumberInputStepper>
-                          <NumberIncrementStepper />
-                          <NumberDecrementStepper />
-                        </NumberInputStepper>
-                      </NumberInput>
-                      <FormErrorMessage mb="5">
-                        {props.errors.length}
-                      </FormErrorMessage>
-                    </FormControl>
-                  </Box>
-                )}
-              </Field>
+                        <FormLabel mb="1" htmlFor="length">
+                          Length (cm)
+                        </FormLabel>
+                        <NumberInput
+                          size="sm"
+                          {...field}
+                          onChange={(val) =>
+                            form.setFieldValue(field.name, val)
+                          }
+                          id="length"
+                          defaultValue={0}
+                          precision={0}
+                          step={1}
+                        >
+                          <NumberInputField />
+                          <NumberInputStepper>
+                            <NumberIncrementStepper />
+                            <NumberDecrementStepper />
+                          </NumberInputStepper>
+                        </NumberInput>
+                        <FormErrorMessage>
+                          {props.errors.length}
+                        </FormErrorMessage>
+                      </FormControl>
+                    </Box>
+                  )}
+                </Field>
+              </div>
               <Field name="method">
                 {({ field, form }) => (
                   <Box mb="5">

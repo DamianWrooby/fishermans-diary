@@ -2,8 +2,6 @@ import Image from 'next/image';
 import { useDisclosure } from '@chakra-ui/react';
 import CatchCard from './CatchCard';
 
-// IMPROVE IMAGE QUALITY
-
 interface Data {
   author_uid: string;
   bait: string;
@@ -21,7 +19,7 @@ interface Data {
 type CatchRowProps = {
   data: Data;
   rowFeatures: Array<string>;
-  handleRemove: (e: EventListenerObject) => void;
+  handleRemove: (e: React.MouseEvent<HTMLInputElement>) => void;
 };
 
 const CatchRow = ({
