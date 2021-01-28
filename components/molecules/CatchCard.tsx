@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import PinIcon from '../../public/pin.svg';
 import {
   Modal,
   ModalOverlay,
@@ -18,15 +19,28 @@ const CatchCard = ({ data, open, close }) => {
         } - ${data.weight}kg / ${data.length}cm`}</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <div className="flex flex-row text-sm -mt-3 text-gray-100">
-            <p className="mr-3">
-              <strong>Method: </strong>
-              {`${data.method}`}
-            </p>
-            <p className="mr-3">
-              <strong>Bait: </strong>
-              {`${data.bait}`}
-            </p>
+          <div className="flex flex-row">
+            <div className="w-3/4">
+              <div className="flex flex-row text-sm -mt-3 text-gray-100">
+                <p className="mr-3">
+                  <strong>Method: </strong>
+                  {`${data.method}`}
+                </p>
+                <p className="mr-3">
+                  <strong>Bait: </strong>
+                  {`${data.bait}`}
+                </p>
+              </div>
+              <div className="flex flex-row  text-sm text-gray-400">
+                <p>{`Catched ${data.date} at ${data.time}`}</p>
+              </div>
+            </div>
+            <div className="flex flex-row w-1/4 text-sm">
+              <p>
+                <PinIcon className="w-4 mr-2 inline fill-current dark:text-white" />
+                Show on map
+              </p>
+            </div>
           </div>
 
           {data.image ? (

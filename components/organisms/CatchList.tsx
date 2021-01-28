@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useDisclosure } from '@chakra-ui/react';
-import Image from 'next/image';
 import CatchRow from '../molecules/CatchRow';
 import Arrow from '../../public/arrow.svg';
 import ConfirmationDialog from '../molecules/ConfirmationDialog';
