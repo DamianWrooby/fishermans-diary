@@ -20,8 +20,8 @@ const CatchCard = ({ data, open, close }) => {
         <ModalCloseButton />
         <ModalBody>
           <div className="flex flex-row">
-            <div className="w-3/4">
-              <div className="flex flex-row text-sm -mt-3 text-gray-100">
+            <div className="w-2/3">
+              <div className="flex flex-row items-end text-sm -mt-3 text-gray-100">
                 <p className="mr-3">
                   <strong>Method: </strong>
                   {`${data.method}`}
@@ -35,9 +35,9 @@ const CatchCard = ({ data, open, close }) => {
                 <p>{`Catched ${data.date} at ${data.time}`}</p>
               </div>
             </div>
-            <div className="flex flex-row w-1/4 text-sm">
-              <p>
-                <PinIcon className="w-4 mr-2 inline fill-current dark:text-white" />
+            <div className="flex flex-row group w-1/3 text-sm cursor-pointer">
+              <p className="group">
+                <PinIcon className="w-4 -mt-1 mr-1 inline fill-current transform transition duration-300  group-hover:rotate-12 dark:text-white" />
                 Show on map
               </p>
             </div>

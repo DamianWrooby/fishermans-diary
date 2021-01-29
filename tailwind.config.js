@@ -826,7 +826,7 @@ module.exports = {
     ringOffsetWidth: ['responsive', 'focus-within', 'focus'],
     ringOpacity: ['responsive', 'focus-within', 'focus'],
     ringWidth: ['responsive', 'focus-within', 'focus'],
-    rotate: ['responsive', 'hover', 'focus'],
+    rotate: ['responsive', 'hover', 'group-hover', 'focus'],
     scale: ['responsive', 'hover', 'focus'],
     skew: ['responsive', 'hover', 'focus'],
     space: ['responsive'],
