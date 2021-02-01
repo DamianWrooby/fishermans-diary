@@ -6,7 +6,6 @@ const DarkModeToggler = (): JSX.Element => {
   const { colorMode, toggleColorMode } = useColorMode();
 
   useEffect(() => {
-    console.log(localStorage.theme);
     if (
       localStorage.theme === 'dark' ||
       (!('theme' in localStorage) &&
