@@ -15,30 +15,15 @@ import { fromLonLat, toLonLat } from 'ol/proj';
 type MapProps = {
   getDataCallback: (args: Array<Number>) => void;
   showFormCallback: () => void;
+  catchMarkersCoords?: Array<Array<Number>>;
 };
 
 const CatchMap = ({
   getDataCallback,
   showFormCallback,
+  catchMarkersCoords,
 }: MapProps): JSX.Element => {
   const mapRef: Ref<any> = useRef(null);
-
-  const fishMarker: Feature = new Feature({
-    geometry: new Point(fromLonLat([18, 53])),
-    name: 'Berlin',
-    population: 40000,
-    rainfall: 500,
-  });
-  fishMarker.setStyle(
-    new Style({
-      image: new Icon({
-        crossOrigin: 'anonymous',
-        // For Internet Explorer 11
-        scale: 0.04,
-        src: '/fish.svg',
-      }),
-    })
-  );
 
   useEffect(() => {
     const polandLonLat: Array<Number> = [19.408318, 52.121216];
@@ -69,6 +54,26 @@ const CatchMap = ({
         zoom: 6,
       }),
     });
+
+    if (catchMarkersCoords) {
+      catchMarkersCoords.forEach((el) => {
+        const catchMarker: Feature = new Feature({
+          geometry: new Point(fromLonLat(el)),
+          name: 'Catch',
+        });
+        catchMarker.setStyle(
+          new Style({
+            image: new Icon({
+              crossOrigin: 'anonymous',
+              // For Internet Explorer 11
+              scale: 0.04,
+              src: '/fish.svg',
+            }),
+          })
+        );
+        vectorSource.addFeature(catchMarker);
+      });
+    }
 
     map.on('click', (evt) => {
       const coords = toLonLat(evt.coordinate);
@@ -122,6 +127,9 @@ const CatchMap = ({
         );
       };
 
+      watchLocation();
+      centerOnUser();
+
       const button: HTMLButtonElement = document.createElement('button');
       button.innerHTML = '<div class="center-btn-icon"></div>';
       const element: HTMLDivElement = document.createElement('div');
@@ -130,13 +138,8 @@ const CatchMap = ({
         map.getView().animate({ zoom: 19, center: currPosition });
       });
       element.appendChild(button);
-
       const centerBtn = new Control({ element: element });
-
       map.addControl(centerBtn);
-
-      watchLocation();
-      centerOnUser();
     }
 
     return () => {
