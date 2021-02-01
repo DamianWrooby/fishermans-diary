@@ -7,7 +7,6 @@ import Menu from '../components/molecules/Menu';
 import { useAuth } from '../contexts/authContext';
 import CatchButton from '../components/atoms/CatchButton';
 import CatchList from '../components/organisms/CatchList';
-import { date } from 'yup/lib/locale';
 
 const Home = (): React.ReactNode => {
   const user = useAuth();
