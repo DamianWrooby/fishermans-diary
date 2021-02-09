@@ -3,14 +3,11 @@ import { useEffect } from 'react';
 import { RiSunLine, RiMoonLine } from 'react-icons/ri';
 
 const DarkModeToggler = (): JSX.Element => {
-  const { colorMode, toggleColorMode } = useColorMode();
+  let { colorMode, toggleColorMode } = useColorMode();
 
   useEffect(() => {
-    if (
-      localStorage.theme === 'dark' ||
-      (!('theme' in localStorage) &&
-        window.matchMedia('(prefers-color-scheme: dark)').matches)
-    ) {
+    console.log(localStorage.theme, colorMode);
+    if (colorMode === 'dark') {
       document.documentElement.classList.add('dark');
       document.documentElement.classList.remove('light');
     } else {
