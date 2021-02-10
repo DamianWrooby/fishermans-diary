@@ -58,6 +58,8 @@ const CatchRow = ({
           ) : (
             <p key={feature} className={`w-1/${rowFeatures.length}`}>
               {data[feature]}
+              {feature === 'weight' ? ' kg' : null}
+              {feature === 'length' ? ' cm' : null}
             </p>
           );
         })}
