@@ -27,6 +27,7 @@ const Home = (): React.ReactNode => {
           <div className="p-5 pt-12">
             <h1 className="p-3">Your last catches</h1>
             <CatchList
+              amount={5}
               features={[
                 'image',
                 'species',

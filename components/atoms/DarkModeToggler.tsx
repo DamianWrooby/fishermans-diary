@@ -14,6 +14,7 @@ const DarkModeToggler = (): JSX.Element => {
       document.documentElement.classList.remove('dark');
       document.documentElement.classList.add('light');
     }
+    console.log(localStorage.theme, colorMode);
   }, []);
 
   const changeColorMode = (): void => {

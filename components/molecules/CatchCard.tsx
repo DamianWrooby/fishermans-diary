@@ -70,7 +70,7 @@ const CatchCard = ({ data, open, close }) => {
           <ModalHeader></ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <MemoCardMap />
+            <MemoCardMap catchMarkerCoords={data.coords} />
           </ModalBody>
         </ModalContent>
       </Modal>

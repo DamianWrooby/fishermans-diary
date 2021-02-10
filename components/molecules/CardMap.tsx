@@ -9,19 +9,16 @@ import VectorSource from 'ol/source/Vector';
 import VectorLayer from 'ol/layer/Vector';
 import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
-import Control from 'ol/control/Control';
-import { fromLonLat, toLonLat } from 'ol/proj';
+import { fromLonLat } from 'ol/proj';
 
 type CardMapProps = {
-  catchMarkersCoords?: Array<Array<Number>>;
+  catchMarkerCoords: Array<Number>;
 };
 
-const CardMap = ({ catchMarkersCoords }: CardMapProps): JSX.Element => {
+const CardMap = ({ catchMarkerCoords }: CardMapProps): JSX.Element => {
   const mapRef: Ref<any> = useRef(null);
 
   useEffect(() => {
-    const polandLonLat: Array<Number> = [19.408318, 52.121216];
-    const polandWebMercator: Array<Number> = fromLonLat(polandLonLat);
     let id;
 
     const source = new TileJSON({
@@ -44,29 +41,27 @@ const CardMap = ({ catchMarkersCoords }: CardMapProps): JSX.Element => {
       target: mapRef.current,
       view: new View({
         constrainResolution: true,
-        center: polandWebMercator,
-        zoom: 6,
+        center: fromLonLat(catchMarkerCoords),
+        zoom: 19,
       }),
     });
 
-    if (catchMarkersCoords) {
-      catchMarkersCoords.forEach((el) => {
-        const catchMarker: Feature = new Feature({
-          geometry: new Point(fromLonLat(el)),
-          name: 'Catch',
-        });
-        catchMarker.setStyle(
-          new Style({
-            image: new Icon({
-              crossOrigin: 'anonymous',
-              // For Internet Explorer 11
-              scale: 0.04,
-              src: '/fish.svg',
-            }),
-          })
-        );
-        vectorSource.addFeature(catchMarker);
+    if (catchMarkerCoords) {
+      const catchMarker: Feature = new Feature({
+        geometry: new Point(fromLonLat(catchMarkerCoords)),
+        name: 'Catch',
       });
+      catchMarker.setStyle(
+        new Style({
+          image: new Icon({
+            crossOrigin: 'anonymous',
+            // For Internet Explorer 11
+            scale: 0.04,
+            src: '/fish.svg',
+          }),
+        })
+      );
+      vectorSource.addFeature(catchMarker);
     }
 
     // map.on('click', (evt) => {
@@ -155,7 +150,7 @@ const CardMap = ({ catchMarkersCoords }: CardMapProps): JSX.Element => {
 };
 
 export const MemoCardMap = memo(CardMap, (prevProps, nextProps) => {
-  if (prevProps.catchMarkersCoords === nextProps.catchMarkersCoords) {
+  if (prevProps.catchMarkerCoords === nextProps.catchMarkerCoords) {
     return true;
   } else {
     return false;

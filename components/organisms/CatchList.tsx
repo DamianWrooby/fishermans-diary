@@ -7,6 +7,7 @@ import { db } from '../../services/firebase';
 
 type CatchListProps = {
   features: Array<string>;
+  amount?: number;
 };
 
 const dynamicSort = (property) => {
@@ -22,23 +23,24 @@ const dynamicSort = (property) => {
   };
 };
 
-const fetchCatches = async (handleSetCatches, handleSetSorting) => {
-  const results = await db.collection('catches').get();
-  const tmp = [];
-  results.docs.map((doc) => {
-    tmp.push({ id: doc.id, ...doc.data() });
-  });
-  tmp.sort(dynamicSort('-date'));
-  handleSetSorting('-date');
-  handleSetCatches(tmp);
-};
-
-const CatchList = ({ features }: CatchListProps): JSX.Element => {
+const CatchList = ({ features, amount }: CatchListProps): JSX.Element => {
   const [catches, setCatches] = useState([]);
   const [sorting, setSorting] = useState('date');
   const [elementToRemove, setElementToRemove] = useState('');
 
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const fetchCatches = async (handleSetCatches, handleSetSorting) => {
+    const results = await db.collection('catches').get();
+    const tmp = [];
+    results.docs.map((doc) => {
+      tmp.push({ id: doc.id, ...doc.data() });
+    });
+
+    tmp.sort(dynamicSort('-date'));
+    handleSetSorting('-date');
+    amount ? handleSetCatches(tmp.splice(0, amount)) : handleSetCatches(tmp);
+  };
 
   useEffect(() => {
     fetchCatches(setCatches, setSorting);
