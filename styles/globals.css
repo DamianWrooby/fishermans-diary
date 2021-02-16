@@ -1,3 +1,7 @@
+li,
+div {
+  transition: all 0.2s ease-in-out;
+}
 .ol-attribution {
   display: none;
 }

@@ -87,34 +87,36 @@ const CatchList = ({ features, amount }: CatchListProps): JSX.Element => {
           ) : (
             <div
               key={feature}
-              className={`w-1/${features.length} flex flex-row cursor-pointer`}
+              className={`w-1/${features.length} flex flex-row cursor-pointer invisible sm:visible`}
               onClick={() => sortRows(feature)}
             >
               <p>{feature}</p>
               {sorting === feature && (
                 <div className="w-2 ml-3 transform -rotate-90">
-                  <Arrow className="fill-current dark:text-white" />
+                  <Arrow className="fill-current dark:text-white invisible sm:visible" />
                 </div>
               )}
               {sorting === `-${feature}` && (
                 <div className="w-2 -ml-1 transform rotate-90">
-                  <Arrow className="fill-current dark:text-white" />
+                  <Arrow className="fill-current dark:text-white invisible sm:visible" />
                 </div>
               )}
             </div>
           );
         })}
       </div>
-      {catches.map((el) => {
-        return (
-          <CatchRow
-            rowFeatures={features}
-            key={el.id}
-            handleRemove={(e) => prepareRemove(e, el.id)}
-            data={el}
-          />
-        );
-      })}
+      <div className="flex flex-row flex-wrap sm:flex-col justify-around">
+        {catches.map((el) => {
+          return (
+            <CatchRow
+              rowFeatures={features}
+              key={el.id}
+              handleRemove={(e) => prepareRemove(e, el.id)}
+              data={el}
+            />
+          );
+        })}
+      </div>
       <ConfirmationDialog
         handleIsOpen={isOpen}
         handleOnClose={onClose}

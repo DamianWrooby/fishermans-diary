@@ -3,31 +3,22 @@ import Head from 'next/head';
 import { Button } from '@chakra-ui/react';
 import Link from 'next/link';
 import { FaArrowRight } from 'react-icons/fa';
-import Menu from '../components/molecules/Menu';
-import { useAuth } from '../contexts/authContext';
-import CatchButton from '../components/atoms/CatchButton';
-import CatchList from '../components/organisms/CatchList';
+import Menu from '../../components/molecules/Menu';
+import { useAuth } from '../../contexts/authContext';
+import CatchButton from '../../components/atoms/CatchButton';
+import CatchList from '../../components/organisms/CatchList';
 
 const Home = (): React.ReactNode => {
   const user = useAuth();
 
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
-
   return (
     <div className="h-screen">
-      <Head>
-        <title>Fisherman&apos;s Diary</title>
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-      </Head>
       <Menu />
       {user.data ? (
         <>
           <div className="p-5 pt-12">
-            <h1 className="p-3">Your last catches</h1>
+            <h1 className="p-3">All your catches</h1>
             <CatchList
-              amount={5}
               features={[
                 'image',
                 'species',
@@ -39,9 +30,6 @@ const Home = (): React.ReactNode => {
                 'time',
               ]}
             />
-            <div className="text-sm dark:hover:text-blue-200 hover:text-blue-500">
-              <a href="/catches/my-catches">Show all</a>
-            </div>
           </div>
           <CatchButton />
         </>

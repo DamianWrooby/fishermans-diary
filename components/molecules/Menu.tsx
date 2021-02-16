@@ -1,18 +1,61 @@
 import Link from 'next/link';
 import DarkModeToggler from '../atoms/DarkModeToggler';
 import { useAuth } from '../../contexts/authContext';
+import { useRouter } from 'next/router';
 
 const Menu = (): JSX.Element => {
   const user = useAuth();
+  const router = useRouter();
 
   return (
     <div className="w-full justify-between flex flex-row">
       <nav className="p-4">
-        <Link href="/">
-          <a href="/" className="p-1">
-            Home
-          </a>
-        </Link>
+        {user.data ? (
+          <ul className="flex flex-row">
+            <li
+              className={
+                router.pathname == '/'
+                  ? 'dark:text-blue-300 text-blue-500'
+                  : 'dark:hover:text-blue-300 hover:text-blue-500'
+              }
+            >
+              <Link href="/">
+                <a href="/" className="p-1">
+                  Home
+                </a>
+              </Link>
+            </li>
+            <li
+              className={
+                router.pathname == '/catches/my-catches'
+                  ? 'dark:text-blue-300 text-blue-500'
+                  : 'dark:hover:text-blue-300 hover:text-blue-500'
+              }
+            >
+              <Link href="/catches/my-catches">
+                <a href="/catches/my-catches" className="p-1">
+                  My catches
+                </a>
+              </Link>
+            </li>
+          </ul>
+        ) : (
+          <ul className="flex flex-row">
+            <li
+              className={
+                router.pathname == '/catches/my-catches'
+                  ? 'dark:text-blue-300 text-blue-500'
+                  : 'dark:hover:text-blue-300 hover:text-blue-500'
+              }
+            >
+              <Link href="/">
+                <a href="/" className="p-1">
+                  Home
+                </a>
+              </Link>
+            </li>
+          </ul>
+        )}
       </nav>
       <div className="flex flex-row items-center">
         {user.data ? (
@@ -25,7 +68,7 @@ const Menu = (): JSX.Element => {
                       <div className="w-8 h-8 mr-2 rounded-full bg-gray-300 overflow-hidden">
                         <img src={user.data.photoURL} />
                       </div>
-                      <div className="mr-2">
+                      <div className="mr-2 hover:text-blue-300">
                         {user.data.displayName
                           ? user.data.displayName
                           : user.data.email}
@@ -36,7 +79,7 @@ const Menu = (): JSX.Element => {
                       <div className="p-1 w-8 h-8 mr-2 rounded-full bg-gray-300 overflow-hidden">
                         <img src="/user.svg" />
                       </div>
-                      <div className="mr-2">
+                      <div className="mr-2 hover:text-blue-300">
                         {user.data.displayName
                           ? user.data.displayName
                           : user.data.email}
