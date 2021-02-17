@@ -8,32 +8,21 @@ const DarkModeToggler = (): JSX.Element => {
   useEffect(() => {
     console.log(localStorage.theme, colorMode);
     if (colorMode === 'dark') {
+      localStorage.setItem('theme', 'dark');
       document.documentElement.classList.add('dark');
       document.documentElement.classList.remove('light');
     } else {
-      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
       document.documentElement.classList.add('light');
+      document.documentElement.classList.remove('dark');
     }
     console.log(localStorage.theme, colorMode);
-  }, []);
-
-  const changeColorMode = (): void => {
-    toggleColorMode();
-    if (colorMode === 'light') {
-      document.documentElement.classList.add('dark');
-      document.documentElement.classList.remove('light');
-      localStorage.setItem('theme', 'dark');
-    } else if (colorMode === 'dark') {
-      document.documentElement.classList.add('light');
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
-    }
-  };
+  }, [colorMode]);
 
   return (
     <IconButton
       aria-label="Toggle dark mode"
-      onClick={changeColorMode}
+      onClick={toggleColorMode}
       icon={colorMode === 'light' ? <RiMoonLine /> : <RiSunLine />}
     />
   );

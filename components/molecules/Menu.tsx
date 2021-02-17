@@ -92,16 +92,34 @@ const Menu = (): JSX.Element => {
           </div>
         ) : (
           <nav className="p-4 mr-2">
-            <Link href="/login">
-              <a href="/login" className="p-3">
-                Sign In
-              </a>
-            </Link>
-            <Link href="/create-account">
-              <a href="/create-account" className="p-3">
-                Sign Up
-              </a>
-            </Link>
+            <ul className="flex flex-row">
+              <li
+                className={
+                  router.pathname == '/login'
+                    ? 'dark:text-blue-300 text-blue-500'
+                    : 'dark:hover:text-blue-300 hover:text-blue-500'
+                }
+              >
+                <Link href="/login">
+                  <a href="/login" className="p-3">
+                    Sign In
+                  </a>
+                </Link>
+              </li>
+              <li
+                className={
+                  router.pathname == '/create-account'
+                    ? 'dark:text-blue-300 text-blue-500'
+                    : 'dark:hover:text-blue-300 hover:text-blue-500'
+                }
+              >
+                <Link href="/create-account">
+                  <a href="/create-account" className="p-3">
+                    Sign Up
+                  </a>
+                </Link>
+              </li>
+            </ul>
           </nav>
         )}
         <div className="p-1 mr-4">
