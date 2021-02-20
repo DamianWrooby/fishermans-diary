@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 import Head from 'next/head';
 import { Button } from '@chakra-ui/react';
 import Link from 'next/link';
@@ -7,9 +8,14 @@ import Menu from '../components/molecules/Menu';
 import { useAuth } from '../contexts/authContext';
 import CatchButton from '../components/atoms/CatchButton';
 import CatchList from '../components/organisms/CatchList';
+import en from '../translations/en';
+import pl from '../translations/pl';
 
 const Home = (): React.ReactNode => {
   const user = useAuth();
+  const router = useRouter();
+  const { locale } = router;
+  const t = locale === 'en' ? en : pl;
 
   useEffect(() => {
     console.log(user);
@@ -25,7 +31,7 @@ const Home = (): React.ReactNode => {
       {user.data ? (
         <>
           <div className="p-5 pt-12">
-            <h1 className="p-3">Your last catches</h1>
+            <h1 className="p-3">{t.yourlastcatches}</h1>
             <CatchList
               amount={5}
               features={[
@@ -40,18 +46,17 @@ const Home = (): React.ReactNode => {
               ]}
             />
             <div className="text-sm dark:hover:text-blue-200 hover:text-blue-500">
-              <a href="/catches/my-catches">Show all</a>
+              <a href="/catches/my-catches">{t.showall}</a>
             </div>
           </div>
           <CatchButton />
         </>
       ) : (
         <div className="container flex flex-col justify-center items-center h-screen">
-          <p className="p-2">You have to sign in.</p>
           <Link href="/login">
             <a href="/login" className="p-2">
               <Button colorScheme="blue" size="sm">
-                Sign in
+                {t.signin}
               </Button>
             </a>
           </Link>
@@ -63,7 +68,7 @@ const Home = (): React.ReactNode => {
                 variant="outline"
                 size="sm"
               >
-                Create account
+                {t.createaccount}
               </Button>
             </a>
           </Link>

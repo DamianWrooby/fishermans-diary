@@ -2,7 +2,6 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { Button } from '@chakra-ui/react';
 import Link from 'next/link';
-import { OnViewportBoxUpdate } from 'framer-motion/types/motion/features/layout/types';
 import { useAuth } from '../contexts/authContext';
 import { signOut } from '../services/firebase';
 import Menu from '../components/molecules/Menu';

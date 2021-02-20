@@ -2,10 +2,15 @@ import Link from 'next/link';
 import DarkModeToggler from '../atoms/DarkModeToggler';
 import { useAuth } from '../../contexts/authContext';
 import { useRouter } from 'next/router';
+import en from '../../translations/en';
+import pl from '../../translations/pl';
+import LanguageToggler from '../atoms/LanguageToggler';
 
 const Menu = (): JSX.Element => {
   const user = useAuth();
   const router = useRouter();
+  const { locale } = router;
+  const t = locale === 'en' ? en : pl;
 
   return (
     <div className="w-full justify-between flex flex-row">
@@ -21,7 +26,7 @@ const Menu = (): JSX.Element => {
             >
               <Link href="/">
                 <a href="/" className="p-1">
-                  Home
+                  {t.home}
                 </a>
               </Link>
             </li>
@@ -34,7 +39,7 @@ const Menu = (): JSX.Element => {
             >
               <Link href="/catches/my-catches">
                 <a href="/catches/my-catches" className="p-1">
-                  My catches
+                  {t.mycatches}
                 </a>
               </Link>
             </li>
@@ -50,7 +55,7 @@ const Menu = (): JSX.Element => {
             >
               <Link href="/">
                 <a href="/" className="p-1">
-                  Home
+                  {t.home}
                 </a>
               </Link>
             </li>
@@ -102,7 +107,7 @@ const Menu = (): JSX.Element => {
               >
                 <Link href="/login">
                   <a href="/login" className="p-3">
-                    Sign In
+                    {t.signin}
                   </a>
                 </Link>
               </li>
@@ -115,13 +120,16 @@ const Menu = (): JSX.Element => {
               >
                 <Link href="/create-account">
                   <a href="/create-account" className="p-3">
-                    Sign Up
+                    {t.signup}
                   </a>
                 </Link>
               </li>
             </ul>
           </nav>
         )}
+        <div className="p-1 mr-4">
+          <LanguageToggler />
+        </div>
         <div className="p-1 mr-4">
           <DarkModeToggler />
         </div>

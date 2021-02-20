@@ -13,10 +13,8 @@ module.exports = withTM({
 
     return config;
   },
+  i18n: {
+    locales: ['en', 'pl'],
+    defaultLocale: 'en',
+  },
 });
-
-// module.exports = {
-//   images: {
-//     domains: ['firebasestorage.googleapis.com'],
-//   },
-// };
