@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { Button } from '@chakra-ui/react';
 import { useAuth } from '../contexts/authContext';
 import { deleteUser } from '../services/firebase';
-import Menu from '../components/molecules/Menu';
+import Layout from '../layouts/layout';
 
 const DeleteAccount = (): JSX.Element => {
   const user = useAuth();
@@ -19,8 +19,7 @@ const DeleteAccount = (): JSX.Element => {
   }, []);
 
   return (
-    <>
-      <Menu />
+    <Layout>
       {user.isAuthenticated ? (
         <div className="container flex flex-col justify-center items-center h-screen">
           <p className="p-2">Are you crazy?</p>
@@ -34,7 +33,7 @@ const DeleteAccount = (): JSX.Element => {
           </Button>
         </div>
       ) : null}
-    </>
+    </Layout>
   );
 };
 

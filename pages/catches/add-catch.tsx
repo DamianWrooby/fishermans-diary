@@ -9,7 +9,7 @@ import {
   ModalCloseButton,
   useDisclosure,
 } from '@chakra-ui/react';
-import Menu from '../../components/molecules/Menu';
+import Layout from '../../layouts/layout';
 import { MemoCatchMap } from '../../components/molecules/CatchMap';
 import CatchForm from '../../components/molecules/CatchForm';
 import { useAuth } from '../../contexts/authContext';
@@ -25,8 +25,7 @@ const AddCatch = (): React.ReactNode => {
   };
 
   return (
-    <div className="h-screen">
-      <Menu />
+    <Layout>
       {user.isAuthenticated ? (
         <>
           <MemoCatchMap getDataCallback={getData} showFormCallback={onOpen} />
@@ -52,7 +51,7 @@ const AddCatch = (): React.ReactNode => {
           .
         </p>
       )}
-    </div>
+    </Layout>
   );
 };
 

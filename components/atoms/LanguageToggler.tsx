@@ -1,13 +1,18 @@
+import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { parseCookies, setCookie } from 'nookies';
 
 const LanguageToggler = (): JSX.Element => {
   const router = useRouter();
+  const { locale } = useRouter();
+  const cookies = parseCookies();
+
+  useEffect(() => {
+    console.log({ cookies });
+  }, []);
 
   const changeLan = (lan) => {
-    const cookies = parseCookies();
-    console.log({ cookies });
-    setCookie(null, 'NEXT_LOCALE', lan, { maxAge: 30 * 24 * 60 * 60 });
+    setCookie(null, 'NEXT_LOCALE', lan, { maxAge: 1 * 2 * 60 * 60 });
     if (lan === 'en') {
       router.push(`/en${router.pathname}`, `/en${router.pathname}`, {
         locale: 'en',
@@ -18,12 +23,29 @@ const LanguageToggler = (): JSX.Element => {
         locale: 'pl',
       });
     }
+    console.log({ cookies });
   };
 
   return (
-    <div className="inline">
-      <button onClick={() => changeLan('en')}>EN</button>/
-      <button onClick={() => changeLan('pl')}>PL</button>
+    <div className="inline text-xs">
+      <button
+        className={
+          locale === 'en' ? 'text-white' : 'text-gray-500 hover:text-white'
+        }
+        onClick={() => changeLan('en')}
+      >
+        EN{' '}
+      </button>
+      <span> / </span>
+      <button
+        className={
+          locale === 'pl' ? 'text-white' : 'text-gray-500 hover:text-white'
+        }
+        onClick={() => changeLan('pl')}
+      >
+        {' '}
+        PL
+      </button>
     </div>
   );
 };

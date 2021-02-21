@@ -1,12 +1,11 @@
 import SignUpForm from '../components/molecules/SignUpForm';
-import Menu from '../components/molecules/Menu';
+import Layout from '../layouts/layout';
 
 const CreateAccount: React.ReactNode = () => {
   return (
-    <>
-      <Menu />
+    <Layout>
       <SignUpForm />
-    </>
+    </Layout>
   );
 };
 

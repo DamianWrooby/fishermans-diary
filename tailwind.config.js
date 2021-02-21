@@ -718,6 +718,11 @@ module.exports = {
       40: '40',
       50: '50',
     },
+    extend: {
+      colors: {
+        'bg-gray':'#1A202C',
+      }
+    }
   },
   variantOrder: [
     'first',

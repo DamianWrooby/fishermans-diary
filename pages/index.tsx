@@ -4,7 +4,7 @@ import Head from 'next/head';
 import { Button } from '@chakra-ui/react';
 import Link from 'next/link';
 import { FaArrowRight } from 'react-icons/fa';
-import Menu from '../components/molecules/Menu';
+import Layout from '../layouts/layout';
 import { useAuth } from '../contexts/authContext';
 import CatchButton from '../components/atoms/CatchButton';
 import CatchList from '../components/organisms/CatchList';
@@ -19,15 +19,16 @@ const Home = (): React.ReactNode => {
 
   useEffect(() => {
     console.log(user);
+    console.log('locale:', locale);
   }, [user]);
 
   return (
-    <div className="h-screen">
+    <Layout>
       <Head>
         <title>Fisherman&apos;s Diary</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <meta name="description" content="Fishbook - every angler's diary" />
       </Head>
-      <Menu />
       {user.data ? (
         <>
           <div className="p-5 pt-12">
@@ -52,7 +53,7 @@ const Home = (): React.ReactNode => {
           <CatchButton />
         </>
       ) : (
-        <div className="container flex flex-col justify-center items-center h-screen">
+        <div className="container flex flex-col justify-center items-center h-screen -my-16">
           <Link href="/login">
             <a href="/login" className="p-2">
               <Button colorScheme="blue" size="sm">
@@ -74,7 +75,7 @@ const Home = (): React.ReactNode => {
           </Link>
         </div>
       )}
-    </div>
+    </Layout>
   );
 };
 

@@ -19,7 +19,7 @@ const Menu = (): JSX.Element => {
           <ul className="flex flex-row">
             <li
               className={
-                router.pathname == '/'
+                router.pathname == '/login'
                   ? 'dark:text-blue-300 text-blue-500'
                   : 'dark:hover:text-blue-300 hover:text-blue-500'
               }
@@ -48,7 +48,7 @@ const Menu = (): JSX.Element => {
           <ul className="flex flex-row">
             <li
               className={
-                router.pathname == '/catches/my-catches'
+                router.pathname == '/'
                   ? 'dark:text-blue-300 text-blue-500'
                   : 'dark:hover:text-blue-300 hover:text-blue-500'
               }

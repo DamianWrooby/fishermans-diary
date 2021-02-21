@@ -4,7 +4,7 @@ import { Button } from '@chakra-ui/react';
 import Link from 'next/link';
 import { useAuth } from '../contexts/authContext';
 import { signOut } from '../services/firebase';
-import Menu from '../components/molecules/Menu';
+import Layout from '../layouts/layout';
 
 const Account: React.FC<React.ReactNode> = () => {
   const user = useAuth();
@@ -27,8 +27,7 @@ const Account: React.FC<React.ReactNode> = () => {
   }, [user]);
 
   return (
-    <>
-      <Menu />
+    <Layout>
       {user.data ? (
         <div className="flex flex-col justify-center items-center h-screen">
           <p className="p-2">{`Welcome ${user.data.email}`}</p>
@@ -47,7 +46,7 @@ const Account: React.FC<React.ReactNode> = () => {
           </Link>
         </div>
       ) : null}
-    </>
+    </Layout>
   );
 };
 

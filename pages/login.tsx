@@ -3,7 +3,7 @@ import { FaFacebook, FaGoogle } from 'react-icons/fa';
 import { useRouter } from 'next/router';
 import SignInForm from '../components/molecules/SignInForm';
 import { fbAuth, gAuth } from '../services/firebase';
-import Menu from '../components/molecules/Menu';
+import Layout from '../layouts/layout';
 import { useAuth } from '../contexts/authContext';
 
 const Login = (): JSX.Element => {
@@ -26,9 +26,8 @@ const Login = (): JSX.Element => {
   };
 
   return (
-    <>
-      <div className="container h-screen flex flex-col">
-        <Menu />
+    <Layout>
+      <div className="container py-16 flex flex-col">
         <div className="w-full h-full flex flex-col justify-center items-center">
           {user.data ? (
             <p>You're logged in.</p>
@@ -60,7 +59,7 @@ const Login = (): JSX.Element => {
           )}
         </div>
       </div>
-    </>
+    </Layout>
   );
 };
 
