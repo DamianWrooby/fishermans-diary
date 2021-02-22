@@ -27,7 +27,7 @@ const Login = (): JSX.Element => {
 
   return (
     <Layout>
-      <div className="container py-16 flex flex-col">
+      <div className="py-16 flex flex-col">
         <div className="w-full h-full flex flex-col justify-center items-center">
           {user.data ? (
             <p>You're logged in.</p>

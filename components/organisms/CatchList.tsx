@@ -4,6 +4,7 @@ import CatchRow from '../molecules/CatchRow';
 import Arrow from '../../public/arrow.svg';
 import ConfirmationDialog from '../molecules/ConfirmationDialog';
 import { db } from '../../services/firebase';
+import { useCollection } from '@nandorojo/swr-firestore';
 
 type CatchListProps = {
   features: Array<string>;
@@ -27,24 +28,24 @@ const CatchList = ({ features, amount }: CatchListProps): JSX.Element => {
   const [catches, setCatches] = useState([]);
   const [sorting, setSorting] = useState('date');
   const [elementToRemove, setElementToRemove] = useState('');
-
   const { isOpen, onOpen, onClose } = useDisclosure();
-
-  const fetchCatches = async (handleSetCatches, handleSetSorting) => {
-    const results = await db.collection('catches').get();
-    const tmp = [];
-    results.docs.map((doc) => {
-      tmp.push({ id: doc.id, ...doc.data() });
-    });
-
-    tmp.sort(dynamicSort('-date'));
-    handleSetSorting('-date');
-    amount ? handleSetCatches(tmp.splice(0, amount)) : handleSetCatches(tmp);
-  };
+  const { data, error } = useCollection(`catches`, {
+    limit: amount,
+    listen: true,
+  });
 
   useEffect(() => {
-    fetchCatches(setCatches, setSorting);
-  }, []);
+    console.log(data);
+    const tmp = [];
+    if (data) {
+      data.map((doc) => {
+        tmp.push({ id: doc.id, ...doc });
+      });
+    }
+    tmp.sort(dynamicSort('-date'));
+    setSorting('-date');
+    setCatches(tmp);
+  }, [data]);
 
   const sortRows = (id: string) => {
     let sortedCatches = [];
@@ -74,7 +75,7 @@ const CatchList = ({ features, amount }: CatchListProps): JSX.Element => {
       .catch(function (error) {
         console.error('Error removing document: ', error);
       });
-    fetchCatches(setCatches, setSorting);
+    // fetchCatches(setCatches, setSorting);
     onClose();
   };
 
@@ -105,7 +106,9 @@ const CatchList = ({ features, amount }: CatchListProps): JSX.Element => {
           );
         })}
       </div>
-      <div className="flex flex-row flex-wrap sm:flex-col justify-around">
+      {error ? <p>Fetching data error</p> : null}
+      {!data ? <p>Loading...</p> : null}
+      <div className="flex flex-row flex-wrap sm:flex-col justify-around px-16 sm:px-0">
         {catches.map((el) => {
           return (
             <CatchRow

@@ -1,15 +1,9 @@
-import { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { parseCookies, setCookie } from 'nookies';
+import { setCookie } from 'nookies';
 
 const LanguageToggler = (): JSX.Element => {
   const router = useRouter();
   const { locale } = useRouter();
-  const cookies = parseCookies();
-
-  useEffect(() => {
-    console.log({ cookies });
-  }, []);
 
   const changeLan = (lan) => {
     setCookie(null, 'NEXT_LOCALE', lan, { maxAge: 1 * 2 * 60 * 60 });
@@ -18,12 +12,10 @@ const LanguageToggler = (): JSX.Element => {
         locale: 'en',
       });
     } else if (lan === 'pl') {
-      console.log(router.pathname);
       router.push(`/pl${router.pathname}`, `/pl${router.pathname}`, {
         locale: 'pl',
       });
     }
-    console.log({ cookies });
   };
 
   return (

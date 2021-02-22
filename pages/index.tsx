@@ -19,7 +19,6 @@ const Home = (): React.ReactNode => {
 
   useEffect(() => {
     console.log(user);
-    console.log('locale:', locale);
   }, [user]);
 
   return (
@@ -31,10 +30,10 @@ const Home = (): React.ReactNode => {
       </Head>
       {user.data ? (
         <>
-          <div className="p-5 pt-12">
-            <h1 className="p-3">{t.yourlastcatches}</h1>
+          <div className="p-5 pt-12 pb-12">
+            <h2 className="p-3">{t.yourlastcatches}</h2>
             <CatchList
-              amount={5}
+              amount={3}
               features={[
                 'image',
                 'species',
@@ -50,10 +49,24 @@ const Home = (): React.ReactNode => {
               <a href="/catches/my-catches">{t.showall}</a>
             </div>
           </div>
+          <div className="p-5 pt-12 pb-12">
+            <h2 className="p-3">Fishes recently catched by others</h2>
+            <CatchList
+              amount={5}
+              features={[
+                'image',
+                'species',
+                'weight',
+                'length',
+                'date',
+                'time',
+              ]}
+            />
+          </div>
           <CatchButton />
         </>
       ) : (
-        <div className="container flex flex-col justify-center items-center h-screen -my-16">
+        <div className="flex flex-col justify-center items-center w-full">
           <Link href="/login">
             <a href="/login" className="p-2">
               <Button colorScheme="blue" size="sm">

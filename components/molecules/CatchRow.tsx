@@ -32,7 +32,7 @@ const CatchRow = ({
   return (
     <>
       <div
-        className="group w-5/12 sm:w-full max-w-screen-lg bordered border rounded-lg flex flex-col sm:flex-row justify-start sm:justify-between p-3 mb-4 items-center cursor-pointer bg-transparent hover:bg-gray-100 dark:hover:bg-gray-800 hover:border-gray-800 dark:hover:border-white  transform hover:-translate-y-1 hover:translate-x-1 transition duration-100 ease-in-out"
+        className="group w-full sm:w-full max-w-screen-lg bordered border rounded-lg flex flex-col sm:flex-row justify-start sm:justify-between p-3 mb-4 items-center cursor-pointer bg-transparent hover:bg-gray-100 dark:hover:bg-gray-800 hover:border-gray-800 dark:hover:border-white  transform hover:-translate-y-1 hover:translate-x-1 transition duration-100 ease-in-out"
         onClick={onOpen}
       >
         {rowFeatures.map((feature) => {
@@ -63,7 +63,7 @@ const CatchRow = ({
           ) : (
             <p
               key={feature}
-              className={`text-sm sm:text-base sm:w-1/${rowFeatures.length} pr-2 uppercase`}
+              className={`text-xs md:text-sm sm:w-1/${rowFeatures.length} pr-2 uppercase`}
             >
               {data[feature]}
               {feature === 'weight' ? 'kg' : null}

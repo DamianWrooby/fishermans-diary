@@ -1,6 +1,6 @@
 export default {
   signin: 'Zaloguj się',
-  yourlastcatches: 'Ostatnie złowione ryby',
+  yourlastcatches: 'Twoje ostatnio złowione ryby',
   showall: 'Pokaż wszystkie',
   createaccount: 'Utwórz nowe konto',
   signin: 'Zaloguj się',

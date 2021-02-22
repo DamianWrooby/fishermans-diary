@@ -17,4 +17,5 @@ module.exports = withTM({
     locales: ['en', 'pl'],
     defaultLocale: 'en',
   },
+  reactStrictMode: true,
 });

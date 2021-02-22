@@ -13,7 +13,7 @@ interface firebaseConfiguration {
   appId: string;
 }
 
-const firebaseConfig: firebaseConfiguration = {
+export const firebaseConfig: firebaseConfiguration = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
   authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
   databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DB_URL,

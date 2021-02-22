@@ -60,7 +60,9 @@ const CatchCard = ({ data, open, close }) => {
                   objectFit="contain"
                 />
               </div>
-            ) : null}
+            ) : (
+              <div className="w-full h-80 relative"></div>
+            )}
           </ModalBody>
         </ModalContent>
       </Modal>
