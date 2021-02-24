@@ -7,4 +7,10 @@ export default {
   signup: 'Zarejestruj się',
   home: 'Strona Główna',
   mycatches: 'Moje połowy',
+  species: 'gatunek',
+  weight: 'waga',
+  length: 'wymiar',
+  date: 'data',
+  method: 'metoda',
+  bait: 'przynęta',
 };

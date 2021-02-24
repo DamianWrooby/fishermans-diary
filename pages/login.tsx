@@ -11,17 +11,21 @@ const Login = (): JSX.Element => {
   const router = useRouter();
 
   const fbLogin = () => {
-    fbAuth().then(() => {
-      router.push('/');
-    });
+    fbAuth()
+      .then(() => {
+        router.push('/');
+      })
+      .catch((error) => {
+        alert(error);
+      });
   };
   const gLogin = () => {
     gAuth()
       .then(() => {
         router.push('/');
       })
-      .catch((err) => {
-        console.warn(err);
+      .catch((error) => {
+        alert(error);
       });
   };
 

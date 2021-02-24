@@ -7,4 +7,10 @@ export default {
   signup: 'Sign up',
   home: 'Home',
   mycatches: 'My catches',
+  species: 'species',
+  weight: 'weight',
+  length: 'length',
+  date: 'date',
+  method: 'method',
+  bait: 'bait',
 };

@@ -8,7 +8,6 @@ interface Context {
   data: firebase.User | null;
   loading: boolean;
 }
-
 interface Props {
   children: React.ReactNode;
 }

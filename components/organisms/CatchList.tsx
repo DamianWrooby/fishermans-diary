@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useDisclosure } from '@chakra-ui/react';
+import { useRouter } from 'next/router';
 import CatchRow from '../molecules/CatchRow';
 import Arrow from '../../public/arrow.svg';
 import ConfirmationDialog from '../molecules/ConfirmationDialog';
 import { db } from '../../services/firebase';
 import { useCollection } from '@nandorojo/swr-firestore';
+import en from '../../translations/en';
+import pl from '../../translations/pl';
 
 type CatchListProps = {
   features: Array<string>;
@@ -33,6 +36,9 @@ const CatchList = ({ features, amount }: CatchListProps): JSX.Element => {
     limit: amount,
     listen: true,
   });
+  const router = useRouter();
+  const { locale } = router;
+  const t = locale === 'en' ? en : pl;
 
   useEffect(() => {
     console.log(data);
@@ -75,7 +81,6 @@ const CatchList = ({ features, amount }: CatchListProps): JSX.Element => {
       .catch(function (error) {
         console.error('Error removing document: ', error);
       });
-    // fetchCatches(setCatches, setSorting);
     onClose();
   };
 
@@ -91,7 +96,7 @@ const CatchList = ({ features, amount }: CatchListProps): JSX.Element => {
               className={`w-1/${features.length} flex flex-row cursor-pointer invisible sm:visible`}
               onClick={() => sortRows(feature)}
             >
-              <p>{feature}</p>
+              <p>{t[feature]}</p>
               {sorting === feature && (
                 <div className="w-2 ml-3 transform -rotate-90">
                   <Arrow className="fill-current dark:text-white invisible sm:visible" />
