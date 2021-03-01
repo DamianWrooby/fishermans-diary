@@ -1,14 +1,19 @@
 import { Button } from '@chakra-ui/react';
 import { FaFacebook, FaGoogle } from 'react-icons/fa';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 import SignInForm from '../components/molecules/SignInForm';
 import { fbAuth, gAuth } from '../services/firebase';
 import Layout from '../layouts/layout';
 import { useAuth } from '../contexts/authContext';
+import en from '../translations/en';
+import pl from '../translations/pl';
 
 const Login = (): JSX.Element => {
   const user = useAuth();
   const router = useRouter();
+  const { locale } = router;
+  const t = locale === 'en' ? en : pl;
 
   const fbLogin = () => {
     fbAuth()
@@ -31,15 +36,20 @@ const Login = (): JSX.Element => {
 
   return (
     <Layout>
-      <div className="py-16 flex flex-col">
+      <Head>
+        <title>{t.signinandcatchyourprfishfishbook}</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <meta name="description" content="Fishbook - every angler's diary" />
+      </Head>
+      <div className="pt-16 -mb-20 flex flex-col">
         <div className="w-full h-full flex flex-col justify-center items-center">
           {user.data ? (
-            <p>You're logged in.</p>
+            <p>{t.youreloggedin}</p>
           ) : (
             <>
               <SignInForm />
               <div className="p-4 flex flex-col">
-                <p className="m-auto p-4">OR</p>
+                <p className="m-auto p-4">{t.or}</p>
                 <Button
                   className="min-w-full m-2"
                   colorScheme="facebook"
@@ -47,7 +57,7 @@ const Login = (): JSX.Element => {
                   size="sm"
                   onClick={fbLogin}
                 >
-                  Login with Facebook
+                  {t.loginwithfacebook}
                 </Button>
                 <Button
                   className="min-w-full m-2"
@@ -56,7 +66,7 @@ const Login = (): JSX.Element => {
                   size="sm"
                   onClick={gLogin}
                 >
-                  Login with Google
+                  {t.loginwithgoogle}
                 </Button>
               </div>
             </>

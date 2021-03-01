@@ -13,11 +13,15 @@ import {
 } from '@chakra-ui/react';
 import * as Yup from 'yup';
 import { emailAuth } from '../../services/firebase';
+import en from '../../translations/en';
+import pl from '../../translations/pl';
 
 const SignInForm = (): JSX.Element => {
   const [show, setShow] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const router = useRouter();
+  const { locale } = router;
+  const t = locale === 'en' ? en : pl;
 
   const showHidden = (): void => {
     setShow(!show);
@@ -64,8 +68,8 @@ const SignInForm = (): JSX.Element => {
                       isInvalid={form.errors.email && form.touched.email}
                       isRequired
                     >
-                      <FormLabel htmlFor="email">Email address</FormLabel>
-                      <Input {...field} id="email" placeholder="email" />
+                      <FormLabel htmlFor="email">{t.email}</FormLabel>
+                      <Input {...field} id="email" placeholder={t.enteremail} />
                       <FormErrorMessage mb="5">
                         {props.errors.email}
                       </FormErrorMessage>
@@ -80,13 +84,13 @@ const SignInForm = (): JSX.Element => {
                       isInvalid={form.errors.password && form.touched.password}
                       isRequired
                     >
-                      <FormLabel htmlFor="password">Password</FormLabel>
+                      <FormLabel htmlFor="password">{t.password}</FormLabel>
                       <InputGroup size="md">
                         <Input
                           {...field}
                           pr="4.5rem"
                           type={show ? 'text' : 'password'}
-                          placeholder="Enter password"
+                          placeholder={t.enterpassword}
                         />
                         <InputRightElement width="4.5rem">
                           <Button h="1.75rem" size="sm" onClick={showHidden}>
@@ -109,13 +113,13 @@ const SignInForm = (): JSX.Element => {
                   type="submit"
                   isDisabled={!props.isValid}
                 >
-                  Sign In
+                  {t.signin}
                 </Button>
                 <a
                   className="mt-4 ml-auto mr-auto text-xs hover:text-gray-400"
                   href="/password-reset"
                 >
-                  Forgot password?
+                  {t.forgotpassword}
                 </a>
               </div>
             </Form>

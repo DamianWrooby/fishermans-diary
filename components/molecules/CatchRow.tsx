@@ -1,7 +1,9 @@
 import Image from 'next/image';
 import { useDisclosure } from '@chakra-ui/react';
+import { useRouter } from 'next/router';
 import CatchCard from './CatchCard';
-
+import en from '../../translations/en';
+import pl from '../../translations/pl';
 interface Data {
   author_uid: string;
   bait: string;
@@ -28,6 +30,9 @@ const CatchRow = ({
   handleRemove,
 }: CatchRowProps): JSX.Element => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const router = useRouter();
+  const { locale } = router;
+  const t = locale === 'en' ? en : pl;
 
   return (
     <>
@@ -36,6 +41,8 @@ const CatchRow = ({
         onClick={onOpen}
       >
         {rowFeatures.map((feature) => {
+          const noSpaceValue = data[feature].replace(' ', '');
+
           return feature === 'image' ? (
             <div
               key={feature}
@@ -65,9 +72,13 @@ const CatchRow = ({
               key={feature}
               className={`text-xs md:text-sm sm:w-1/${rowFeatures.length} pr-2 uppercase`}
             >
-              {data[feature]}
-              {feature === 'weight' ? 'kg' : null}
-              {feature === 'length' ? 'cm' : null}
+              {t[noSpaceValue] ? t[noSpaceValue] : data[feature]}
+              {feature === 'weight' ? (
+                <span className="lowercase"> kg</span>
+              ) : null}
+              {feature === 'length' ? (
+                <span className="lowercase"> cm</span>
+              ) : null}
             </p>
           );
         })}

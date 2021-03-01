@@ -31,7 +31,7 @@ const Home = (): React.ReactNode => {
       {user.data ? (
         <>
           <div className="p-5 pt-12 pb-12">
-            <h2 className="p-3">{t.yourlastcatches}</h2>
+            <h2 className="text-xl p-3">{t.yourlastcatches}</h2>
             <CatchList
               amount={3}
               features={[
@@ -50,7 +50,7 @@ const Home = (): React.ReactNode => {
             </div>
           </div>
           <div className="p-5 pt-12 pb-12">
-            <h2 className="p-3">Fishes recently catched by others</h2>
+            <h2 className="text-xl p-3">{t.fishesrecentlycatchedbysociety}</h2>
             <CatchList
               amount={5}
               features={[
