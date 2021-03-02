@@ -6,8 +6,8 @@ import Link from 'next/link';
 import { FaArrowRight } from 'react-icons/fa';
 import Layout from '../layouts/layout';
 import { useAuth } from '../contexts/authContext';
-import CatchButton from '../components/atoms/CatchButton';
-import CatchList from '../components/organisms/CatchList';
+import CatchButton from '../components/catches/CatchButton';
+import CatchList from '../components/catches/CatchList';
 import en from '../translations/en';
 import pl from '../translations/pl';
 

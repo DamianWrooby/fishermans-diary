@@ -2,7 +2,7 @@ import { Button } from '@chakra-ui/react';
 import { FaFacebook, FaGoogle } from 'react-icons/fa';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
-import SignInForm from '../components/molecules/SignInForm';
+import SignInForm from '../components/forms/SignInForm';
 import { fbAuth, gAuth } from '../services/firebase';
 import Layout from '../layouts/layout';
 import { useAuth } from '../contexts/authContext';

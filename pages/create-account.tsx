@@ -1,4 +1,4 @@
-import SignUpForm from '../components/molecules/SignUpForm';
+import SignUpForm from '../components/forms/SignUpForm';
 import Layout from '../layouts/layout';
 
 const CreateAccount: React.ReactNode = () => {

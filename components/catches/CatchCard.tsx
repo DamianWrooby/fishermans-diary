@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import PinIcon from '../../public/pin.svg';
-import { MemoCardMap } from '../molecules/CardMap';
+import { MemoCardMap } from './CardMap';
 import {
   Modal,
   ModalOverlay,

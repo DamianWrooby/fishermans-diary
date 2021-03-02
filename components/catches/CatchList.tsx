@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useDisclosure } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
-import CatchRow from '../molecules/CatchRow';
+import CatchRow from './CatchRow';
 import Arrow from '../../public/arrow.svg';
-import ConfirmationDialog from '../molecules/ConfirmationDialog';
+import ConfirmationDialog from './ConfirmationDialog';
 import { db } from '../../services/firebase';
 import { useCollection } from '@nandorojo/swr-firestore';
 import en from '../../translations/en';

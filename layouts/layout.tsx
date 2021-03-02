@@ -1,4 +1,4 @@
-import Menu from '../components/molecules/Menu';
+import Menu from '../components/menu/Menu';
 import Image from 'next/image';
 
 const Layout = ({ children }) => {
