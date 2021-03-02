@@ -12,13 +12,19 @@ const Menu = (): JSX.Element => {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
 
   const handleMobileOpen = (): void => {
-    isMobileOpen ? setIsMobileOpen(false) : setIsMobileOpen(true);
+    if (isMobileOpen) {
+      setIsMobileOpen(false);
+      document.body.style.overflow = 'unset';
+    } else {
+      setIsMobileOpen(true);
+      document.body.style.overflow = 'hidden';
+    }
   };
 
   return (
     <>
       <MenuButton open={isMobileOpen} handleClick={handleMobileOpen} />
-      <MobileMenu locale={locale} isOpen={isMobileOpen} />
+      <MobileMenu data={user.data} locale={locale} isOpen={isMobileOpen} />
       <DesktopMenu data={user.data} locale={locale} />
     </>
   );
