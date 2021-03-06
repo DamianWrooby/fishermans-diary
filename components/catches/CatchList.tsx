@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { useDisclosure } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
+import { useDisclosure } from '@chakra-ui/react';
+import CatchListHeader from './CatchListHeader';
 import CatchRow from './CatchRow';
-import Arrow from '../../public/arrow.svg';
 import ConfirmationDialog from './ConfirmationDialog';
 import { db } from '../../services/firebase';
 import { useCollection } from '@nandorojo/swr-firestore';
@@ -14,20 +14,7 @@ type CatchListProps = {
   amount?: number;
 };
 
-const dynamicSort = (property) => {
-  let sortOrder = 1;
-  if (property[0] === '-') {
-    sortOrder = -1;
-    property = property.substr(1);
-  }
-  return function (a, b) {
-    const result =
-      a[property] < b[property] ? -1 : a[property] > b[property] ? 1 : 0;
-    return result * sortOrder;
-  };
-};
-
-const CatchList = ({ features, amount }: CatchListProps): JSX.Element => {
+const CatchList = ({ features, amount }: CatchListProps) => {
   const [catches, setCatches] = useState([]);
   const [sorting, setSorting] = useState('date');
   const [elementToRemove, setElementToRemove] = useState('');
@@ -40,24 +27,54 @@ const CatchList = ({ features, amount }: CatchListProps): JSX.Element => {
   const { locale } = router;
   const t = locale === 'en' ? en : pl;
 
-  useEffect(() => {
-    console.log(data);
-    const tmp = [];
-    if (data) {
-      data.map((doc) => {
-        tmp.push({ id: doc.id, ...doc });
-      });
+  const dynamicSort = (property) => {
+    let sortOrder = 1;
+    if (property[0] === '-') {
+      sortOrder = -1;
+      property = property.substr(1);
     }
-    tmp.sort(dynamicSort('-date'));
-    setSorting('-date');
-    setCatches(tmp);
-  }, [data]);
+    return function (a, b) {
+      const result =
+        a[property] < b[property] ? -1 : a[property] > b[property] ? 1 : 0;
+      return result * sortOrder;
+    };
+  };
+
+  const translateCatches = (arr: typeof catches) => {
+    let translatedCatches: typeof catches = [];
+    let i: number = 0;
+    let noSpaceValue: string = '';
+
+    arr.forEach((obj) => {
+      translatedCatches[i] = {};
+      for (const property in obj) {
+        if (typeof obj[property] === 'string') {
+          noSpaceValue = obj[property].replace(' ', '');
+          translatedCatches[i][property] = t[noSpaceValue]
+            ? t[noSpaceValue]
+            : obj[property];
+        } else {
+          translatedCatches[i][property] = obj[property];
+        }
+      }
+      i++;
+    });
+    return translatedCatches;
+  };
 
   const sortRows = (id: string) => {
     let sortedCatches = [];
+    let translatedCatches = [];
+
     if (sorting === id) {
       setSorting(`-${id}`);
-      sortedCatches = catches.sort(dynamicSort(`-${id}`));
+      //* Translate  catches object's values if language is not en
+      if (t === en) {
+        sortedCatches = catches.sort(dynamicSort(`-${id}`));
+      } else {
+        translatedCatches = translateCatches(catches);
+        sortedCatches = translatedCatches.sort(dynamicSort(`-${id}`));
+      }
     } else {
       setSorting(id);
       sortedCatches = catches.sort(dynamicSort(id));
@@ -84,33 +101,26 @@ const CatchList = ({ features, amount }: CatchListProps): JSX.Element => {
     onClose();
   };
 
+  useEffect(() => {
+    const tmp = [];
+    if (data) {
+      data.map((doc) => {
+        tmp.push({ id: doc.id, ...doc });
+      });
+    }
+    tmp.sort(dynamicSort('-date'));
+    setSorting('-date');
+    setCatches(tmp);
+  }, [data]);
+
   return (
     <>
-      <div className="w-full max-w-screen-lg flex flex-row justify-between p-3 items-center">
-        {features.map((feature) => {
-          return feature === 'image' ? (
-            <p key={feature} className={`w-1/${features.length}`}></p>
-          ) : (
-            <div
-              key={feature}
-              className={`w-1/${features.length} flex flex-row cursor-pointer invisible sm:visible`}
-              onClick={() => sortRows(feature)}
-            >
-              <p>{t[feature]}</p>
-              {sorting === feature && (
-                <div className="w-2 ml-3 transform -rotate-90">
-                  <Arrow className="fill-current dark:text-white invisible sm:visible" />
-                </div>
-              )}
-              {sorting === `-${feature}` && (
-                <div className="w-2 -ml-1 transform rotate-90">
-                  <Arrow className="fill-current dark:text-white invisible sm:visible" />
-                </div>
-              )}
-            </div>
-          );
-        })}
-      </div>
+      <CatchListHeader
+        featureList={features}
+        sortingType={sorting}
+        onFeatureClick={sortRows}
+      />
+
       {error ? <p>Fetching data error</p> : null}
       {!data ? <p>Loading...</p> : null}
       <div className="flex flex-row flex-wrap sm:flex-col justify-around px-16 sm:px-0">

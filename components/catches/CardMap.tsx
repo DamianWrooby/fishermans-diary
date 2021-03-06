@@ -15,7 +15,7 @@ type CardMapProps = {
   catchMarkerCoords: Array<Number>;
 };
 
-const CardMap = ({ catchMarkerCoords }: CardMapProps): JSX.Element => {
+const CardMap = ({ catchMarkerCoords }: CardMapProps) => {
   const mapRef: Ref<any> = useRef(null);
 
   useEffect(() => {

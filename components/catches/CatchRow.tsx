@@ -24,11 +24,7 @@ type CatchRowProps = {
   handleRemove: (e: React.MouseEvent<HTMLInputElement>) => void;
 };
 
-const CatchRow = ({
-  data,
-  rowFeatures,
-  handleRemove,
-}: CatchRowProps): JSX.Element => {
+const CatchRow = ({ data, rowFeatures, handleRemove }: CatchRowProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const router = useRouter();
   const { locale } = router;

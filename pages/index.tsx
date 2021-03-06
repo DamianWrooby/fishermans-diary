@@ -1,13 +1,11 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
-import { Button } from '@chakra-ui/react';
-import Link from 'next/link';
-import { FaArrowRight } from 'react-icons/fa';
 import Layout from '../layouts/layout';
 import { useAuth } from '../contexts/authContext';
 import CatchButton from '../components/catches/CatchButton';
 import CatchList from '../components/catches/CatchList';
+import NoUserLinks from '../components/partials/NoUserLinks';
 import en from '../translations/en';
 import pl from '../translations/pl';
 
@@ -30,7 +28,7 @@ const Home = (): React.ReactNode => {
       </Head>
       {user.data ? (
         <>
-          <div className="p-5 pt-12 pb-12">
+          <section className="p-5 pt-12 pb-12">
             <h2 className="text-xl p-3">{t.yourlastcatches}</h2>
             <CatchList
               amount={3}
@@ -48,8 +46,8 @@ const Home = (): React.ReactNode => {
             <div className="text-sm dark:hover:text-blue-200 hover:text-blue-500">
               <a href="/catches/my-catches">{t.showall}</a>
             </div>
-          </div>
-          <div className="p-5 pt-12 pb-12">
+          </section>
+          <section className="p-5 pt-12 pb-12">
             <h2 className="text-xl p-3">{t.fishesrecentlycatchedbysociety}</h2>
             <CatchList
               amount={5}
@@ -62,31 +60,11 @@ const Home = (): React.ReactNode => {
                 'time',
               ]}
             />
-          </div>
+          </section>
           <CatchButton />
         </>
       ) : (
-        <div className="flex flex-col justify-center items-center w-full">
-          <Link href="/login">
-            <a href="/login" className="p-2">
-              <Button colorScheme="blue" size="sm">
-                {t.signin}
-              </Button>
-            </a>
-          </Link>
-          <Link href="/create-account">
-            <a href="/create-account" className="p-2">
-              <Button
-                rightIcon={<FaArrowRight />}
-                colorScheme="blue"
-                variant="outline"
-                size="sm"
-              >
-                {t.createaccount}
-              </Button>
-            </a>
-          </Link>
-        </div>
+        <NoUserLinks />
       )}
     </Layout>
   );

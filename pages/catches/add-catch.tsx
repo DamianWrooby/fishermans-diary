@@ -16,7 +16,7 @@ import { useAuth } from '../../contexts/authContext';
 import { MemoMapComponent } from '../../components/catches/MapComponent';
 import { fromLonLat } from 'ol/proj';
 
-const AddCatch = (): React.ReactNode => {
+const AddCatch = () => {
   const user = useAuth();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const polandLonLat: Array<Number> = [19.408318, 52.121216];

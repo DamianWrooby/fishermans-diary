@@ -22,7 +22,7 @@ const CatchMap = ({
   getDataCallback,
   showFormCallback,
   catchMarkersCoords,
-}: MapProps): JSX.Element => {
+}: MapProps) => {
   const mapRef: Ref<any> = useRef(null);
 
   useEffect(() => {
