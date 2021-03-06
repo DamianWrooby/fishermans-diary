@@ -30,14 +30,18 @@ const CatchMap = ({
     const polandWebMercator: Array<Number> = fromLonLat(polandLonLat);
     let id;
 
+    //* Define source
     const source = new TileJSON({
       url:
         'https://api.maptiler.com/maps/outdoor/tiles.json?key=GflTzOMvFDCYQ9RjOmMu',
       tileSize: 512,
       crossOrigin: 'anonymous',
     });
+
+    //* Define vectorSource
     const vectorSource = new VectorSource({});
 
+    //* Define map
     const map: Map = new Map({
       layers: [
         new TileLayer({
@@ -55,6 +59,7 @@ const CatchMap = ({
       }),
     });
 
+    //* Put markers on map
     if (catchMarkersCoords) {
       catchMarkersCoords.forEach((el) => {
         const catchMarker: Feature = new Feature({
@@ -75,12 +80,14 @@ const CatchMap = ({
       });
     }
 
+    //* Add event to map
     map.on('click', (evt) => {
       const coords = toLonLat(evt.coordinate);
       getDataCallback(coords);
       showFormCallback();
     });
 
+    //* Add geolocation functionality
     if ('geolocation' in navigator) {
       let currPosition;
 

@@ -21,14 +21,16 @@ const CardMap = ({ catchMarkerCoords }: CardMapProps): JSX.Element => {
   useEffect(() => {
     let id;
 
+    //* Define source
     const source = new TileJSON({
       url:
         'https://api.maptiler.com/maps/outdoor/tiles.json?key=GflTzOMvFDCYQ9RjOmMu',
       tileSize: 512,
       crossOrigin: 'anonymous',
     });
+    //* Define vectorSource
     const vectorSource = new VectorSource({});
-
+    //* Define map
     const map: Map = new Map({
       layers: [
         new TileLayer({
@@ -45,7 +47,7 @@ const CardMap = ({ catchMarkerCoords }: CardMapProps): JSX.Element => {
         zoom: 19,
       }),
     });
-
+    //* Put markers on map
     if (catchMarkerCoords) {
       const catchMarker: Feature = new Feature({
         geometry: new Point(fromLonLat(catchMarkerCoords)),
@@ -63,77 +65,6 @@ const CardMap = ({ catchMarkerCoords }: CardMapProps): JSX.Element => {
       );
       vectorSource.addFeature(catchMarker);
     }
-
-    // map.on('click', (evt) => {
-    //   const coords = toLonLat(evt.coordinate);
-    //   getDataCallback(coords);
-    //   showFormCallback();
-    // });
-
-    // if ('geolocation' in navigator) {
-    //   let currPosition;
-
-    //   const errorCallback = (err: any): void => {
-    //     console.log(err.code, err.message);
-    //   };
-
-    //   const watchLocation = (): void => {
-    //     const userMarker: Feature = new Feature({
-    //       name: 'User',
-    //       geometry: new Point(polandWebMercator),
-    //     });
-    //     userMarker.setStyle(
-    //       new Style({
-    //         image: new Icon({
-    //           crossOrigin: 'anonymous',
-    //           src: '/point.svg',
-    //           scale: 0.1,
-    //         }),
-    //       })
-    //     );
-    //     vectorSource.addFeature(userMarker);
-
-    //     id = navigator.geolocation.watchPosition((position) => {
-    //       currPosition = fromLonLat([
-    //         position.coords.longitude,
-    //         position.coords.latitude,
-    //       ]);
-    //       userMarker.setGeometry(new Point(currPosition));
-    //     }, errorCallback);
-    //   };
-
-    //   const centerOnUser = (): void => {
-    //     navigator.geolocation.getCurrentPosition(
-    //       (position) => {
-    //         const viewPosition: Array<Number> = fromLonLat([
-    //           position.coords.longitude,
-    //           position.coords.latitude,
-    //         ]);
-    //         map.getView().animate({ zoom: 19, center: viewPosition });
-    //       },
-    //       errorCallback,
-    //       { timeout: 10000, enableHighAccuracy: true }
-    //     );
-    //   };
-
-    //   watchLocation();
-    //   centerOnUser();
-
-    //   const button: HTMLButtonElement = document.createElement('button');
-    //   button.innerHTML = '<div class="center-btn-icon"></div>';
-    //   const element: HTMLDivElement = document.createElement('div');
-    //   element.className = 'center-btn ol-unselectable ol-control';
-    //   button.addEventListener('click', function (): void {
-    //     map.getView().animate({ zoom: 19, center: currPosition });
-    //   });
-    //   element.appendChild(button);
-    //   const centerBtn = new Control({ element: element });
-    //   map.addControl(centerBtn);
-    // }
-
-    return () => {
-      //   navigator.geolocation.clearWatch(id);
-    };
   }, []);
 
   return (

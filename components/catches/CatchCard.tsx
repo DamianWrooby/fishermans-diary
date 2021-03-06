@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import PinIcon from '../../public/pin.svg';
 import { MemoCardMap } from './CardMap';
+import { MemoMapComponent } from './MapComponent';
 import {
   Modal,
   ModalOverlay,
@@ -13,6 +14,8 @@ import { useDisclosure } from '@chakra-ui/react';
 
 const CatchCard = ({ data, open, close }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const marker = [];
+  marker[0] = data.coords;
 
   return (
     <>
@@ -72,7 +75,13 @@ const CatchCard = ({ data, open, close }) => {
           <ModalHeader></ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <MemoCardMap catchMarkerCoords={data.coords} />
+            <div className="h-80">
+              <MemoMapComponent
+                sourceUrl="https://api.maptiler.com/maps/outdoor/tiles.json?key=GflTzOMvFDCYQ9RjOmMu"
+                centerCoords={data.coords}
+                markers={marker}
+              />
+            </div>
           </ModalBody>
         </ModalContent>
       </Modal>
