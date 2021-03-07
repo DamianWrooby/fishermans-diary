@@ -12,17 +12,27 @@ import pl from '../../translations/pl';
 type CatchListProps = {
   features: Array<string>;
   amount?: number;
+  userID?: string;
 };
 
-const CatchList = ({ features, amount }: CatchListProps) => {
+const CatchList = ({ features, amount, userID }: CatchListProps) => {
   const [catches, setCatches] = useState([]);
   const [sorting, setSorting] = useState('date');
   const [elementToRemove, setElementToRemove] = useState('');
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { data, error } = useCollection(`catches`, {
-    limit: amount,
-    listen: true,
-  });
+
+  //* If userID is not specified, fetch non-privet catches from all users
+  const { data, error } = userID
+    ? useCollection(`catches`, {
+        where: ['author_uid', '==', userID],
+        limit: amount,
+        listen: true,
+      })
+    : useCollection(`catches`, {
+        where: ['private', '==', false],
+        limit: amount,
+        listen: true,
+      });
   const router = useRouter();
   const { locale } = router;
   const t = locale === 'en' ? en : pl;
@@ -109,6 +119,7 @@ const CatchList = ({ features, amount }: CatchListProps) => {
       });
     }
     tmp.sort(dynamicSort('-date'));
+    console.log('Data:', tmp);
     setSorting('-date');
     setCatches(tmp);
   }, [data]);
@@ -123,7 +134,7 @@ const CatchList = ({ features, amount }: CatchListProps) => {
 
       {error ? <p>Fetching data error</p> : null}
       {!data ? <p>Loading...</p> : null}
-      <div className="flex flex-row flex-wrap sm:flex-col justify-around px-16 sm:px-0">
+      <div className="flex flex-row flex-wrap sm:flex-col justify-around px-8 xs:px-16 sm:px-0">
         {catches.map((el) => {
           return (
             <CatchRow

@@ -33,4 +33,6 @@ export default {
   worm: 'worm',
   bottom: 'bottom',
   spinning: 'spining',
+  author_name: 'Catched by',
+  author_email: 'Catched by',
 };

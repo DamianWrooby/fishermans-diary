@@ -42,6 +42,7 @@ const Home = (): React.ReactNode => {
                 'date',
                 'time',
               ]}
+              userID={user.data.uid}
             />
             <div className="text-sm dark:hover:text-blue-200 hover:text-blue-500">
               <a href="/catches/my-catches">{t.showall}</a>
@@ -58,6 +59,7 @@ const Home = (): React.ReactNode => {
                 'length',
                 'date',
                 'time',
+                'author_name',
               ]}
             />
           </section>

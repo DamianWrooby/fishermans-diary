@@ -34,4 +34,6 @@ export default {
   worm: 'robak',
   bottom: 'grunt',
   spinning: 'spining',
+  author_name: 'wędkarz',
+  author_email: 'wędkarz',
 };
