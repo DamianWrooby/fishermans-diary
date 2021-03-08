@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import Image from 'next/image';
 import PinIcon from '../../public/pin.svg';
 import { MemoCardMap } from './CardMap';
@@ -17,6 +18,9 @@ const CatchCard = ({ data, open, close }) => {
   const marker = [];
   marker[0] = data.coords;
 
+  useEffect(() => {
+    console.log('Data coords', data.coords);
+  }, []);
   return (
     <>
       <Modal isOpen={open} onClose={close}>

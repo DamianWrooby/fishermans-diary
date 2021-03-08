@@ -54,8 +54,8 @@ const MapComponent = ({
       target: mapRef.current,
       view: new View({
         constrainResolution: true,
-        center: fromLonLat(centerCoords),
-        zoom: 19,
+        center: centerCoords,
+        zoom: 8,
       }),
     });
 

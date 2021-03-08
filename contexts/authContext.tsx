@@ -1,3 +1,5 @@
+// TODO: Save user in local storage
+
 import { createContext, useContext, useEffect, useState } from 'react';
 import nookies from 'nookies';
 import firebase from 'firebase/app';

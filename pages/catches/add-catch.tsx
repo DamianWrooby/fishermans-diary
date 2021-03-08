@@ -10,7 +10,6 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import Layout from '../../layouts/layout';
-import { MemoCatchMap } from '../../components/catches/CatchMap';
 import CatchForm from '../../components/catches/CatchForm';
 import { useAuth } from '../../contexts/authContext';
 import { MemoMapComponent } from '../../components/catches/MapComponent';
@@ -19,21 +18,17 @@ import { fromLonLat } from 'ol/proj';
 const AddCatch = () => {
   const user = useAuth();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const polandLonLat: Array<Number> = [19.408318, 52.121216];
-  const polandWebMercator: Array<Number> = fromLonLat(polandLonLat);
+  const polandWebMercator: Array<Number> = fromLonLat([19.408318, 52.121216]);
   const [coords, setCoords] = useState([]);
 
   const getData = (data: Array<Number>): void => {
     setCoords(data);
   };
 
-  //TODO Mapa nie ładuje się kiedy geolokacja jest wyłączona
-
   return (
     <Layout>
       {user.isAuthenticated ? (
         <>
-          {/* <MemoCatchMap getDataCallback={getData} showFormCallback={onOpen} /> */}
           <div className="w-screen h-screen m-auto flex justify-center">
             <div className="w-9/12 h-2/3 m-auto cursor-pointer">
               <MemoMapComponent
