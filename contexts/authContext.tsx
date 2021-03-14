@@ -18,7 +18,7 @@ const AuthContext = createContext<Context>({
   loading: false,
 });
 
-export default function AuthProvider({ children }: Props): JSX.Element {
+export default function AuthProvider({ children }: Props) {
   const [user, setUser] = useState<firebase.User | null>(null);
   const [loading, setLoading] = useState(true);
 

@@ -9,7 +9,7 @@ import { useAuth } from '../contexts/authContext';
 import en from '../translations/en';
 import pl from '../translations/pl';
 
-const Login = (): JSX.Element => {
+const Login = () => {
   const user = useAuth();
   const router = useRouter();
   const { locale } = router;

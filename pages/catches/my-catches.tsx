@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import Head from 'next/head';
 import { Button } from '@chakra-ui/react';
 import Link from 'next/link';
@@ -7,9 +6,13 @@ import Layout from '../../layouts/layout';
 import { useAuth } from '../../contexts/authContext';
 import CatchButton from '../../components/catches/CatchButton';
 import CatchList from '../../components/catches/CatchList';
+import useLanguage from '../../hooks/useLanguage';
+import en from '../../translations/en';
+import pl from '../../translations/pl';
 
 const Home = (): React.ReactNode => {
   const user = useAuth();
+  const t = useLanguage() === 'en' ? en : pl;
 
   return (
     <div className="h-screen">
@@ -17,7 +20,7 @@ const Home = (): React.ReactNode => {
         {user.data ? (
           <>
             <div className="p-5 pt-12">
-              <h1 className="p-3">All your catches</h1>
+              <h1 className="p-3 text-xl">{t.allyourcatches}</h1>
               <CatchList
                 features={[
                   'image',
@@ -29,17 +32,18 @@ const Home = (): React.ReactNode => {
                   'date',
                   'time',
                 ]}
+                pagination={true}
               />
             </div>
             <CatchButton />
           </>
         ) : (
           <div className="container flex flex-col justify-center items-center h-screen">
-            <p className="p-2">You have to sign in.</p>
+            <p className="p-2">{t.youhavetosignin}</p>
             <Link href="/login">
               <a href="/login" className="p-2">
                 <Button colorScheme="blue" size="sm">
-                  Sign in
+                  {t.signin}
                 </Button>
               </a>
             </Link>
@@ -51,7 +55,7 @@ const Home = (): React.ReactNode => {
                   variant="outline"
                   size="sm"
                 >
-                  Create account
+                  {t.createaccount}
                 </Button>
               </a>
             </Link>

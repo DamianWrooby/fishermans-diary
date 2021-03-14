@@ -2,8 +2,8 @@ import { IconButton, useColorMode } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { RiSunLine, RiMoonLine } from 'react-icons/ri';
 
-const DarkModeToggler = (): JSX.Element => {
-  let { colorMode, toggleColorMode } = useColorMode();
+const DarkModeToggler = () => {
+  const { colorMode, toggleColorMode } = useColorMode();
 
   useEffect(() => {
     if (colorMode === 'dark') {
@@ -15,7 +15,6 @@ const DarkModeToggler = (): JSX.Element => {
       document.documentElement.classList.add('light');
       document.documentElement.classList.remove('dark');
     }
-    console.log(localStorage.theme, colorMode);
   }, [colorMode]);
 
   return (

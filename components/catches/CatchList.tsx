@@ -1,27 +1,39 @@
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
-import { useDisclosure } from '@chakra-ui/react';
+import { useDisclosure, useColorModeValue, Button } from '@chakra-ui/react';
+import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import CatchListHeader from './CatchListHeader';
 import CatchRow from './CatchRow';
+import PaginationControls from '../partials/PaginationControls';
 import ConfirmationDialog from './ConfirmationDialog';
 import { db } from '../../services/firebase';
 import { useCollection } from '@nandorojo/swr-firestore';
+import useLanguage from '../../hooks/useLanguage';
 import en from '../../translations/en';
 import pl from '../../translations/pl';
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 
 type CatchListProps = {
   features: Array<string>;
   amount?: number;
   userID?: string;
+  pagination?: boolean;
+  paginationAmount?: number;
 };
 
-const CatchList = ({ features, amount, userID }: CatchListProps) => {
-  const [catches, setCatches] = useState([]);
+const CatchList = ({
+  features,
+  amount,
+  userID,
+  pagination,
+  paginationAmount,
+}: CatchListProps) => {
+  const [catches, setCatches] = useState(null);
+  const [paginationPage, setPaginationPage] = useState(1);
   const [sorting, setSorting] = useState('date');
   const [elementToRemove, setElementToRemove] = useState('');
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  //* If userID is not specified, fetch non-privet catches from all users
+  //* If userID is not specified, fetch non-private catches from all users
   const { data, error } = userID
     ? useCollection(`catches`, {
         where: ['author_uid', '==', userID],
@@ -33,9 +45,12 @@ const CatchList = ({ features, amount, userID }: CatchListProps) => {
         limit: amount,
         listen: true,
       });
-  const router = useRouter();
-  const { locale } = router;
-  const t = locale === 'en' ? en : pl;
+  const t = useLanguage() === 'en' ? en : pl;
+  const skeletonColor = useColorModeValue('#b1b1b1', '#242c3c');
+  const skeletonHighlightColor = useColorModeValue('#b9b9b9', '#2a3346');
+  const perChunk = paginationAmount ? paginationAmount : 3;
+  let chunkedCatchesArr = null;
+  let rows = null;
 
   const dynamicSort = (property) => {
     let sortOrder = 1;
@@ -119,10 +134,59 @@ const CatchList = ({ features, amount, userID }: CatchListProps) => {
       });
     }
     tmp.sort(dynamicSort('-date'));
-    console.log('Data:', tmp);
     setSorting('-date');
     setCatches(tmp);
   }, [data]);
+
+  if (catches && pagination) {
+    chunkedCatchesArr = catches.reduce((resultArray, item, index) => {
+      const chunkIndex = Math.floor(index / perChunk);
+
+      if (!resultArray[chunkIndex]) {
+        resultArray[chunkIndex] = [];
+      }
+
+      resultArray[chunkIndex].push(item);
+
+      return resultArray;
+    }, []);
+
+    if (chunkedCatchesArr[0]) {
+      rows = chunkedCatchesArr[paginationPage - 1].map((el) => {
+        return (
+          <CatchRow
+            rowFeatures={features}
+            key={el.id}
+            handleRemove={(e) => prepareRemove(e, el.id)}
+            data={el}
+          />
+        );
+      });
+    } else {
+      rows = null;
+    }
+    console.log(chunkedCatchesArr);
+  } else if (catches) {
+    rows = catches.map((el) => {
+      return (
+        <CatchRow
+          rowFeatures={features}
+          key={el.id}
+          handleRemove={(e) => prepareRemove(e, el.id)}
+          data={el}
+        />
+      );
+    });
+  }
+  const changePage = (id) => {
+    if (id === 'prevPage') {
+      setPaginationPage(paginationPage - 1);
+    } else if (id === 'nextPage') {
+      setPaginationPage(paginationPage + 1);
+    } else {
+      setPaginationPage(id);
+    }
+  };
 
   return (
     <>
@@ -132,27 +196,32 @@ const CatchList = ({ features, amount, userID }: CatchListProps) => {
         onFeatureClick={sortRows}
       />
 
-      {error ? <p>Fetching data error</p> : null}
-      {!data ? <p>Loading...</p> : null}
+      {error ? <p>{t.fetchingdataerror}</p> : null}
+      {!data ? (
+        <SkeletonTheme
+          color={skeletonColor}
+          highlightColor={skeletonHighlightColor}
+        >
+          <Skeleton count={amount} height={100} />
+        </SkeletonTheme>
+      ) : null}
       <div className="flex flex-row flex-wrap sm:flex-col justify-around px-8 xs:px-16 sm:px-0">
-        {catches.map((el) => {
-          return (
-            <CatchRow
-              rowFeatures={features}
-              key={el.id}
-              handleRemove={(e) => prepareRemove(e, el.id)}
-              data={el}
-            />
-          );
-        })}
+        {rows}
+        {pagination ? (
+          <PaginationControls
+            pages={perChunk}
+            currentPage={paginationPage}
+            handleClick={changePage}
+          />
+        ) : null}
       </div>
       <ConfirmationDialog
         handleIsOpen={isOpen}
         handleOnClose={onClose}
         handleAction={() => removeRow(elementToRemove)}
-        text="Do you really want to delete this catch?"
-        confirmButtonText="Delete"
-        cancelButtonText="Cancel"
+        text={t.areyousure}
+        confirmButtonText={t.delete_cap}
+        cancelButtonText={t.cancel_cap}
       />
     </>
   );

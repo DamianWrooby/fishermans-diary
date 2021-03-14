@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import PinIcon from '../../public/pin.svg';
-import { MemoCardMap } from './CardMap';
 import { MemoMapComponent } from './MapComponent';
 import {
   Modal,
@@ -11,10 +10,16 @@ import {
   ModalCloseButton,
 } from '@chakra-ui/react';
 import { useDisclosure } from '@chakra-ui/react';
+import useLanguage from '../../hooks/useLanguage';
+import en from '../../translations/en';
+import pl from '../../translations/pl';
 
 const CatchCard = ({ data, open, close }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const marker = [];
+  const t = useLanguage() === 'en' ? en : pl;
+  const escapedBait = data.bait.replace(' ', '');
+
   marker[0] = data.coords;
 
   return (
@@ -29,18 +34,18 @@ const CatchCard = ({ data, open, close }) => {
           <ModalBody>
             <div className="flex flex-row">
               <div className="w-2/3">
-                <div className="flex flex-row items-end text-sm -mt-3 text-gray-100">
+                <div className="flex flex-row items-end text-sm -mt-3 text-gray-600 dark:text-gray-100 capitalize">
                   <p className="mr-3">
-                    <strong>Method: </strong>
-                    {`${data.method}`}
+                    <strong>{t.method}: </strong>
+                    {`${t[data.method]}`}
                   </p>
                   <p className="mr-3">
-                    <strong>Bait: </strong>
-                    {`${data.bait}`}
+                    <strong>{t.bait}: </strong>
+                    {t[escapedBait] ? t[escapedBait] : data.bait}
                   </p>
                 </div>
                 <div className="flex flex-row  text-sm text-gray-400">
-                  <p>{`Catched ${data.date} at ${data.time}`}</p>
+                  <p>{`${t.catched} ${data.date} ${t.at} ${data.time}`}</p>
                 </div>
               </div>
               <div
@@ -49,11 +54,10 @@ const CatchCard = ({ data, open, close }) => {
               >
                 <p className="group">
                   <PinIcon className="w-4 -mt-1 mr-1 inline fill-current transform transition duration-300  group-hover:rotate-12 dark:text-white" />
-                  Show on map
+                  {t.showonmap}
                 </p>
               </div>
             </div>
-
             {data.image ? (
               <div className="w-full h-80 relative">
                 <Image
@@ -64,7 +68,11 @@ const CatchCard = ({ data, open, close }) => {
                 />
               </div>
             ) : (
-              <div className="w-full h-80 relative"></div>
+              <div className="w-full h-80 relative flex justify-center align-middle">
+                <p className="m-auto text-gray-700 dark:text-gray-400">
+                  {t.nophoto}
+                </p>
+              </div>
             )}
           </ModalBody>
         </ModalContent>

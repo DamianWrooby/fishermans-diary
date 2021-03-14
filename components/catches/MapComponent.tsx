@@ -28,7 +28,7 @@ const MapComponent = ({
   getDataCallback,
   showFormCallback,
   geolocation,
-}: MapProps): JSX.Element => {
+}: MapProps) => {
   const mapRef: Ref<any> = useRef(null);
 
   useEffect(() => {

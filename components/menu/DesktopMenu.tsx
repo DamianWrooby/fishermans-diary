@@ -10,7 +10,7 @@ type DesktopMenuProps = {
   locale: string;
 };
 
-const DesktopMenu = ({ data, locale }: DesktopMenuProps): JSX.Element => {
+const DesktopMenu = ({ data, locale }: DesktopMenuProps) => {
   const router = useRouter();
   const t = locale === 'en' ? en : pl;
 

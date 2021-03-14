@@ -14,7 +14,7 @@ import {
 import * as Yup from 'yup';
 import { createUser } from '../../services/firebase';
 
-const SignUpForm = (): JSX.Element => {
+const SignUpForm = () => {
   const [show, setShow] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');

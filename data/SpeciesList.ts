@@ -1,4 +1,4 @@
-export const SpeciesList = [
+export const SpeciesList: Array<string> = [
   'perch',
   'carp',
   'rainbow trout',

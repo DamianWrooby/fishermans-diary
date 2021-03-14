@@ -11,7 +11,7 @@ type MobileMenuProps = {
   locale: string;
 };
 
-const MobileMenu = ({ data, isOpen, locale }: MobileMenuProps): JSX.Element => {
+const MobileMenu = ({ data, isOpen, locale }: MobileMenuProps) => {
   const router = useRouter();
   const t = locale === 'en' ? en : pl;
 

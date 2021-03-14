@@ -2,9 +2,11 @@ import Image from 'next/image';
 import { useDisclosure } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import CatchCard from './CatchCard';
+import useLanguage from '../../hooks/useLanguage';
 import en from '../../translations/en';
 import pl from '../../translations/pl';
-interface Data {
+
+type Data = {
   author_uid: string;
   bait: string;
   coords: Array<number>;
@@ -18,7 +20,7 @@ interface Data {
   weight: string;
   author_email: string;
   author_name: string;
-}
+};
 
 type CatchRowProps = {
   data: Data;
@@ -28,10 +30,7 @@ type CatchRowProps = {
 
 const CatchRow = ({ data, rowFeatures, handleRemove }: CatchRowProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const router = useRouter();
-  const { locale } = router;
-  const t = locale === 'en' ? en : pl;
-
+  const t = useLanguage() === 'en' ? en : pl;
   return (
     <>
       <div
@@ -40,7 +39,7 @@ const CatchRow = ({ data, rowFeatures, handleRemove }: CatchRowProps) => {
       >
         <div className="m-auto sm:w-full sm:flex sm:items-center">
           {rowFeatures.map((feature) => {
-            const noSpaceValue = data[feature].replace(' ', '');
+            const escapedName = data[feature].replace(' ', '');
 
             return feature === 'image' ? (
               <div
@@ -72,10 +71,10 @@ const CatchRow = ({ data, rowFeatures, handleRemove }: CatchRowProps) => {
                 className={`flex flex-row text-sm md:text-sm sm:w-1/${rowFeatures.length} pr-2`}
               >
                 <div className="block sm:hidden text-blue-200">
-                  {feature}:&nbsp;
+                  {t[feature]}:&nbsp;
                 </div>
                 <div>
-                  {t[noSpaceValue] ? t[noSpaceValue] : data[feature]}
+                  {t[escapedName] ? t[escapedName] : data[feature]}
                   {feature === 'weight' ? (
                     <span className="lowercase"> kg</span>
                   ) : null}

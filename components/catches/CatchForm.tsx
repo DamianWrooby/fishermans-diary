@@ -22,16 +22,16 @@ import {
 } from '@chakra-ui/react';
 import * as Yup from 'yup';
 import { SpeciesList } from '../../data/SpeciesList';
+import useLanguage from '../../hooks/useLanguage';
+import en from '../../translations/en';
+import pl from '../../translations/pl';
 
 type FormProps = {
   passCoords: Array<Number>;
   closeFormCallback: () => void;
 };
 
-const CatchForm = ({
-  passCoords,
-  closeFormCallback,
-}: FormProps): JSX.Element => {
+const CatchForm = ({ passCoords, closeFormCallback }: FormProps) => {
   const [errorMessage, setErrorMessage] = useState('');
   const [uploadErrorMessage, setUploadErrorMessage] = useState('');
   const [image, setImage] = useState('');
@@ -39,7 +39,8 @@ const CatchForm = ({
   const [uploadProgress, setUploadProgress] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
   const [sending, setSending] = useState(false);
-  const [sendBtnText, setSendBtnText] = useState('Add Catch');
+  const t = useLanguage() === 'en' ? en : pl;
+  const [sendBtnText, setSendBtnText] = useState(t.addcatch);
 
   const coords = passCoords;
 
@@ -81,7 +82,6 @@ const CatchForm = ({
     setSending(true);
     try {
       actions.setSubmitting(false);
-      console.log(coords, time, imageURL);
       await db.collection('catches').add({
         author_uid: uid,
         author_name: displayName,
@@ -128,7 +128,7 @@ const CatchForm = ({
   });
 
   return (
-    <div className="flex justify-center items-center w-full h-full">
+    <div className="flex justify-center items-center w-full h-full capitalize">
       <Box overflow="hidden" width="full" p="8" pt="2">
         <Formik
           initialValues={{
@@ -149,13 +149,14 @@ const CatchForm = ({
                   <Box mb="5">
                     <FormControl isRequired>
                       <FormLabel mb="1" htmlFor="species">
-                        Species
+                        {t.species}
                       </FormLabel>
-                      <Select size="sm" placeholder="Select option" {...field}>
+                      <Select size="sm" placeholder={t.selectoption} {...field}>
                         {SpeciesList.sort().map((el) => {
+                          const escapedSpecies = el.replace(' ', '');
                           return (
                             <option key={el} value={el}>
-                              {el.toUpperCase()}
+                              {t[escapedSpecies]}
                             </option>
                           );
                         })}
@@ -174,7 +175,7 @@ const CatchForm = ({
                         isRequired
                       >
                         <FormLabel mb="1" htmlFor="weight">
-                          Weight (kg)
+                          {[t.weight]} <span className="lowercase">(kg)</span>
                         </FormLabel>
                         <NumberInput
                           size="sm"
@@ -208,7 +209,7 @@ const CatchForm = ({
                         isRequired
                       >
                         <FormLabel mb="1" htmlFor="length">
-                          Length (cm)
+                          {t.length} <span className="lowercase">(cm)</span>
                         </FormLabel>
                         <NumberInput
                           size="sm"
@@ -240,14 +241,14 @@ const CatchForm = ({
                   <Box mb="5">
                     <FormControl isRequired>
                       <FormLabel mb="1" htmlFor="method">
-                        Method
+                        {t.method}
                       </FormLabel>
-                      <Select size="sm" placeholder="Select option" {...field}>
-                        <option value="spinning">Spinning</option>
-                        <option value="bottom">Bottom</option>
-                        <option value="trolling">Trolling</option>
-                        <option value="float">Float</option>
-                        <option value="fly">Fly</option>
+                      <Select size="sm" placeholder={t.selectoption} {...field}>
+                        <option value="spinning">{t.spinning}</option>
+                        <option value="bottom">{t.bottom}</option>
+                        <option value="trolling">{t.trolling}</option>
+                        <option value="float">{t.float}</option>
+                        <option value="fly">{t.fly}</option>
                       </Select>
                     </FormControl>
                   </Box>
@@ -261,13 +262,13 @@ const CatchForm = ({
                       isInvalid={form.errors.bait && form.touched.bait}
                     >
                       <FormLabel mb="1" htmlFor="bait">
-                        Bait
+                        {t.bait}
                       </FormLabel>
                       <Input
                         size="sm"
                         {...field}
                         id="bait"
-                        placeholder="Bait"
+                        placeholder={t.bait_cap}
                       />
                       <FormErrorMessage mb="5">
                         {props.errors.bait}
@@ -280,7 +281,7 @@ const CatchForm = ({
                 {({ field, form }) => (
                   <FormControl display="flex" alignItems="center">
                     <FormLabel htmlFor="private" mb="0">
-                      Private
+                      {t.private}
                     </FormLabel>
                     <Switch id="private" {...field} />
                   </FormControl>
@@ -289,7 +290,9 @@ const CatchForm = ({
               <div className="flex flex-row items-end justify-end">
                 {isUploading && (
                   <div className="relative left-20 -top-8">
-                    <p className="text-xs">Uploading: {uploadProgress}%</p>
+                    <p className="text-xs">
+                      {t.uploading}: {uploadProgress}%
+                    </p>
                   </div>
                 )}
                 <CustomUploadButton
@@ -311,7 +314,7 @@ const CatchForm = ({
                     cursor: 'pointer',
                   }}
                 >
-                  Add Picture
+                  {t.addpicture}
                 </CustomUploadButton>
                 {imageURL ? (
                   <div className="w-16 h-16 rounded">

@@ -5,7 +5,7 @@ import MenuButton from './MenuButton';
 import MobileMenu from './MobileMenu';
 import DesktopMenu from './DesktopMenu';
 
-const Menu = (): JSX.Element => {
+const Menu = () => {
   const user = useAuth();
   const router = useRouter();
   const { locale } = router;

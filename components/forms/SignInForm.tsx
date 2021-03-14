@@ -16,7 +16,7 @@ import { emailAuth } from '../../services/firebase';
 import en from '../../translations/en';
 import pl from '../../translations/pl';
 
-const SignInForm = (): JSX.Element => {
+const SignInForm = () => {
   const [show, setShow] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const router = useRouter();

@@ -3,7 +3,7 @@
 //   handleClick: (event:MouseEvent<HTMLDivElement, MouseEvent>) => void;
 // };
 
-const MenuButton = ({ open, handleClick }): JSX.Element => {
+const MenuButton = ({ open, handleClick }) => {
   return (
     <div className="fixed right-4 top-4 z-20 sm:hidden">
       <div

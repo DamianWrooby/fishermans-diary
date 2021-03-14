@@ -25,7 +25,7 @@ const ConfirmationDialog = ({
   text,
   confirmButtonText,
   cancelButtonText,
-}: ConfirmationDialogProps): JSX.Element => {
+}: ConfirmationDialogProps) => {
   return (
     <Modal isOpen={handleIsOpen} onClose={handleOnClose} isCentered>
       <ModalOverlay />

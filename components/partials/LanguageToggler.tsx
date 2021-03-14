@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { setCookie } from 'nookies';
 
-const LanguageToggler = (): JSX.Element => {
+const LanguageToggler = () => {
   const router = useRouter();
   const { locale } = useRouter();
 

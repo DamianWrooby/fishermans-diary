@@ -5,7 +5,7 @@ import { useAuth } from '../contexts/authContext';
 import { deleteUser } from '../services/firebase';
 import Layout from '../layouts/layout';
 
-const DeleteAccount = (): JSX.Element => {
+const DeleteAccount = () => {
   const user = useAuth();
   const router = useRouter();
 

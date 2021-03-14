@@ -15,6 +15,9 @@ import CatchForm from '../../components/catches/CatchForm';
 import { useAuth } from '../../contexts/authContext';
 import { MemoMapComponent } from '../../components/catches/MapComponent';
 import { fromLonLat } from 'ol/proj';
+import useLanguage from '../../hooks/useLanguage';
+import en from '../../translations/en';
+import pl from '../../translations/pl';
 
 const AddCatch = () => {
   const user = useAuth();
@@ -22,6 +25,7 @@ const AddCatch = () => {
   const polandLonLat: Array<Number> = [19.408318, 52.121216];
   const polandWebMercator: Array<Number> = fromLonLat(polandLonLat);
   const [coords, setCoords] = useState([]);
+  const t = useLanguage() === 'en' ? en : pl;
 
   const getData = (data: Array<Number>): void => {
     setCoords(data);
@@ -48,7 +52,7 @@ const AddCatch = () => {
           <Modal isOpen={isOpen} onClose={onClose}>
             <ModalOverlay />
             <ModalContent>
-              <ModalHeader>Catch Form</ModalHeader>
+              <ModalHeader>{t.addyourfish}</ModalHeader>
               <ModalCloseButton />
               <ModalBody>
                 <CatchForm passCoords={coords} closeFormCallback={onClose} />
