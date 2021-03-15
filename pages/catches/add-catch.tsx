@@ -10,14 +10,17 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import Layout from '../../layouts/layout';
-import { MemoCatchMap } from '../../components/catches/CatchMap';
-import CatchForm from '../../components/catches/CatchForm';
 import { useAuth } from '../../contexts/authContext';
 import { MemoMapComponent } from '../../components/catches/MapComponent';
 import { fromLonLat } from 'ol/proj';
 import useLanguage from '../../hooks/useLanguage';
 import en from '../../translations/en';
 import pl from '../../translations/pl';
+import dynamic from 'next/dynamic';
+
+const DynamicCatchForm = dynamic(
+  () => import('../../components/catches/CatchForm')
+);
 
 const AddCatch = () => {
   const user = useAuth();
@@ -30,8 +33,6 @@ const AddCatch = () => {
   const getData = (data: Array<Number>): void => {
     setCoords(data);
   };
-
-  //TODO Mapa nie ładuje się kiedy geolokacja jest wyłączona
 
   return (
     <Layout>
@@ -55,7 +56,10 @@ const AddCatch = () => {
               <ModalHeader>{t.addyourfish}</ModalHeader>
               <ModalCloseButton />
               <ModalBody>
-                <CatchForm passCoords={coords} closeFormCallback={onClose} />
+                <DynamicCatchForm
+                  passCoords={coords}
+                  closeFormCallback={onClose}
+                />
               </ModalBody>
             </ModalContent>
           </Modal>

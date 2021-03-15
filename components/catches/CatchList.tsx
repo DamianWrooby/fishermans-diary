@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useDisclosure, useColorModeValue, Button } from '@chakra-ui/react';
-import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+import { useDisclosure, useColorModeValue } from '@chakra-ui/react';
 import CatchListHeader from './CatchListHeader';
 import CatchRow from './CatchRow';
 import PaginationControls from '../partials/PaginationControls';
@@ -33,8 +32,13 @@ const CatchList = ({
   const [elementToRemove, setElementToRemove] = useState('');
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  type dataTypes = {
+    data: any;
+    error: any;
+  };
+
   //* If userID is not specified, fetch non-private catches from all users
-  const { data, error } = userID
+  const { data, error }: dataTypes = userID
     ? useCollection(`catches`, {
         where: ['author_uid', '==', userID],
         limit: amount,

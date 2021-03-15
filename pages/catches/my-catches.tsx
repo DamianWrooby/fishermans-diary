@@ -10,6 +10,8 @@ import useLanguage from '../../hooks/useLanguage';
 import en from '../../translations/en';
 import pl from '../../translations/pl';
 
+//TODO: No user content show up during route switching
+
 const Home = (): React.ReactNode => {
   const user = useAuth();
   const t = useLanguage() === 'en' ? en : pl;
