@@ -43,12 +43,12 @@ const Login = () => {
       </Head>
       <div className="pt-16 -mb-20 flex flex-col">
         <div className="w-full h-full flex flex-col justify-center items-center">
-          {user.data ? (
+          {user.isAuthenticated ? (
             <p>{t.youreloggedin}</p>
           ) : (
             <>
               <SignInForm />
-              <div className="p-4 flex flex-col">
+              <div className="p-4 flex flex-col z-10">
                 <p className="m-auto p-4">{t.or}</p>
                 <Button
                   className="min-w-full m-2"
@@ -60,7 +60,7 @@ const Login = () => {
                   {t.loginwithfacebook}
                 </Button>
                 <Button
-                  className="min-w-full m-2"
+                  className="min-w-full m-2 z-10"
                   colorScheme="orange"
                   leftIcon={<FaGoogle />}
                   size="sm"

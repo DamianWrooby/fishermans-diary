@@ -19,6 +19,11 @@ type CatchListProps = {
   paginationAmount?: number;
 };
 
+type dataTypes = {
+  data: any;
+  error: any;
+};
+
 const CatchList = ({
   features,
   amount,
@@ -31,11 +36,6 @@ const CatchList = ({
   const [sorting, setSorting] = useState('date');
   const [elementToRemove, setElementToRemove] = useState('');
   const { isOpen, onOpen, onClose } = useDisclosure();
-
-  type dataTypes = {
-    data: any;
-    error: any;
-  };
 
   //* If userID is not specified, fetch non-private catches from all users
   const { data, error }: dataTypes = userID
@@ -211,9 +211,9 @@ const CatchList = ({
       ) : null}
       <div className="flex flex-row flex-wrap sm:flex-col justify-around px-8 xs:px-16 sm:px-0">
         {rows}
-        {pagination ? (
+        {pagination && catches ? (
           <PaginationControls
-            pages={perChunk}
+            pages={catches.length / perChunk}
             currentPage={paginationPage}
             handleClick={changePage}
           />

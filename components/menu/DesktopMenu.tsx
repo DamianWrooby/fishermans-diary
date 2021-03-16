@@ -4,6 +4,7 @@ import LanguageToggler from '../partials/LanguageToggler';
 import DarkModeToggler from '../partials/DarkModeToggler';
 import en from '../../translations/en';
 import pl from '../../translations/pl';
+import HomeIcon from '../../public/home_icon.svg';
 
 type DesktopMenuProps = {
   data: any;
@@ -28,8 +29,8 @@ const DesktopMenu = ({ data, locale }: DesktopMenuProps) => {
                 }
               >
                 <Link href="/">
-                  <a href="/" className="p-1">
-                    {t.home}
+                  <a href="/">
+                    <HomeIcon className="fill-current mr-2 text-white hover:text-blue-300" />
                   </a>
                 </Link>
               </li>

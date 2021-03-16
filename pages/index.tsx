@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Layout from '../layouts/layout';
@@ -15,10 +14,6 @@ const Home = (): React.ReactNode => {
   const { locale } = router;
   const t = locale === 'en' ? en : pl;
 
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
-
   return (
     <Layout>
       <Head>
@@ -26,7 +21,7 @@ const Home = (): React.ReactNode => {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         <meta name="description" content="Fishbook - every angler's diary" />
       </Head>
-      {user.data ? (
+      {user.isAuthenticated ? (
         <>
           <section className="p-5 pt-12 pb-12">
             <h2 className="text-xl p-3">{t.yourlastcatches}</h2>
@@ -51,7 +46,7 @@ const Home = (): React.ReactNode => {
           <section className="p-5 pt-12 pb-12">
             <h2 className="text-xl p-3">{t.fishesrecentlycatchedbysociety}</h2>
             <CatchList
-              amount={5}
+              amount={30}
               features={[
                 'image',
                 'species',
@@ -61,6 +56,8 @@ const Home = (): React.ReactNode => {
                 'time',
                 'author_name',
               ]}
+              pagination={true}
+              paginationAmount={5}
             />
           </section>
           <CatchButton />

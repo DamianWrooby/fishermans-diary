@@ -10,8 +10,6 @@ import useLanguage from '../../hooks/useLanguage';
 import en from '../../translations/en';
 import pl from '../../translations/pl';
 
-//TODO: No user content show up during route switching
-
 const Home = (): React.ReactNode => {
   const user = useAuth();
   const t = useLanguage() === 'en' ? en : pl;
@@ -19,7 +17,7 @@ const Home = (): React.ReactNode => {
   return (
     <div className="h-screen">
       <Layout>
-        {user.data ? (
+        {user.isAuthenticated ? (
           <>
             <div className="p-5 pt-12">
               <h1 className="p-3 text-xl">{t.allyourcatches}</h1>

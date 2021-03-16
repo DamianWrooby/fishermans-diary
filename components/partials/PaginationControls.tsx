@@ -1,4 +1,4 @@
-import { Button } from '@chakra-ui/react';
+import { IconButton, Button } from '@chakra-ui/react';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 
 const PaginationControls = ({ pages, currentPage, handleClick }) => {
@@ -8,24 +8,26 @@ const PaginationControls = ({ pages, currentPage, handleClick }) => {
   }
   return (
     <div className="w-full flex flex-row justify-center">
-      <Button
+      <IconButton
         key="prevPage"
+        aria-label="Previous page"
         isDisabled={currentPage === 1}
         className="mx-1"
-        leftIcon={<FaArrowLeft />}
+        icon={<FaArrowLeft />}
         colorScheme="blue"
-        variant="outline"
+        variant="solid"
         size="xs"
         onClick={() => handleClick('prevPage')}
-      ></Button>
+      ></IconButton>
       {buttonsArr.map((el) => {
         return (
           <Button
             key={el}
+            aria-label={`${el} page`}
             isDisabled={currentPage === el}
             className="mx-1"
             colorScheme="blue"
-            variant="outline"
+            variant="solid"
             size="xs"
             onClick={() => handleClick(el)}
           >
@@ -33,16 +35,17 @@ const PaginationControls = ({ pages, currentPage, handleClick }) => {
           </Button>
         );
       })}
-      <Button
+      <IconButton
         key="nextPage"
+        aria-label="Next page"
         isDisabled={currentPage === pages}
         className="mx-1"
-        rightIcon={<FaArrowRight />}
+        icon={<FaArrowRight />}
         colorScheme="blue"
-        variant="outline"
+        variant="solid"
         size="xs"
         onClick={() => handleClick('nextPage')}
-      ></Button>
+      ></IconButton>
     </div>
   );
 };
