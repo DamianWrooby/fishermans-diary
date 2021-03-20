@@ -42,6 +42,7 @@ const MyCatches = (): React.ReactNode => {
                   'date',
                   'time',
                 ]}
+                userID={user.data.uid}
                 pagination={true}
               />
             </div>

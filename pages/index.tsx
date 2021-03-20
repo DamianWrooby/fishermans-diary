@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 import Head from 'next/head';
 import Layout from '../layouts/layout';
 import { useAuth } from '../contexts/authContext';
@@ -50,7 +51,9 @@ const Home = (): React.ReactNode => {
               userID={user.data.uid}
             />
             <div className="text-sm dark:hover:text-blue-200 hover:text-blue-500">
-              <a href="/catches/my-catches">{t.showall}</a>
+              <Link href="/catches/my-catches">
+                <a href="/catches/my-catches">{t.showall}</a>
+              </Link>
             </div>
           </section>
           <section className="p-5 pt-12 pb-12">
