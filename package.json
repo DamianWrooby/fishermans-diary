@@ -33,6 +33,7 @@
     "yup": "^0.32.9"
   },
   "devDependencies": {
+    "@next/bundle-analyzer": "^10.0.9",
     "@svgr/webpack": "^5.5.0",
     "@types/node": "^14.14.34",
     "@types/openlayers": "^4.6.17",

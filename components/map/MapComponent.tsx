@@ -9,39 +9,38 @@ import VectorSource from 'ol/source/Vector';
 import VectorLayer from 'ol/layer/Vector';
 import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
-import Control from 'ol/control/Control';
 import { fromLonLat, toLonLat } from 'ol/proj';
+import Control from 'ol/control/Control';
 
-type MapProps = {
-  getDataCallback: (args: Array<Number>) => void;
-  showFormCallback: () => void;
-  catchMarkersCoords?: Array<Array<Number>>;
-};
+export interface MapProps {
+  sourceUrl: string;
+  markers?: Array<Number>;
+  centerCoords: Array<Number>;
+  getDataCallback?: (args: Array<Number>) => void;
+  showFormCallback?: () => void;
+  geolocation?: boolean;
+}
 
-const CatchMap = ({
+const MapComponent = ({
+  sourceUrl,
+  markers,
+  centerCoords,
   getDataCallback,
   showFormCallback,
-  catchMarkersCoords,
+  geolocation,
 }: MapProps) => {
   const mapRef: Ref<any> = useRef(null);
+  let id;
+
+  const source = new TileJSON({
+    url: sourceUrl,
+    tileSize: 512,
+    crossOrigin: 'anonymous',
+  });
+
+  const vectorSource = new VectorSource({});
 
   useEffect(() => {
-    const polandLonLat: Array<Number> = [19.408318, 52.121216];
-    const polandWebMercator: Array<Number> = fromLonLat(polandLonLat);
-    let id;
-
-    //* Define source
-    const source = new TileJSON({
-      url:
-        'https://api.maptiler.com/maps/outdoor/tiles.json?key=GflTzOMvFDCYQ9RjOmMu',
-      tileSize: 512,
-      crossOrigin: 'anonymous',
-    });
-
-    //* Define vectorSource
-    const vectorSource = new VectorSource({});
-
-    //* Define map
     const map: Map = new Map({
       layers: [
         new TileLayer({
@@ -54,19 +53,24 @@ const CatchMap = ({
       target: mapRef.current,
       view: new View({
         constrainResolution: true,
-        center: polandWebMercator,
-        zoom: 6,
+        center: fromLonLat(centerCoords),
+        zoom: 17,
       }),
     });
 
-    //* Put markers on map
-    if (catchMarkersCoords) {
-      catchMarkersCoords.forEach((el) => {
-        const catchMarker: Feature = new Feature({
+    const button: HTMLButtonElement = document.createElement('button');
+    button.innerHTML = '<div class="center-btn-icon"></div>';
+    const element: HTMLDivElement = document.createElement('div');
+    element.className = 'center-btn ol-unselectable ol-control';
+    const centerBtn = new Control({ element: element });
+
+    if (markers) {
+      markers.forEach((el) => {
+        const marker: Feature = new Feature({
           geometry: new Point(fromLonLat(el)),
           name: 'Catch',
         });
-        catchMarker.setStyle(
+        marker.setStyle(
           new Style({
             image: new Icon({
               crossOrigin: 'anonymous',
@@ -76,29 +80,30 @@ const CatchMap = ({
             }),
           })
         );
-        vectorSource.addFeature(catchMarker);
+        vectorSource.addFeature(marker);
       });
     }
 
-    //* Add event to map
     map.on('click', (evt) => {
       const coords = toLonLat(evt.coordinate);
       getDataCallback(coords);
       showFormCallback();
     });
 
-    //* Add geolocation functionality
-    if ('geolocation' in navigator) {
-      let currPosition;
+    map.addControl(centerBtn);
 
-      const errorCallback = (err: any): void => {
-        console.log(err.code, err.message);
-      };
+    if (geolocation) {
+      if ('geolocation' in navigator) {
+        let currPosition;
 
-      const watchLocation = (): void => {
+        const errorCallback = (err: any): void => {
+          console.log(err.code, err.message);
+        };
+
+        // Set user marker
         const userMarker: Feature = new Feature({
           name: 'User',
-          geometry: new Point(polandWebMercator),
+          geometry: new Point(centerCoords),
         });
         userMarker.setStyle(
           new Style({
@@ -111,6 +116,7 @@ const CatchMap = ({
         );
         vectorSource.addFeature(userMarker);
 
+        // Watch position
         id = navigator.geolocation.watchPosition((position) => {
           currPosition = fromLonLat([
             position.coords.longitude,
@@ -118,9 +124,8 @@ const CatchMap = ({
           ]);
           userMarker.setGeometry(new Point(currPosition));
         }, errorCallback);
-      };
 
-      const centerOnUser = (): void => {
+        // Center on user pos
         navigator.geolocation.getCurrentPosition(
           (position) => {
             const viewPosition: Array<Number> = fromLonLat([
@@ -132,43 +137,41 @@ const CatchMap = ({
           errorCallback,
           { timeout: 10000, enableHighAccuracy: true }
         );
-      };
 
-      watchLocation();
-      centerOnUser();
-
-      const button: HTMLButtonElement = document.createElement('button');
-      button.innerHTML = '<div class="center-btn-icon"></div>';
-      const element: HTMLDivElement = document.createElement('div');
-      element.className = 'center-btn ol-unselectable ol-control';
-      button.addEventListener('click', function (): void {
-        map.getView().animate({ zoom: 19, center: currPosition });
-      });
-      element.appendChild(button);
-      const centerBtn = new Control({ element: element });
-      map.addControl(centerBtn);
+        button.addEventListener('click', function (): void {
+          map.getView().animate({ zoom: 19, center: currPosition });
+        });
+        element.appendChild(button);
+      } else {
+        console.log('Geolocation not allowed');
+      }
     }
 
     return () => {
       navigator.geolocation.clearWatch(id);
     };
-  }, []);
+  }, [
+    sourceUrl,
+    markers,
+    centerCoords,
+    getDataCallback,
+    showFormCallback,
+    geolocation,
+  ]);
 
   return (
-    <div className="w-screen h-screen m-auto">
-      <div
-        id="map"
-        className="w-9/12 h-2/3 m-auto  cursor-pointer border border-gray-400 bg-gray-600 rounded"
-        ref={mapRef}
-      >
-        {' '}
-      </div>
+    <div
+      id="map"
+      className="w-full h-full m-auto  cursor-pointer border border-gray-400 bg-gray-600 rounded"
+      ref={mapRef}
+    >
+      {' '}
     </div>
   );
 };
 
-export const MemoCatchMap = memo(CatchMap, (prevProps, nextProps) => {
-  if (prevProps.showFormCallback === nextProps.showFormCallback) {
+export const MemoMapComponent = memo(MapComponent, (prevProps, nextProps) => {
+  if (prevProps.markers === nextProps.markers) {
     return true;
   } else {
     return false;

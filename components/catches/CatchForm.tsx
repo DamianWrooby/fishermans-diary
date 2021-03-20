@@ -61,12 +61,15 @@ const CatchForm = ({ passCoords, closeFormCallback }: FormProps) => {
     setIsUploading(true);
     setUploadProgress(0);
   };
+
   const handleProgress = (progress: number) => setUploadProgress(progress);
+
   const handleUploadError = (error) => {
     setIsUploading(false);
     console.log(error);
     setUploadErrorMessage(error.message);
   };
+
   const handleUploadSuccess = (filename: string) => {
     setImage(filename);
     setUploadProgress(100);

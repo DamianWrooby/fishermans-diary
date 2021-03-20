@@ -8,7 +8,7 @@ interface Context {
   data: firebase.User | null;
   loading: boolean;
 }
-interface Props {
+interface ProviderProps {
   children: React.ReactNode;
 }
 
@@ -18,9 +18,9 @@ const AuthContext = createContext<Context>({
   loading: false,
 });
 
-export default function AuthProvider({ children }: Props) {
+export default function AuthProvider({ children }: ProviderProps) {
   const [user, setUser] = useState<firebase.User | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     return auth().onIdTokenChanged(async (fbUser) => {
@@ -56,11 +56,3 @@ export function useAuth(): Context {
   }
   return context;
 }
-
-// export const ProtectRoute = ({ children }: Props): React.ReactNode => {
-//   const { isAuthenticated, loading } = useAuth();
-//   if (loading || (!isAuthenticated && window.location.pathname !== '/login')) {
-//     return <LoadingScreen />;
-//   }
-//   return children;
-// };

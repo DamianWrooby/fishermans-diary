@@ -9,8 +9,9 @@ import CatchList from '../../components/catches/CatchList';
 import useLanguage from '../../hooks/useLanguage';
 import en from '../../translations/en';
 import pl from '../../translations/pl';
+import { motion, AnimatePresence } from 'framer-motion';
 
-const Home = (): React.ReactNode => {
+const MyCatches = (): React.ReactNode => {
   const user = useAuth();
   const t = useLanguage() === 'en' ? en : pl;
 
@@ -20,7 +21,16 @@ const Home = (): React.ReactNode => {
         {user.isAuthenticated ? (
           <>
             <div className="p-5 pt-12">
-              <h1 className="p-3 text-xl">{t.allyourcatches}</h1>
+              <AnimatePresence>
+                <motion.h1
+                  initial={{ opacity: 0, x: -100, y: 0 }}
+                  animate={{ opacity: 1, x: 0, y: 0 }}
+                  exit={{ opacity: 0, x: 100, y: 0 }}
+                  className="p-3 text-xl"
+                >
+                  {t.allyourcatches}
+                </motion.h1>
+              </AnimatePresence>
               <CatchList
                 features={[
                   'image',
@@ -66,4 +76,4 @@ const Home = (): React.ReactNode => {
   );
 };
 
-export default Home;
+export default MyCatches;

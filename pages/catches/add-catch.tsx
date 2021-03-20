@@ -11,7 +11,7 @@ import {
 } from '@chakra-ui/react';
 import Layout from '../../layouts/layout';
 import { useAuth } from '../../contexts/authContext';
-import { MemoMapComponent } from '../../components/catches/MapComponent';
+import { MemoMapComponent } from '../../components/map/MapComponent';
 import { fromLonLat } from 'ol/proj';
 import useLanguage from '../../hooks/useLanguage';
 import en from '../../translations/en';
@@ -38,7 +38,6 @@ const AddCatch = () => {
     <Layout>
       {user.isAuthenticated ? (
         <>
-          {/* <MemoCatchMap getDataCallback={getData} showFormCallback={onOpen} /> */}
           <div className="w-screen h-screen m-auto flex justify-center">
             <div className="w-9/12 h-2/3 m-auto cursor-pointer">
               <MemoMapComponent

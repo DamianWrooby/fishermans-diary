@@ -19,9 +19,38 @@ type CatchListProps = {
   paginationAmount?: number;
 };
 
-type dataTypes = {
-  data: any;
-  error: any;
+interface Catches {
+  author_email: string;
+  author_name: string;
+  author_photo: string;
+  author_uid: string;
+  bait: string;
+  coords: Array<number>;
+  date: string;
+  exists: boolean;
+  hasPendingWrites: boolean;
+  id: string;
+  image: string;
+  length: string;
+  method: string;
+  private: boolean;
+  species: string;
+  time: string;
+  weight: string;
+  __snapshot: any;
+}
+
+const dynamicSort = (property) => {
+  let sortOrder = 1;
+  if (property[0] === '-') {
+    sortOrder = -1;
+    property = property.substr(1);
+  }
+  return function (a, b) {
+    const result =
+      a[property] < b[property] ? -1 : a[property] > b[property] ? 1 : 0;
+    return result * sortOrder;
+  };
 };
 
 const CatchList = ({
@@ -38,13 +67,13 @@ const CatchList = ({
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   //* If userID is not specified, fetch non-private catches from all users
-  const { data, error }: dataTypes = userID
-    ? useCollection(`catches`, {
+  const { data, error } = userID
+    ? useCollection<Catches>(`catches`, {
         where: ['author_uid', '==', userID],
         limit: amount,
         listen: true,
       })
-    : useCollection(`catches`, {
+    : useCollection<Catches>(`catches`, {
         where: ['private', '==', false],
         limit: amount,
         listen: true,
@@ -55,19 +84,6 @@ const CatchList = ({
   const perChunk = paginationAmount ? paginationAmount : 3;
   let chunkedCatchesArr = null;
   let rows = null;
-
-  const dynamicSort = (property) => {
-    let sortOrder = 1;
-    if (property[0] === '-') {
-      sortOrder = -1;
-      property = property.substr(1);
-    }
-    return function (a, b) {
-      const result =
-        a[property] < b[property] ? -1 : a[property] > b[property] ? 1 : 0;
-      return result * sortOrder;
-    };
-  };
 
   const translateCatches = (arr: typeof catches) => {
     let translatedCatches: typeof catches = [];
@@ -182,6 +198,7 @@ const CatchList = ({
       );
     });
   }
+
   const changePage = (id) => {
     if (id === 'prevPage') {
       setPaginationPage(paginationPage - 1);
@@ -213,7 +230,7 @@ const CatchList = ({
         {rows}
         {pagination && catches ? (
           <PaginationControls
-            pages={catches.length / perChunk}
+            pages={Math.ceil(catches.length / perChunk)}
             currentPage={paginationPage}
             handleClick={changePage}
           />

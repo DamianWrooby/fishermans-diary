@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import PinIcon from '../../public/pin.svg';
-import { MemoMapComponent } from './MapComponent';
 import {
   Modal,
   ModalOverlay,
@@ -13,6 +12,12 @@ import { useDisclosure } from '@chakra-ui/react';
 import useLanguage from '../../hooks/useLanguage';
 import en from '../../translations/en';
 import pl from '../../translations/pl';
+import dynamic from 'next/dynamic';
+import { MapProps } from '../map/MapComponent';
+
+const DynamicMapComponent = dynamic<MapProps>(() =>
+  import('../map/MapComponent').then((mod) => mod.MemoMapComponent)
+);
 
 const CatchCard = ({ data, open, close }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -84,7 +89,7 @@ const CatchCard = ({ data, open, close }) => {
           <ModalCloseButton />
           <ModalBody>
             <div className="h-80">
-              <MemoMapComponent
+              <DynamicMapComponent
                 sourceUrl="https://api.maptiler.com/maps/outdoor/tiles.json?key=GflTzOMvFDCYQ9RjOmMu"
                 centerCoords={data.coords}
                 markers={marker}
