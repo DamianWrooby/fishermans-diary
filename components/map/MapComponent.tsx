@@ -57,6 +57,14 @@ const MapComponent = ({
         center: fromLonLat(centerCoords),
         zoom: 17,
       }),
+      controls: [
+        new Control.TouchNavigation({
+          dragPanOptions: {
+            enableKinetic: true,
+          },
+        }),
+        new Control.Zoom(),
+      ],
     });
 
     const button: HTMLButtonElement = document.createElement('button');
