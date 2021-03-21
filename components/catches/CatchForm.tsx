@@ -77,7 +77,7 @@ const CatchForm = ({ passCoords, closeFormCallback }: FormProps) => {
     setUploadProgress(100);
     setIsUploading(false);
     const getDownloadURL = async () => {
-      return storage
+      return await storage
         .ref('images/catches')
         .child(filename + '')
         .getDownloadURL();
