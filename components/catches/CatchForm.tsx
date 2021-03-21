@@ -72,8 +72,8 @@ const CatchForm = ({ passCoords, closeFormCallback }: FormProps) => {
     setUploadErrorMessage(error.message);
   };
 
-  const handleUploadSuccess = (filename: string) => {
-    console.log(filename);
+  const handleUploadSuccess = async (filename: string) => {
+    console.log(await filename);
     setImage(filename);
     setUploadProgress(100);
     setIsUploading(false);
