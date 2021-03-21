@@ -6,10 +6,7 @@ export default class Document extends NextDocument {
     return (
       <Html lang="en">
         <Head>
-          <link
-            rel="stylesheet"
-            href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.2.1/css/ol.css"
-          />
+          <script src="https://unpkg.com/elm-pep"></script>
           {/* <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
           <link

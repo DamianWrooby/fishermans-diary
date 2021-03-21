@@ -11,7 +11,11 @@ import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
 import { fromLonLat, toLonLat } from 'ol/proj';
 import Control from 'ol/control/Control';
-import { PinchZoom, defaults as defaultInteractions } from 'ol/interaction';
+import {
+  PinchZoom,
+  PointerInteraction,
+  defaults as defaultInteractions,
+} from 'ol/interaction';
 export interface MapProps {
   sourceUrl: string;
   markers?: Array<Number>;
