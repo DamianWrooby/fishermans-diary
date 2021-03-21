@@ -13,12 +13,16 @@ import {
 } from '@chakra-ui/react';
 import * as Yup from 'yup';
 import { createUser } from '../../services/firebase';
+import useLanguage from '../../hooks/useLanguage';
+import en from '../../translations/en';
+import pl from '../../translations/pl';
 
 const SignUpForm = () => {
   const [show, setShow] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const router = useRouter();
+  const t = useLanguage() === 'en' ? en : pl;
 
   const showHidden = (type: string): void => {
     switch (type) {
@@ -84,8 +88,8 @@ const SignUpForm = () => {
                       isInvalid={form.errors.email && form.touched.email}
                       isRequired
                     >
-                      <FormLabel htmlFor="email">Email address</FormLabel>
-                      <Input {...field} id="email" placeholder="email" />
+                      <FormLabel htmlFor="email">{t.email}</FormLabel>
+                      <Input {...field} id="email" placeholder={t.enteremail} />
                       <FormErrorMessage mb="5">
                         {props.errors.email}
                       </FormErrorMessage>
@@ -100,13 +104,13 @@ const SignUpForm = () => {
                       isInvalid={form.errors.password && form.touched.password}
                       isRequired
                     >
-                      <FormLabel htmlFor="password">Password</FormLabel>
+                      <FormLabel htmlFor="password">{t.password}</FormLabel>
                       <InputGroup size="md">
                         <Input
                           {...field}
                           pr="4.5rem"
                           type={show ? 'text' : 'password'}
-                          placeholder="Enter password"
+                          placeholder={t.enterpassword}
                         />
                         <InputRightElement width="4.5rem">
                           <Button
@@ -114,7 +118,7 @@ const SignUpForm = () => {
                             size="sm"
                             onClick={() => showHidden('password')}
                           >
-                            {show ? 'Hide' : 'Show'}
+                            {show ? t.hide : t.show}
                           </Button>
                         </InputRightElement>
                       </InputGroup>
@@ -136,14 +140,14 @@ const SignUpForm = () => {
                       isRequired
                     >
                       <FormLabel htmlFor="confirmPassword">
-                        Confirm password
+                        {t.confirmpassword}
                       </FormLabel>
                       <InputGroup size="md">
                         <Input
                           {...field}
                           pr="4.5rem"
                           type={showConfirm ? 'text' : 'password'}
-                          placeholder="Confirm password"
+                          placeholder={t.confirmpassword}
                         />
                         <InputRightElement width="4.5rem">
                           <Button
@@ -151,7 +155,7 @@ const SignUpForm = () => {
                             size="sm"
                             onClick={() => showHidden('confirm')}
                           >
-                            {showConfirm ? 'Hide' : 'Show'}
+                            {showConfirm ? t.hide : t.show}
                           </Button>
                         </InputRightElement>
                       </InputGroup>
@@ -169,7 +173,7 @@ const SignUpForm = () => {
                 type="submit"
                 isDisabled={!props.isValid}
               >
-                Create account
+                {t.createaccount}
               </Button>
             </Form>
           )}

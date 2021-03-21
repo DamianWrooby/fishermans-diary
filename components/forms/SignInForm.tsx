@@ -13,6 +13,7 @@ import {
 } from '@chakra-ui/react';
 import * as Yup from 'yup';
 import { emailAuth } from '../../services/firebase';
+import useLanguage from '../../hooks/useLanguage';
 import en from '../../translations/en';
 import pl from '../../translations/pl';
 
@@ -20,8 +21,7 @@ const SignInForm = () => {
   const [show, setShow] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const router = useRouter();
-  const { locale } = router;
-  const t = locale === 'en' ? en : pl;
+  const t = useLanguage() === 'en' ? en : pl;
 
   const showHidden = (): void => {
     setShow(!show);
@@ -94,7 +94,7 @@ const SignInForm = () => {
                         />
                         <InputRightElement width="4.5rem">
                           <Button h="1.75rem" size="sm" onClick={showHidden}>
-                            {show ? 'Hide' : 'Show'}
+                            {show ? t.hide : t.show}
                           </Button>
                         </InputRightElement>
                       </InputGroup>

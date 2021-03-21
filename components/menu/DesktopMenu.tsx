@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import LanguageToggler from '../partials/LanguageToggler';
 import DarkModeToggler from '../partials/DarkModeToggler';
+import useLanguage from '../../hooks/useLanguage';
 import en from '../../translations/en';
 import pl from '../../translations/pl';
 import HomeIcon from '../../public/home_icon.svg';
@@ -11,9 +12,9 @@ type DesktopMenuProps = {
   locale: string;
 };
 
-const DesktopMenu = ({ data, locale }: DesktopMenuProps) => {
+const DesktopMenu = ({ data }: DesktopMenuProps) => {
   const router = useRouter();
-  const t = locale === 'en' ? en : pl;
+  const t = useLanguage() === 'en' ? en : pl;
 
   return (
     <div className="flex w-full justify-between flex-row">

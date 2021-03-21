@@ -16,6 +16,7 @@ export default {
   method: 'metoda',
   bait: 'przynęta',
   email: 'Email',
+  confirmpassword: 'Potwierdź hasło',
   enteremail: 'Wpisz email',
   password: 'Hasło',
   enterpassword: 'Wpisz hasło',
@@ -69,4 +70,6 @@ export default {
   success: 'Dodano',
   clickonthemap: 'Kliknij w miejsce na mapie, by dodać rybę',
   addfirstfish: 'Dodaj pierwszą rybę',
+  hide: 'Ukryj',
+  show: 'Pokaż',
 };

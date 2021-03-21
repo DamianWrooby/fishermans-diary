@@ -19,6 +19,7 @@ export default {
   enteremail: 'Enter email',
   password: 'Password',
   enterpassword: 'Enter password',
+  confirmpassword: 'Confirm password',
   show: 'Show',
   forgotpassword: 'Forgot password?',
   loginwithfacebook: 'Login with Facebook',
@@ -69,4 +70,6 @@ export default {
   success: 'Success',
   clickonthemap: 'Click on the map to add fish',
   addfirstfish: 'Add first fish',
+  hide: 'Hide',
+  show: 'Show',
 };
