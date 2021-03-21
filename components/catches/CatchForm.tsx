@@ -73,17 +73,15 @@ const CatchForm = ({ passCoords, closeFormCallback }: FormProps) => {
   };
 
   const handleUploadSuccess = async (filename: string) => {
-    console.log(await filename);
     setImage(filename);
     setUploadProgress(100);
     setIsUploading(false);
-    const getDownloadURL = async () => {
-      return await storage
-        .ref('images/catches')
-        .child(filename + '')
-        .getDownloadURL();
-    };
-    getDownloadURL().then((url) => setImageURL(url));
+
+    storage
+      .ref('images/catches')
+      .child((await filename) + '')
+      .getDownloadURL()
+      .then((url) => setImageURL(url));
   };
 
   const submitForm = async (values, actions) => {
