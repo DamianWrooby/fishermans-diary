@@ -32,9 +32,9 @@ const CatchCard = ({ data, open, close }) => {
       <Modal isOpen={open} onClose={close}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader className="pb-0">{`${
-            data.species.charAt(0).toUpperCase() + data.species.slice(1)
-          } - ${data.weight}kg / ${data.length}cm`}</ModalHeader>
+          <ModalHeader className="pb-0 capitalize">{`${t[data.species]} - ${
+            data.weight
+          }kg / ${data.length}cm`}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <div className="flex flex-row">
