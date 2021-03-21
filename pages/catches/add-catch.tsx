@@ -17,6 +17,7 @@ import useLanguage from '../../hooks/useLanguage';
 import en from '../../translations/en';
 import pl from '../../translations/pl';
 import dynamic from 'next/dynamic';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const DynamicCatchForm = dynamic(
   () => import('../../components/catches/CatchForm')
@@ -38,8 +39,18 @@ const AddCatch = () => {
     <Layout>
       {user.isAuthenticated ? (
         <>
-          <div className="w-screen h-screen m-auto flex justify-center">
-            <div className="w-9/12 h-2/3 m-auto cursor-pointer">
+          <div className="w-screen h-screen m-auto flex flex-col">
+            <AnimatePresence>
+              <motion.h1
+                initial={{ opacity: 0, x: -100, y: 0 }}
+                animate={{ opacity: 1, x: 0, y: 0 }}
+                exit={{ opacity: 0, x: 100, y: 0 }}
+                className="text-center text-xl p-8"
+              >
+                {t.clickonthemap}
+              </motion.h1>
+            </AnimatePresence>
+            <div className="w-9/12 h-2/3 mx-auto cursor-pointer">
               <MemoMapComponent
                 sourceUrl="https://api.maptiler.com/maps/outdoor/tiles.json?key=GflTzOMvFDCYQ9RjOmMu"
                 centerCoords={polandWebMercator}

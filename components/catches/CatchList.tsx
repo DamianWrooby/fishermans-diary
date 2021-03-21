@@ -10,6 +10,7 @@ import useLanguage from '../../hooks/useLanguage';
 import en from '../../translations/en';
 import pl from '../../translations/pl';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+import { motion, AnimatePresence } from 'framer-motion';
 
 type CatchListProps = {
   features: Array<string>;
@@ -110,19 +111,20 @@ const CatchList = ({
   const sortRows = (id: string) => {
     let sortedCatches = [];
     let translatedCatches = [];
+    const sortIndex = id === 'date' ? 'timestamp' : id;
 
-    if (sorting === id) {
-      setSorting(`-${id}`);
+    if (sorting === sortIndex) {
+      setSorting(`-${sortIndex}`);
       //* Translate  catches object's values if language is not en
       if (t === en) {
-        sortedCatches = catches.sort(dynamicSort(`-${id}`));
+        sortedCatches = catches.sort(dynamicSort(`-${sortIndex}`));
       } else {
         translatedCatches = translateCatches(catches);
-        sortedCatches = translatedCatches.sort(dynamicSort(`-${id}`));
+        sortedCatches = translatedCatches.sort(dynamicSort(`-${sortIndex}`));
       }
     } else {
-      setSorting(id);
-      sortedCatches = catches.sort(dynamicSort(id));
+      setSorting(sortIndex);
+      sortedCatches = catches.sort(dynamicSort(sortIndex));
     }
     setCatches(sortedCatches);
   };
@@ -172,28 +174,29 @@ const CatchList = ({
     }, []);
 
     if (chunkedCatchesArr[0]) {
-      rows = chunkedCatchesArr[paginationPage - 1].map((el) => {
+      rows = chunkedCatchesArr[paginationPage - 1].map((el, index) => {
         return (
           <CatchRow
             rowFeatures={features}
             key={el.id}
             handleRemove={(e) => prepareRemove(e, el.id)}
             data={el}
+            iterationIndex={index}
           />
         );
       });
     } else {
       rows = null;
     }
-    console.log(chunkedCatchesArr);
   } else if (catches) {
-    rows = catches.map((el) => {
+    rows = catches.map((el, index) => {
       return (
         <CatchRow
           rowFeatures={features}
           key={el.id}
           handleRemove={(e) => prepareRemove(e, el.id)}
           data={el}
+          iterationIndex={index}
         />
       );
     });
@@ -211,11 +214,17 @@ const CatchList = ({
 
   return (
     <>
-      <CatchListHeader
-        featureList={features}
-        sortingType={sorting}
-        onFeatureClick={sortRows}
-      />
+      {catches && catches.length > 0 ? (
+        <CatchListHeader
+          featureList={features}
+          sortingType={sorting}
+          onFeatureClick={sortRows}
+        />
+      ) : (
+        <p className="text-center text-gray-600 dark:text-gray-500">
+          {t.addfirstfish}
+        </p>
+      )}
 
       {error ? <p>{t.fetchingdataerror}</p> : null}
       {!data ? (
@@ -223,12 +232,13 @@ const CatchList = ({
           color={skeletonColor}
           highlightColor={skeletonHighlightColor}
         >
-          <Skeleton count={amount} height={100} />
+          <Skeleton count={amount ? amount : 3} height={100} />
         </SkeletonTheme>
       ) : null}
       <div className="flex flex-row flex-wrap sm:flex-col justify-around px-8 xs:px-16 sm:px-0">
         {rows}
-        {pagination && catches ? (
+
+        {pagination && catches && Math.ceil(catches.length / perChunk) > 1 ? (
           <PaginationControls
             pages={Math.ceil(catches.length / perChunk)}
             currentPage={paginationPage}

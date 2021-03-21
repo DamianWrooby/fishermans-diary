@@ -66,4 +66,7 @@ export default {
   delete_cap: 'Delete',
   cancel: 'cancel',
   cancel_cap: 'Cancel',
+  success: 'Success',
+  clickonthemap: 'Click on the map to add fish',
+  addfirstfish: 'Add first fish',
 };

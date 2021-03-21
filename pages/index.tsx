@@ -19,7 +19,7 @@ const Home = (): React.ReactNode => {
   return (
     <Layout>
       <Head>
-        <title>Fisherman&apos;s Diary</title>
+        <title>Fisherman&apos;s Diary </title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         <meta name="description" content="Fishbook - every angler's diary" />
       </Head>
@@ -28,7 +28,7 @@ const Home = (): React.ReactNode => {
           <section className="p-5 pt-12 pb-12">
             <AnimatePresence>
               <motion.h2
-                initial={{ opacity: 0, x: -100, y: 0 }}
+                initial={{ opacity: 0, x: 300, y: 0 }}
                 animate={{ opacity: 1, x: 0, y: 0 }}
                 exit={{ opacity: 0, x: 100, y: 0 }}
                 className="text-xl p-3"
@@ -50,14 +50,18 @@ const Home = (): React.ReactNode => {
               ]}
               userID={user.data.uid}
             />
-            <div className="text-sm dark:hover:text-blue-200 hover:text-blue-500">
-              <Link href="/catches/my-catches">
-                <a href="/catches/my-catches">{t.showall}</a>
-              </Link>
-            </div>
           </section>
           <section className="p-5 pt-12 pb-12">
-            <h2 className="text-xl p-3">{t.fishesrecentlycatchedbysociety}</h2>
+            <AnimatePresence>
+              <motion.h2
+                initial={{ opacity: 0, x: 300, y: 0 }}
+                animate={{ opacity: 1, x: 0, y: 0 }}
+                exit={{ opacity: 0, x: 100, y: 0 }}
+                className="text-xl p-3"
+              >
+                {t.fishesrecentlycatchedbysociety}
+              </motion.h2>
+            </AnimatePresence>
             <CatchList
               amount={30}
               features={[

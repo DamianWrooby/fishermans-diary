@@ -7,6 +7,15 @@ const CatchListHeader = ({ featureList, onFeatureClick, sortingType }) => {
   const router = useRouter();
   const { locale } = router;
   const t = locale === 'en' ? en : pl;
+  let sorting;
+
+  if (sortingType === 'timestamp') {
+    sorting = 'date';
+  } else if (sortingType === '-timestamp') {
+    sorting = '-date';
+  } else {
+    sorting = sortingType;
+  }
 
   return (
     <div className="w-full max-w-screen-lg flex flex-row justify-between p-3 items-center">
@@ -20,12 +29,12 @@ const CatchListHeader = ({ featureList, onFeatureClick, sortingType }) => {
             onClick={() => onFeatureClick(feature)}
           >
             <p>{t[feature]}</p>
-            {sortingType === feature && (
+            {sorting === feature && (
               <div className="w-2 ml-3 transform -rotate-90">
                 <Arrow className="fill-current dark:text-white invisible sm:visible" />
               </div>
             )}
-            {sortingType === `-${feature}` && (
+            {sorting === `-${feature}` && (
               <div className="w-2 -ml-1 transform rotate-90">
                 <Arrow className="fill-current dark:text-white invisible sm:visible" />
               </div>

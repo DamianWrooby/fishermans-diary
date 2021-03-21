@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import firebase from 'firebase/app';
 import { db } from '../../services/firebase';
 import { useAuth } from '../../contexts/authContext';
 import CustomUploadButton from 'react-firebase-file-uploader/lib/CustomUploadButton';
@@ -53,6 +54,7 @@ const CatchForm = ({ passCoords, closeFormCallback }: FormProps) => {
   const time = `${now.getHours()}:${
     now.getMinutes() < 10 ? '0' : ''
   }${now.getMinutes()}:${now.getSeconds()}`;
+  const timeStamp = firebase.firestore.Timestamp.fromDate(new Date()).seconds;
 
   const uploadBtn = useColorModeValue('#2d3748', 'lightgreen');
   const uploadBtnText = useColorModeValue('white', '#2d3748');
@@ -92,6 +94,7 @@ const CatchForm = ({ passCoords, closeFormCallback }: FormProps) => {
         author_photo: photoURL,
         date: date,
         time: time,
+        timestamp: timeStamp,
         coords: coords,
         species: values.species,
         weight: values.weight,
@@ -101,7 +104,7 @@ const CatchForm = ({ passCoords, closeFormCallback }: FormProps) => {
         image: imageURL,
         private: values.private,
       });
-      setSendBtnText('Success');
+      setSendBtnText(t.success);
       window.setTimeout(() => {
         setSendBtnText('Add Catch');
         closeFormCallback();

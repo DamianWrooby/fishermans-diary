@@ -1,6 +1,6 @@
 const MenuButton = ({ open, handleClick }) => {
   return (
-    <div className="fixed right-4 top-4 z-20 sm:hidden">
+    <div className="fixed right-4 top-4 z-50 sm:hidden">
       <div
         onClick={handleClick}
         className={`flex flex-col w-12 h-12 justify-between bg-transparent cursor-pointer transition-all duration-300${
@@ -9,13 +9,13 @@ const MenuButton = ({ open, handleClick }) => {
         aria-label="Menu toggle button"
       >
         <div
-          className={`bg-blue-200 rounded w-6 h-1.5 transition-all duration-300 origin-right self-end${
+          className={`bg-blue-500 dark:bg-blue-200 rounded w-6 h-1.5 transition-all duration-300 origin-right self-end ${
             open ? ' transform -rotate-90 -translate-x-6 -translate-y-1' : ''
           }`}
         ></div>
-        <div className="bg-blue-200 rounded w-12 h-1.5 transition-all duration-300"></div>
+        <div className="bg-blue-500 dark:bg-blue-200 rounded w-12 h-1.5 transition-all duration-300"></div>
         <div
-          className={`bg-blue-200 rounded w-6 h-1.5 transition-all duration-300 origin-left${
+          className={`bg-blue-500 dark:bg-blue-200 rounded w-6 h-1.5 transition-all duration-300 origin-left ${
             open ? ' transform -rotate-90 translate-x-6 translate-y-1' : ''
           }`}
         ></div>

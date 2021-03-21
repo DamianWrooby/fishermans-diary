@@ -4,6 +4,7 @@ import LanguageToggler from '../partials/LanguageToggler';
 import DarkModeToggler from '../partials/DarkModeToggler';
 import en from '../../translations/en';
 import pl from '../../translations/pl';
+import HomeIcon from '../../public/home_icon.svg';
 
 type MobileMenuProps = {
   data: any;
@@ -17,7 +18,7 @@ const MobileMenu = ({ data, isOpen, locale }: MobileMenuProps) => {
 
   return (
     <div
-      className={`mobile-menu fixed sm:hidden overflow-hidden flex flex-col justify-around w-screen origin-top z-10 bg-bg-gray${
+      className={`mobile-menu fixed sm:hidden overflow-hidden flex flex-col justify-around w-screen origin-top z-20 bg-gray-300 dark:bg-bg-gray ${
         isOpen ? ' h-screen' : ' h-0'
       }`}
     >
@@ -32,8 +33,8 @@ const MobileMenu = ({ data, isOpen, locale }: MobileMenuProps) => {
               }
             >
               <Link href="/">
-                <a href="/" className="p-1">
-                  {t.home}
+                <a href="/">
+                  <HomeIcon className="m-auto fill-current mr-2 text-white hover:text-blue-300" />
                 </a>
               </Link>
             </li>

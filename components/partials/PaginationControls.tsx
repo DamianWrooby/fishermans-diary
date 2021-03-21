@@ -7,7 +7,7 @@ const PaginationControls = ({ pages, currentPage, handleClick }) => {
     buttonsArr[i] = i + 1;
   }
   return (
-    <div className="w-full flex flex-row justify-center">
+    <div className="w-full flex flex-row justify-center py-2">
       <IconButton
         key="prevPage"
         aria-label="Previous page"

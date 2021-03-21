@@ -66,4 +66,7 @@ export default {
   delete_cap: 'Usuń',
   cancel: 'anuluj',
   cancel_cap: 'Anuluj',
+  success: 'Dodano',
+  clickonthemap: 'Kliknij w miejsce na mapie, by dodać rybę',
+  addfirstfish: 'Dodaj pierwszą rybę',
 };
