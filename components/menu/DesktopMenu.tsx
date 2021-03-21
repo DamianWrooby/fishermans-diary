@@ -59,7 +59,7 @@ const DesktopMenu = ({ data, locale }: DesktopMenuProps) => {
               >
                 <Link href="/">
                   <a href="/">
-                    <HomeIcon className="fill-current mr-2 text-white hover:text-blue-300" />
+                    <HomeIcon className="fill-current mr-2" />
                   </a>
                 </Link>
               </li>
