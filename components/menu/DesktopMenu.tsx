@@ -23,14 +23,14 @@ const DesktopMenu = ({ data, locale }: DesktopMenuProps) => {
             <ul className="flex flex-row">
               <li
                 className={
-                  router.pathname == '/login'
+                  router.pathname == '/'
                     ? 'dark:text-blue-300 text-blue-500'
                     : 'dark:hover:text-blue-300 hover:text-blue-500'
                 }
               >
                 <Link href="/">
                   <a href="/">
-                    <HomeIcon className="fill-current mr-2 text-white hover:text-blue-300" />
+                    <HomeIcon className="fill-current mr-2" />
                   </a>
                 </Link>
               </li>
@@ -58,8 +58,8 @@ const DesktopMenu = ({ data, locale }: DesktopMenuProps) => {
                 }
               >
                 <Link href="/">
-                  <a href="/" className="p-1">
-                    {t.home}
+                  <a href="/">
+                    <HomeIcon className="fill-current mr-2 text-white hover:text-blue-300" />
                   </a>
                 </Link>
               </li>
