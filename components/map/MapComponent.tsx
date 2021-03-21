@@ -11,7 +11,7 @@ import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
 import { fromLonLat, toLonLat } from 'ol/proj';
 import Control from 'ol/control/Control';
-
+import { PinchZoom, defaults as defaultInteractions } from 'ol/interaction';
 export interface MapProps {
   sourceUrl: string;
   markers?: Array<Number>;
@@ -42,6 +42,7 @@ const MapComponent = ({
 
   useEffect(() => {
     const map: Map = new Map({
+      interactions: defaultInteractions().extend([new PinchZoom()]),
       layers: [
         new TileLayer({
           source,
