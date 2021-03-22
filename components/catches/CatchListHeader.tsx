@@ -18,7 +18,7 @@ const CatchListHeader = ({ featureList, onFeatureClick, sortingType }) => {
   }
 
   return (
-    <div className="w-full max-w-screen-lg flex flex-row justify-between p-3 items-center">
+    <div className="w-full max-w-screen-lg flex flex-row justify-between p-3 items-center m-auto">
       {featureList.map((feature) => {
         return feature === 'image' ? (
           <div key={feature} className={`w-1/${featureList.length}`}></div>

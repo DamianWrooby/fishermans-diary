@@ -6,6 +6,7 @@ export default class Document extends NextDocument {
     return (
       <Html lang="en">
         <Head>
+          <meta name="theme-color" content="#1a202c" />
           <script async src="https://unpkg.com/elm-pep"></script>
           {/* <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 

@@ -47,7 +47,7 @@ const CatchRow = ({
           transition={{ duration: 0.2, delay: iterationIndex / 10 }}
         >
           <div
-            className="group w-full flex max-w-screen-lg bordered border rounded-lg  p-3 mb-4 cursor-pointer bg-transparent hover:bg-gray-100 dark:hover:bg-gray-800 hover:border-gray-800 dark:hover:border-white  transform hover:-translate-y-1 hover:translate-x-1 transition duration-100 ease-in-out"
+            className="group w-full flex m-auto max-w-screen-lg bordered border rounded-lg  p-3 mb-4 cursor-pointer bg-transparent hover:bg-gray-100 dark:hover:bg-gray-800 hover:border-gray-800 dark:hover:border-white  transform hover:-translate-y-1 hover:translate-x-1 transition duration-100 ease-in-out"
             onClick={onOpen}
           >
             <div className="m-auto sm:w-full sm:flex sm:items-center">

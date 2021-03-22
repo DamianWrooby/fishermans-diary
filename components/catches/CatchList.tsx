@@ -65,6 +65,7 @@ const CatchList = ({
   const [paginationPage, setPaginationPage] = useState(1);
   const [sorting, setSorting] = useState('date');
   const [elementToRemove, setElementToRemove] = useState('');
+  const [loading, setLoading] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   //* If userID is not specified, fetch non-private catches from all users
@@ -149,6 +150,7 @@ const CatchList = ({
   };
 
   useEffect(() => {
+    setLoading(true);
     const tmp = [];
     if (data) {
       data.map((doc) => {
@@ -158,6 +160,7 @@ const CatchList = ({
     tmp.sort(dynamicSort('-date'));
     setSorting('-date');
     setCatches(tmp);
+    setLoading(false);
   }, [data]);
 
   if (catches && pagination) {
@@ -214,7 +217,7 @@ const CatchList = ({
 
   return (
     <>
-      {catches && catches.length > 0 ? (
+      {catches && !loading ? (
         <CatchListHeader
           featureList={features}
           sortingType={sorting}
@@ -225,9 +228,8 @@ const CatchList = ({
           {t.addfirstfish}
         </p>
       )}
-
       {error ? <p>{t.fetchingdataerror}</p> : null}
-      {!data ? (
+      {loading ? (
         <SkeletonTheme
           color={skeletonColor}
           highlightColor={skeletonHighlightColor}
@@ -237,7 +239,6 @@ const CatchList = ({
       ) : null}
       <div className="flex flex-row flex-wrap sm:flex-col justify-around px-8 xs:px-16 sm:px-0">
         {rows}
-
         {pagination && catches && Math.ceil(catches.length / perChunk) > 1 ? (
           <PaginationControls
             pages={Math.ceil(catches.length / perChunk)}

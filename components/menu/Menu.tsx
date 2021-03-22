@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAuth } from '../../contexts/authContext';
 import { useRouter } from 'next/router';
 import MenuButton from './MenuButton';
@@ -20,6 +20,10 @@ const Menu = () => {
       document.body.style.overflow = 'hidden';
     }
   };
+
+  useEffect(() => {
+    document.body.style.overflow = 'unset';
+  }, []);
 
   return (
     <>
