@@ -139,7 +139,7 @@ const MapComponent = ({
           { timeout: 10000, enableHighAccuracy: true }
         );
 
-        button.addEventListener('click', function (): void {
+        button.addEventListener('singleclick', function (): void {
           map.getView().animate({ zoom: 19, center: currPosition });
         });
         element.appendChild(button);
