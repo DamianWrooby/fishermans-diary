@@ -237,7 +237,7 @@ const CatchList = ({
           <Skeleton count={amount ? amount : 3} height={100} />
         </SkeletonTheme>
       ) : null}
-      <div className="flex flex-row flex-wrap sm:flex-col justify-around px-8 xs:px-16 sm:px-0">
+      <div className="w-full flex flex-row flex-wrap sm:flex-col justify-around px-8 xs:px-16 sm:px-0">
         {rows}
         {pagination && catches && Math.ceil(catches.length / perChunk) > 1 ? (
           <PaginationControls

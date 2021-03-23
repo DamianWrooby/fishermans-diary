@@ -26,15 +26,16 @@ const CatchCard = ({ data, open, close }) => {
   const escapedBait = data.bait.replace(' ', '');
 
   marker[0] = data.coords;
+  const escapedName = data.species.replace(' ', '');
 
   return (
     <>
       <Modal isOpen={open} onClose={close}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader className="pb-0 capitalize">{`${t[data.species]} - ${
-            data.weight
-          }kg / ${data.length}cm`}</ModalHeader>
+          <ModalHeader className="pb-0 capitalize">{`${
+            t[escapedName] ? t[escapedName] : t[data.species]
+          } - ${data.weight}kg / ${data.length}cm`}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <div className="flex flex-row">

@@ -22,7 +22,9 @@ const LanguageToggler = () => {
     <div className="inline text-xs">
       <button
         className={
-          locale === 'en' ? 'text-white' : 'text-gray-500 hover:text-white'
+          locale === 'en'
+            ? 'text-blue-600 dark:text-white'
+            : 'text-blue-400 hover:text-blue-600 dark:text-gray-500 dark:hover:text-white'
         }
         onClick={() => changeLan('en')}
       >
@@ -31,7 +33,9 @@ const LanguageToggler = () => {
       <span> / </span>
       <button
         className={
-          locale === 'pl' ? 'text-white' : 'text-gray-500 hover:text-white'
+          locale === 'pl'
+            ? 'text-blue-600 dark:text-white'
+            : 'text-blue-400 hover:text-blue-600 dark:text-gray-500 dark:hover:text-white'
         }
         onClick={() => changeLan('pl')}
       >

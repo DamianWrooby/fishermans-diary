@@ -26,7 +26,7 @@ const MyCatches = (): React.ReactNode => {
                   initial={{ opacity: 0, x: -100, y: 0 }}
                   animate={{ opacity: 1, x: 0, y: 0 }}
                   exit={{ opacity: 0, x: 100, y: 0 }}
-                  className="p-3 text-xl text-center"
+                  className="p-3 text-md sm:text-xl text-center"
                 >
                   {t.allyourcatches}
                 </motion.h1>

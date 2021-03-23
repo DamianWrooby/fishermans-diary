@@ -24,13 +24,13 @@ const Home = (): React.ReactNode => {
       </Head>
       {user.isAuthenticated ? (
         <>
-          <section className="p-5 pt-12 pb-12">
+          <section className="p-5 pt-24 sm:pt-12 pb-12">
             <AnimatePresence>
               <motion.h2
                 initial={{ opacity: 0, x: 300, y: 0 }}
                 animate={{ opacity: 1, x: 0, y: 0 }}
                 exit={{ opacity: 0, x: 100, y: 0 }}
-                className="text-xl p-3"
+                className="text-md sm:text-xl text-center p-3"
               >
                 {t.yourlastcatches}
               </motion.h2>
@@ -56,7 +56,7 @@ const Home = (): React.ReactNode => {
                 initial={{ opacity: 0, x: 300, y: 0 }}
                 animate={{ opacity: 1, x: 0, y: 0 }}
                 exit={{ opacity: 0, x: 100, y: 0 }}
-                className="text-xl p-3"
+                className="text-md sm:text-xl text-center p-3"
               >
                 {t.fishesrecentlycatchedbysociety}
               </motion.h2>

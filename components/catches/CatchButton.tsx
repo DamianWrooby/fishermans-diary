@@ -10,7 +10,7 @@ const CatchButton = () => {
         <motion.div
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
-          className="fixed m-16 bottom-0 right-0"
+          className="fixed m-6 sm:m-16 bottom-0 right-0"
         >
           <IconButton
             aria-label="Add catch"

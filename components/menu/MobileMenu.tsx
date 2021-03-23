@@ -22,14 +22,14 @@ const MobileMenu = ({ data, isOpen, locale }: MobileMenuProps) => {
         isOpen ? ' h-screen' : ' h-0'
       }`}
     >
-      <nav className="p-4 text-center">
+      <nav className="p-4 text-center mx-auto">
         {data ? (
           <ul className="flex flex-col">
             <li
               className={
-                router.pathname == '/login'
-                  ? 'dark:text-blue-300 text-blue-500 p-4'
-                  : 'dark:hover:text-blue-300 hover:text-blue-500 p-4'
+                router.pathname == '/'
+                  ? 'dark:text-blue-300 text-blue-500 p-4 mx-auto'
+                  : 'dark:hover:text-blue-300 hover:text-blue-500 p-4 mx-auto'
               }
             >
               <Link href="/">
@@ -62,15 +62,15 @@ const MobileMenu = ({ data, isOpen, locale }: MobileMenuProps) => {
               }
             >
               <Link href="/">
-                <a href="/" className="p-1">
-                  {t.home}
+                <a href="/">
+                  <HomeIcon className="fill-current mr-2" />
                 </a>
               </Link>
             </li>
           </ul>
         )}
       </nav>
-      <div className="flex flex-row justify-center items-center">
+      <div className="flex flex-col justify-center items-center">
         {data ? (
           <div>
             <nav>
@@ -90,7 +90,7 @@ const MobileMenu = ({ data, isOpen, locale }: MobileMenuProps) => {
                       <div className="p-1 w-8 h-8 mr-2 rounded-full bg-gray-300 overflow-hidden">
                         <img src="/user.svg" />
                       </div>
-                      <div className="mr-2 hover:text-blue-300">
+                      <div className="text-sm mr-2 hover:text-blue-300">
                         {data.displayName ? data.displayName : data.email}
                       </div>
                     </div>
@@ -101,12 +101,12 @@ const MobileMenu = ({ data, isOpen, locale }: MobileMenuProps) => {
           </div>
         ) : (
           <nav className="p-4 mr-2">
-            <ul className="flex flex-row">
+            <ul className="flex flex-col">
               <li
                 className={
                   router.pathname == '/login'
-                    ? 'dark:text-blue-300 text-blue-500'
-                    : 'dark:hover:text-blue-300 hover:text-blue-500'
+                    ? 'dark:text-blue-300 text-blue-500 my-2'
+                    : 'dark:hover:text-blue-300 hover:text-blue-500 my-2'
                 }
               >
                 <Link href="/login">
