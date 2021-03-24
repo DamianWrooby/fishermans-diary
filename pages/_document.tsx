@@ -12,7 +12,7 @@ export default class Document extends NextDocument {
           <link
             rel="preconnect"
             href="https://fonts.gstatic.com"
-            crossOrigin="true"
+            crossorigin
           />
 
           <link
@@ -25,7 +25,7 @@ export default class Document extends NextDocument {
             rel="stylesheet"
             href="https://fonts.googleapis.com/css2?family=Mukta+Malar:wght@200;400;700&display=swap"
             media="print"
-            onLoad="this.media='all'"
+            onload="this.media='all'"
           />
 
           <noscript>
