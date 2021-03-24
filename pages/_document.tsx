@@ -25,7 +25,6 @@ export default class Document extends NextDocument {
             rel="stylesheet"
             href="https://fonts.googleapis.com/css2?family=Mukta+Malar:wght@200;400;700&display=swap"
             media="print"
-            onload="this.media='all'"
           />
 
           <noscript>
