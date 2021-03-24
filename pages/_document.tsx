@@ -12,7 +12,7 @@ export default class Document extends NextDocument {
           <link
             rel="preconnect"
             href="https://fonts.gstatic.com"
-            crossorigin
+            crossorigin="anonymous"
           />
 
           <link
