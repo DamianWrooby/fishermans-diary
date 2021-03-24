@@ -72,4 +72,7 @@ export default {
   addfirstfish: 'Dodaj pierwszą rybę',
   hide: 'Ukryj',
   show: 'Pokaż',
+  welcome: 'Witaj',
+  logout: 'Wyloguj',
+  deletemyaccount: 'Usuń moje konto',
 };

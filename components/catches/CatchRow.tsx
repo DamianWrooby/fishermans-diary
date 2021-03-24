@@ -37,6 +37,7 @@ const CatchRow = ({
 }: CatchRowProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const t = useLanguage() === 'en' ? en : pl;
+
   return (
     <>
       <AnimatePresence>
@@ -66,8 +67,10 @@ const CatchRow = ({
                           <Image
                             src={data.image}
                             alt={data.species}
-                            layout="fill"
+                            // layout="fill"
                             objectFit="cover"
+                            width="128"
+                            height="128"
                           />
                         </div>
                       </>

@@ -277,6 +277,10 @@ module.exports = {
         '"Courier New"',
         'monospace',
       ],
+      'body': [
+        'Mukta Malar', 
+        'sans-serif'
+      ],
     },
     fontSize: {
       xxs: ['0.35rem', { lineHeight: '0.5rem' }],

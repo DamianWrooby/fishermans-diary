@@ -8,27 +8,32 @@ export default class Document extends NextDocument {
         <Head>
           <meta name="theme-color" content="#1a202c" />
           <script async src="https://unpkg.com/elm-pep"></script>
-          {/* <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+          <link rel="shortcut icon" href="/fish.svg" />
+          <link
+            rel="preconnect"
+            href="https://fonts.gstatic.com"
+            crossOrigin="true"
+          />
 
           <link
             rel="preload"
             as="style"
-            href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Mukta+Malar:wght@200;400;700&display=swap"
           />
 
           <link
             rel="stylesheet"
-            href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Mukta+Malar:wght@200;400;700&display=swap"
             media="print"
-            onload="this.media='all'"
+            onLoad="this.media='all'"
           />
 
           <noscript>
             <link
               rel="stylesheet"
-              href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+              href="https://fonts.googleapis.com/css2?family=Mukta+Malar:wght@200;400;700&display=swap"
             />
-          </noscript> */}
+          </noscript>
         </Head>
         <body>
           <ColorModeScript initialColorMode={'system'} />
