@@ -10,7 +10,6 @@ import useLanguage from '../../hooks/useLanguage';
 import en from '../../translations/en';
 import pl from '../../translations/pl';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
-import { motion, AnimatePresence } from 'framer-motion';
 
 type CatchListProps = {
   features: Array<string>;
@@ -217,7 +216,7 @@ const CatchList = ({
 
   return (
     <>
-      {catches && !loading ? (
+      {catches ? (
         <CatchListHeader
           featureList={features}
           sortingType={sorting}
@@ -229,7 +228,7 @@ const CatchList = ({
         </p>
       )}
       {error ? <p>{t.fetchingdataerror}</p> : null}
-      {loading ? (
+      {!data ? (
         <SkeletonTheme
           color={skeletonColor}
           highlightColor={skeletonHighlightColor}

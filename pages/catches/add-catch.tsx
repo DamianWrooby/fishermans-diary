@@ -27,9 +27,8 @@ const AddCatch = () => {
   const user = useAuth();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const polandLonLat: Array<Number> = [19.408318, 52.121216];
-  const polandWebMercator: Array<Number> = fromLonLat(polandLonLat);
   const [coords, setCoords] = useState([]);
-  const t = useLanguage() === 'en' ? en : pl;
+  const t: typeof en | typeof pl = useLanguage() === 'en' ? en : pl;
 
   const getData = (data: Array<Number>): void => {
     setCoords(data);
@@ -53,7 +52,7 @@ const AddCatch = () => {
             <div className="w-9/12 h-2/3 mx-auto cursor-pointer">
               <MemoMapComponent
                 sourceUrl="https://api.maptiler.com/maps/outdoor/tiles.json?key=GflTzOMvFDCYQ9RjOmMu"
-                centerCoords={polandWebMercator}
+                centerCoords={polandLonLat}
                 getDataCallback={getData}
                 showFormCallback={onOpen}
                 geolocation={true}
