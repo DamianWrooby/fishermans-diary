@@ -85,7 +85,17 @@ const MyCatches = (): React.ReactNode => {
 
   return (
     <div className="h-screen">
-      <Layout>{content}</Layout>
+      <Layout>
+        <Head>
+          <title>{t.mycatches} - Fisherman&apos;s Diary</title>
+          <meta
+            name="viewport"
+            content="initial-scale=1.0, width=device-width"
+          />
+          <meta name="description" content="Fishbook - every angler's diary" />
+        </Head>
+        {content}
+      </Layout>
     </div>
   );
 };

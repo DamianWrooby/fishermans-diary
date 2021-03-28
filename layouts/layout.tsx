@@ -7,7 +7,7 @@ const Layout = ({ children }) => {
   const router = useRouter();
 
   return (
-    <div className="font-body bg-gray-300 dark:bg-bg-gray min-h-screen flex flex-col justify-between">
+    <div className="font-body overflow-x-hidden bg-gray-300 dark:bg-bg-gray min-h-screen flex flex-col justify-between">
       <Menu />
       <motion.div
         key={router.route}

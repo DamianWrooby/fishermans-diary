@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Head from 'next/head';
 import Link from 'next/link';
 import {
   Modal,
@@ -36,6 +37,11 @@ const AddCatch = () => {
 
   return (
     <Layout>
+      <Head>
+        <title>{t.addcatch} - Fisherman&apos;s Diary</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <meta name="description" content="Fishbook - every angler's diary" />
+      </Head>
       {user.isAuthenticated ? (
         <>
           <div className="w-screen h-screen m-auto flex flex-col">
