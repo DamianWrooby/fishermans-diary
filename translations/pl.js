@@ -26,7 +26,7 @@ export default {
   or: 'lub',
   loginwithgoogle: 'Zaloguj się kontem Google',
   signinandcatchyourprfishfishbook:
-    'Zaloguj się i złap rybę o rekordowych wymiarach - Fishbook',
+    'Zaloguj się i złap rybę o rekordowych wymiarach - Fisherman&rsquo;s Diary',
   youreloggedin: 'Jesteś zalogowany',
   rainbowtrout: 'pstrąg tęczowy',
   pike: 'szczupak',
@@ -75,4 +75,5 @@ export default {
   welcome: 'Witaj',
   logout: 'Wyloguj',
   deletemyaccount: 'Usuń moje konto',
+  logindescription: 'Dołącz do nas i pochwal się złowionymi okazami',
 };

@@ -25,7 +25,8 @@ export default {
   loginwithfacebook: 'Login with Facebook',
   or: 'or',
   loginwithgoogle: 'Login with Google',
-  signinandcatchyourprfishfishbook: 'Sign in and catch your PR fish - Fishbook',
+  signinandcatchyourprfishfishbook:
+    'Sign in and catch PR fish - Fisherman&rsquo;s Diary',
   youreloggedin: 'You&apos;re logged in.',
   rainbowtrout: 'rainbow trout',
   pike: 'pike',
@@ -75,4 +76,5 @@ export default {
   welcome: 'Welcome',
   logout: 'Logout',
   deletemyaccount: 'Delete my account',
+  logindescription: 'Join us now and catch all species of fish',
 };

@@ -39,7 +39,7 @@ const Login = () => {
       <Head>
         <title>{t.signinandcatchyourprfishfishbook}</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-        <meta name="description" content="Fishbook - every angler's diary" />
+        <meta name="description" content={t.logindescription} />
       </Head>
       <div className="pt-24 sm:pt-16 -mb-20 flex flex-col">
         <div className="w-full h-full flex flex-col justify-center items-center">

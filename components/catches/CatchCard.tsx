@@ -33,24 +33,24 @@ const CatchCard = ({ data, open, close }) => {
       <Modal isOpen={open} onClose={close}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader className="pb-0 capitalize">{`${
+          <ModalHeader size="sm" className="pb-0 capitalize">{`${
             t[escapedName] ? t[escapedName] : t[data.species]
           } - ${data.weight}kg / ${data.length}cm`}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <div className="flex flex-row">
+            <div className="flex flex-col sm:flex-row">
               <div className="w-2/3">
-                <div className="flex flex-row items-end text-sm -mt-3 text-gray-600 dark:text-gray-100 capitalize">
+                <div className="flex flex-row sm:flex-row items-end text-sm -mt-3 text-gray-600 dark:text-gray-100 capitalize">
                   <p className="mr-3">
                     <strong>{t.method}: </strong>
-                    {`${t[data.method]}`}
+                    <span>{`${t[data.method]}`}</span>
                   </p>
                   <p className="mr-3">
                     <strong>{t.bait}: </strong>
                     {t[escapedBait] ? t[escapedBait] : data.bait}
                   </p>
                 </div>
-                <div className="flex flex-row  text-sm text-gray-400">
+                <div className="flex flex-row sm:flex-row  text-sm text-gray-400">
                   <p>{`${t.catched} ${data.date} ${t.at} ${data.time}`}</p>
                 </div>
               </div>

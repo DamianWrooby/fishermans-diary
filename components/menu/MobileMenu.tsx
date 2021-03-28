@@ -18,7 +18,7 @@ const MobileMenu = ({ data, isOpen, locale }: MobileMenuProps) => {
 
   return (
     <div
-      className={`mobile-menu fixed sm:hidden overflow-hidden flex flex-col justify-around w-screen origin-top z-20 bg-gray-300 dark:bg-bg-gray ${
+      className={`mobile-menu fixed sm:hidden overflow-hidden flex flex-col justify-center w-screen origin-top z-20 bg-gray-300 dark:bg-bg-gray ${
         isOpen ? ' h-screen' : ' h-0'
       }`}
     >
@@ -101,7 +101,7 @@ const MobileMenu = ({ data, isOpen, locale }: MobileMenuProps) => {
           </div>
         ) : (
           <nav className="p-4 mr-2">
-            <ul className="flex flex-col">
+            <ul className="flex flex-col items-center">
               <li
                 className={
                   router.pathname == '/login'

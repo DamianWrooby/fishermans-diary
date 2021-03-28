@@ -1,6 +1,6 @@
 const MenuButton = ({ open, handleClick }) => {
   return (
-    <div className="fixed right-4 top-4 z-50 sm:hidden">
+    <div className="fixed p-4 right-0 rounded-bl-md top-0 z-50 bg-bg-gray sm:hidden">
       <div
         onClick={handleClick}
         className={`flex flex-col w-12 h-12 justify-between bg-transparent cursor-pointer transition-all duration-300${

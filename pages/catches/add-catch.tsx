@@ -38,18 +38,18 @@ const AddCatch = () => {
     <Layout>
       {user.isAuthenticated ? (
         <>
-          <div className="w-screen h-screen m-auto flex flex-col">
+          <div className="w-screen h-40 m-auto flex flex-col">
             <AnimatePresence>
               <motion.h1
                 initial={{ opacity: 0, x: -100, y: 0 }}
                 animate={{ opacity: 1, x: 0, y: 0 }}
                 exit={{ opacity: 0, x: 100, y: 0 }}
-                className="text-center text-xl p-8"
+                className="text-center text-xl pt-20 pb-4 sm:p-8"
               >
                 {t.clickonthemap}
               </motion.h1>
             </AnimatePresence>
-            <div className="w-9/12 h-2/3 mx-auto cursor-pointer">
+            <div className="w-5/6 sm:w-9/12 h-2/3 mx-auto cursor-pointer">
               <MemoMapComponent
                 sourceUrl="https://api.maptiler.com/maps/outdoor/tiles.json?key=GflTzOMvFDCYQ9RjOmMu"
                 centerCoords={polandLonLat}

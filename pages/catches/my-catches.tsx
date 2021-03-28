@@ -10,20 +10,18 @@ import useLanguage from '../../hooks/useLanguage';
 import en from '../../translations/en';
 import pl from '../../translations/pl';
 import { motion, AnimatePresence } from 'framer-motion';
-import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
-import { useDisclosure, useColorModeValue } from '@chakra-ui/react';
+import Loader from '../../components/partials/Loader';
 
 const MyCatches = (): React.ReactNode => {
   const user = useAuth();
   const t = useLanguage() === 'en' ? en : pl;
-  const skeletonColor = useColorModeValue('#b1b1b1', '#242c3c');
-  const skeletonHighlightColor = useColorModeValue('#b9b9b9', '#2a3346');
 
-  let loggedContent;
+  let content;
+
   if (user.isAuthenticated && !user.loading) {
-    loggedContent = (
+    content = (
       <>
-        <div className="p-5 pt-12">
+        <div className="p-5 pt-20 sm:pt-12">
           <AnimatePresence>
             <motion.h1
               initial={{ opacity: 0, x: -100, y: 0 }}
@@ -53,18 +51,13 @@ const MyCatches = (): React.ReactNode => {
       </>
     );
   } else if (!user.isAuthenticated && user.loading) {
-    loggedContent = (
-      <div className="w-1/2 h-screen">
-        <SkeletonTheme
-          color={skeletonColor}
-          highlightColor={skeletonHighlightColor}
-        >
-          <Skeleton count={1} />
-        </SkeletonTheme>
+    content = (
+      <div className="w-1/3 m-auto fill-current	text-blue-200">
+        <Loader />
       </div>
     );
   } else if (!user.isAuthenticated && !user.loading) {
-    loggedContent = (
+    content = (
       <div className="container flex flex-col justify-center items-center h-screen">
         <p className="p-2">{t.youhavetosignin}</p>
         <Link href="/login">
@@ -92,7 +85,7 @@ const MyCatches = (): React.ReactNode => {
 
   return (
     <div className="h-screen">
-      <Layout>{loggedContent}</Layout>
+      <Layout>{content}</Layout>
     </div>
   );
 };
