@@ -78,7 +78,7 @@ const Home = (): React.ReactNode => {
     );
   } else if (!user.isAuthenticated && user.loading) {
     content = (
-      <div className="w-1/3 m-auto fill-current	text-blue-200">
+      <div className="w-24 m-auto fill-current	text-blue-200">
         <Loader />
       </div>
     );
