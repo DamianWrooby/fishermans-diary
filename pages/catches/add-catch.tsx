@@ -38,7 +38,7 @@ const AddCatch = () => {
     <Layout>
       {user.isAuthenticated ? (
         <>
-          <div className="w-screen h-40 m-auto flex flex-col">
+          <div className="w-screen h-screen m-auto flex flex-col">
             <AnimatePresence>
               <motion.h1
                 initial={{ opacity: 0, x: -100, y: 0 }}
