@@ -94,6 +94,7 @@ const CatchCard = ({ data, open, close }) => {
                 sourceUrl="https://api.maptiler.com/maps/outdoor/tiles.json?key=GflTzOMvFDCYQ9RjOmMu"
                 centerCoords={data.coords}
                 markers={marker}
+                zoom={19}
               />
             </div>
           </ModalBody>

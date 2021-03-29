@@ -77,4 +77,6 @@ export default {
   logout: 'Logout',
   deletemyaccount: 'Delete my account',
   logindescription: 'Join us now and catch all species of fish',
+  catchmap: 'Catch map',
+  yourcatchmap: 'All your fishen in one place',
 };

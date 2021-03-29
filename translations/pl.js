@@ -76,4 +76,6 @@ export default {
   logout: 'Wyloguj',
   deletemyaccount: 'Usuń moje konto',
   logindescription: 'Dołącz do nas i pochwal się złowionymi okazami',
+  catchmap: 'Mapa połowów',
+  yourcatchmap: 'Wszystkie złowione przez ciebie ryby na jednej mapie',
 };

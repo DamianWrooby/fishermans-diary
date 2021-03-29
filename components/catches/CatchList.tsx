@@ -17,6 +17,7 @@ type CatchListProps = {
   userID?: string;
   pagination?: boolean;
   paginationAmount?: number;
+  personal: boolean;
 };
 
 interface Catches {
@@ -57,6 +58,7 @@ const CatchList = ({
   features,
   amount,
   userID,
+  personal,
   pagination,
   paginationAmount,
 }: CatchListProps) => {
@@ -184,6 +186,7 @@ const CatchList = ({
             handleRemove={(e) => prepareRemove(e, el.id)}
             data={el}
             iterationIndex={index}
+            removing={personal}
           />
         );
       });
@@ -199,6 +202,7 @@ const CatchList = ({
           handleRemove={(e) => prepareRemove(e, el.id)}
           data={el}
           iterationIndex={index}
+          removing={personal}
         />
       );
     });
@@ -229,14 +233,18 @@ const CatchList = ({
       )}
       {error ? <p>{t.fetchingdataerror}</p> : null}
       {!data ? (
-        <SkeletonTheme
-          color={skeletonColor}
-          highlightColor={skeletonHighlightColor}
-        >
-          <Skeleton count={amount ? amount : 3} height={100} />
-        </SkeletonTheme>
+        <div className="max-w-screen-lg">
+          <SkeletonTheme
+            color={skeletonColor}
+            highlightColor={skeletonHighlightColor}
+          >
+            <Skeleton count={amount ? amount : 3} height={100} />
+          </SkeletonTheme>
+        </div>
       ) : null}
-      <div className="w-full flex flex-row flex-wrap sm:flex-col justify-around px-8 xs:px-16 sm:px-0">
+      <div
+        className={`w-full flex flex-row flex-wrap sm:flex-col justify-between px-8 xs:px-16 sm:px-0 sm:min-h-${perChunk}`}
+      >
         {rows}
         {pagination && catches && Math.ceil(catches.length / perChunk) > 1 ? (
           <PaginationControls

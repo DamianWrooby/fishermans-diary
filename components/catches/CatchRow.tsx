@@ -27,11 +27,13 @@ type CatchRowProps = {
   rowFeatures: Array<string>;
   handleRemove: (e: React.MouseEvent<HTMLInputElement>) => void;
   iterationIndex: number;
+  removing: boolean;
 };
 
 const CatchRow = ({
   data,
   rowFeatures,
+  removing,
   handleRemove,
   iterationIndex,
 }: CatchRowProps) => {
@@ -54,7 +56,12 @@ const CatchRow = ({
           >
             <div className="m-auto sm:w-full sm:flex sm:items-center">
               {rowFeatures.map((feature) => {
-                const escapedName = data[feature].replace(' ', '');
+                let escapedName: string;
+                if (data[feature]) {
+                  escapedName = data[feature].replace(' ', '');
+                } else {
+                  escapedName = '';
+                }
 
                 return feature === 'image' ? (
                   <div
@@ -67,7 +74,6 @@ const CatchRow = ({
                           <Image
                             src={data.image}
                             alt={data.species}
-                            // layout="fill"
                             objectFit="cover"
                             width="128"
                             height="128"
@@ -89,6 +95,9 @@ const CatchRow = ({
                       {t[feature]}:&nbsp;
                     </div>
                     <div>
+                      {feature === 'author_name' && !data[feature]
+                        ? data['author_email']
+                        : null}
                       {t[escapedName] ? t[escapedName] : data[feature]}
                       {feature === 'weight' ? (
                         <span className="lowercase"> kg</span>
@@ -100,12 +109,14 @@ const CatchRow = ({
                   </div>
                 );
               })}
-              <div
-                onClick={handleRemove}
-                className="w-4 absolute right-2 top-2 rounded-full transition duration-200 ease-in-out opacity-0 group-hover:opacity-100	transform hover:scale-125"
-              >
-                <img src="/remove.svg" />
-              </div>
+              {removing ? (
+                <div
+                  onClick={handleRemove}
+                  className="w-4 absolute right-2 top-2 rounded-full transition duration-200 ease-in-out opacity-0 group-hover:opacity-100	transform hover:scale-125"
+                >
+                  <img src="/remove.svg" />
+                </div>
+              ) : null}
             </div>
           </div>
         </motion.div>

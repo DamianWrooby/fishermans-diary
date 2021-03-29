@@ -45,6 +45,7 @@ const Home = (): React.ReactNode => {
               'time',
             ]}
             userID={user.data.uid}
+            personal={true}
           />
         </section>
         <section className="p-5 pt-12 pb-12">
@@ -71,6 +72,7 @@ const Home = (): React.ReactNode => {
             ]}
             pagination={true}
             paginationAmount={5}
+            personal={false}
           />
         </section>
         <CatchButton />

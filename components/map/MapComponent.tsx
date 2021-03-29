@@ -19,6 +19,7 @@ export interface MapProps {
   getDataCallback?: (args: Array<Number>) => void;
   showFormCallback?: () => void;
   geolocation?: boolean;
+  zoom?: number;
 }
 
 const MapComponent = ({
@@ -28,9 +29,11 @@ const MapComponent = ({
   getDataCallback,
   showFormCallback,
   geolocation,
+  zoom,
 }: MapProps) => {
   const mapRef: Ref<any> = useRef(null);
   let id;
+  const zoomVal = zoom ? zoom : 6;
 
   const source = new TileJSON({
     url: sourceUrl,
@@ -55,7 +58,7 @@ const MapComponent = ({
       view: new View({
         constrainResolution: true,
         center: fromLonLat(centerCoords),
-        zoom: 6,
+        zoom: zoomVal,
       }),
     });
 

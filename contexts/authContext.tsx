@@ -25,7 +25,6 @@ export default function AuthProvider({ children }: ProviderProps) {
   useEffect(() => {
     return auth().onIdTokenChanged(async (fbUser) => {
       if (!fbUser) {
-        console.log('no user');
         setLoading(false);
         setUser(null);
         nookies.set(undefined, 'token', '', '');
@@ -34,7 +33,6 @@ export default function AuthProvider({ children }: ProviderProps) {
 
       const token = await fbUser.getIdToken();
       setLoading(true);
-      console.log(fbUser);
       setUser(fbUser);
       nookies.set(undefined, 'token', token, '');
       setLoading(false);
