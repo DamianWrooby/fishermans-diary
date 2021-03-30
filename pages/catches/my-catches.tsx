@@ -39,21 +39,19 @@ interface Catches {
 const MyCatches = () => {
   const t = useLanguage() === 'en' ? en : pl;
   const user = useAuth();
-  let userID;
   const markersCoords = [];
+  const { data, error } = useCollection<Catches>(`catches`, {
+    where: ['author_uid', '==', user.data.uid],
+    listen: true,
+  });
 
-  // if (user.data) {
-  //   userID = user.data.uid;
-  //   const { data, error } = useCollection<Catches>(`catches`, {
-  //     where: ['author_uid', '==', userID],
-  //     listen: true,
-  //   });
-  //   if (data) {
-  //     data.map((el) => {
-  //       markersCoords.push(el.coords);
-  //     });
-  //   }
-  // }
+  if (user.data) {
+    if (data) {
+      data.map((el) => {
+        markersCoords.push(el.coords);
+      });
+    }
+  }
 
   let content;
 

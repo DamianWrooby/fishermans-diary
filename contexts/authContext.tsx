@@ -24,18 +24,22 @@ export default function AuthProvider({ children }: ProviderProps) {
 
   useEffect(() => {
     return auth().onIdTokenChanged(async (fbUser) => {
-      if (!fbUser) {
-        setLoading(false);
-        setUser(null);
-        nookies.set(undefined, 'token', '', '');
-        return;
-      }
+      try {
+        if (!fbUser) {
+          setLoading(false);
+          setUser(null);
+          nookies.set(undefined, 'token', '', '');
+          return;
+        }
 
-      const token = await fbUser.getIdToken();
-      setLoading(true);
-      setUser(fbUser);
-      nookies.set(undefined, 'token', token, '');
-      setLoading(false);
+        const token = await fbUser.getIdToken();
+        setLoading(true);
+        setUser(fbUser);
+        nookies.set(undefined, 'token', token, '');
+        setLoading(false);
+      } catch (err) {
+        (err) => console.log('Błąd obsłużony:', err);
+      }
     });
   }, []);
 
