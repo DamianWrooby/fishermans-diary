@@ -233,7 +233,7 @@ const CatchList = ({
       )}
       {error ? <p>{t.fetchingdataerror}</p> : null}
       {!data ? (
-        <div className="max-w-screen-lg">
+        <div className="max-w-screen-lg m-auto">
           <SkeletonTheme
             color={skeletonColor}
             highlightColor={skeletonHighlightColor}
