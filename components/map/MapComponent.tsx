@@ -44,7 +44,7 @@ const MapComponent = ({
   const vectorSource = new VectorSource({});
 
   useEffect(() => {
-    console.log('MapComponent props:', sourceUrl, centerCoords);
+    console.log('MapComponent props:', sourceUrl, centerCoords, markers);
   });
 
   useEffect(() => {
@@ -181,7 +181,7 @@ const MapComponent = ({
 };
 
 export const MemoMapComponent = memo(MapComponent, (prevProps, nextProps) => {
-  if (prevProps.markers === nextProps.markers) {
+  if (prevProps.sourceUrl === nextProps.sourceUrl) {
     return true;
   } else {
     return false;

@@ -47,7 +47,7 @@ const CatchMap = memo(({ userID }: CatchMapProps) => {
     });
   }
 
-  if (markersCoords.length > 1) {
+  if (markersCoords[0]) {
     map = (
       <MemoMapComponent
         sourceUrl="https://api.maptiler.com/maps/outdoor/tiles.json?key=GflTzOMvFDCYQ9RjOmMu"
