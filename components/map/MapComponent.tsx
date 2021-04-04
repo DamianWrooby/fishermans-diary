@@ -44,6 +44,10 @@ const MapComponent = ({
   const vectorSource = new VectorSource({});
 
   useEffect(() => {
+    console.log('MapComponent props:', sourceUrl, centerCoords);
+  });
+
+  useEffect(() => {
     const map: Map = new Map({
       interactions: defaultInteractions().extend([new PinchZoom()]),
       layers: [
@@ -88,11 +92,13 @@ const MapComponent = ({
       });
     }
 
-    map.on('click', (evt) => {
-      const coords = toLonLat(evt.coordinate);
-      getDataCallback(coords);
-      showFormCallback();
-    });
+    if (showFormCallback && getDataCallback) {
+      map.on('click', (evt) => {
+        const coords = toLonLat(evt.coordinate);
+        getDataCallback(coords);
+        showFormCallback();
+      });
+    }
 
     map.addControl(centerBtn);
 

@@ -6,60 +6,18 @@ import Layout from '../../layouts/layout';
 import { useAuth } from '../../contexts/authContext';
 import CatchButton from '../../components/catches/CatchButton';
 import CatchList from '../../components/catches/CatchList';
-import { MemoMapComponent } from '../../components/map/MapComponent';
+import CatchMap from '../../components/catches/CatchMap';
 import useLanguage from '../../hooks/useLanguage';
 import en from '../../translations/en';
 import pl from '../../translations/pl';
 import { motion, AnimatePresence } from 'framer-motion';
 import Loader from '../../components/partials/Loader';
-import { useCollection } from '@nandorojo/swr-firestore';
-import { useEffect } from 'react';
-
-interface Catches {
-  author_email: string;
-  author_name: string;
-  author_photo: string;
-  author_uid: string;
-  bait: string;
-  coords: Array<number>;
-  date: string;
-  exists: boolean;
-  hasPendingWrites: boolean;
-  id: string;
-  image: string;
-  length: string;
-  method: string;
-  private: boolean;
-  species: string;
-  time: string;
-  weight: string;
-  __snapshot: any;
-}
 
 const MyCatches = () => {
   const t = useLanguage() === 'en' ? en : pl;
   const user = useAuth();
-  const markersCoords = [];
-  const { data, error } = useCollection<Catches>(`catches`, {
-    where: ['author_uid', '==', user.data.uid],
-    listen: true,
-  });
-
-  if (user.data) {
-    if (data) {
-      data.map((el) => {
-        markersCoords.push(el.coords);
-      });
-    }
-  }
 
   let content;
-
-  // useEffect(() => {
-  //   if (user) {
-  //     console.log(user);
-  //   }
-  // }, []);
 
   if (user.isAuthenticated && !user.loading) {
     content = (
@@ -90,24 +48,7 @@ const MyCatches = () => {
             pagination={true}
             personal={true}
           />
-          {/* <AnimatePresence>
-            <motion.h2
-              initial={{ opacity: 0, x: -100, y: 0 }}
-              animate={{ opacity: 1, x: 0, y: 0 }}
-              exit={{ opacity: 0, x: 100, y: 0 }}
-              className="pt-8 pb-3 text-md sm:text-xl text-center"
-            >
-              {t.yourcatchmap}
-            </motion.h2>
-          </AnimatePresence>
-          <div className="w-5/6 sm:w-9/12 h-96 mx-auto cursor-pointer">
-            <MemoMapComponent
-              sourceUrl="https://api.maptiler.com/maps/outdoor/tiles.json?key=GflTzOMvFDCYQ9RjOmMu"
-              centerCoords={[markersCoords[markersCoords.length - 1]]}
-              markers={markersCoords}
-              zoom={18}
-            />
-          </div> */}
+          <CatchMap userID={user.data.uid} />
         </div>
         <CatchButton />
       </>

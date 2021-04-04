@@ -243,17 +243,19 @@ const CatchList = ({
         </div>
       ) : null}
       <div
-        className={`w-full flex flex-row flex-wrap sm:flex-col justify-between px-8 xs:px-16 sm:px-0 sm:min-h-${perChunk}`}
+        className={`w-full flex flex-row flex-wrap sm:flex-col justify-start px-8 xs:px-16 sm:px-0 sm:min-h-${perChunk}`}
       >
         {rows}
-        {pagination && catches && Math.ceil(catches.length / perChunk) > 1 ? (
-          <PaginationControls
-            pages={Math.ceil(catches.length / perChunk)}
-            currentPage={paginationPage}
-            handleClick={changePage}
-          />
-        ) : null}
       </div>
+
+      {pagination && catches && Math.ceil(catches.length / perChunk) > 1 ? (
+        <PaginationControls
+          pages={Math.ceil(catches.length / perChunk)}
+          currentPage={paginationPage}
+          handleClick={changePage}
+        />
+      ) : null}
+
       <ConfirmationDialog
         handleIsOpen={isOpen}
         handleOnClose={onClose}
