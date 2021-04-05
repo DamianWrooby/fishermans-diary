@@ -104,11 +104,13 @@ const MapComponent = ({
     if (markers) {
       let marker: Feature;
       if (catchData) {
-        console.log(catchData);
         catchData.forEach((el) => {
+          let escapedSpecies = el.species.replace(' ', '');
           marker = new Feature({
             geometry: new Point(fromLonLat(el.coords)),
-            name: `${t[el.species]} - ${el.weight} kg`,
+            name: `${t[escapedSpecies] ? t[escapedSpecies] : el.species} - ${
+              el.weight
+            } kg`,
           });
 
           marker.setStyle(
