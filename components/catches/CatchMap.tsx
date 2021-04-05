@@ -51,6 +51,7 @@ const CatchMap = memo(({ userID }: CatchMapProps) => {
       <MemoMapComponent
         sourceUrl="https://api.maptiler.com/maps/outdoor/tiles.json?key=GflTzOMvFDCYQ9RjOmMu"
         centerCoords={markersCoords[markersCoords.length - 1]}
+        catchData={data}
         markers={markersCoords}
         zoom={18}
         tooltips
@@ -69,7 +70,7 @@ const CatchMap = memo(({ userID }: CatchMapProps) => {
       >
         {t.yourcatchmap}
       </motion.h2>
-      <div className="w-5/6 sm:w-9/12 h-96 mx-auto cursor-pointer">{map}</div>
+      <div className="w-5/6 sm:w-9/12 h-96 mx-auto">{map}</div>
     </div>
   );
 });

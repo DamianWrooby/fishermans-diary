@@ -167,7 +167,6 @@ const CatchList = ({
       data.map((doc) => {
         tmp.push({ id: doc.id, ...doc });
       });
-      console.log(tmp);
     }
     tmp.sort(dynamicSort('-date'));
     setSorting('-date');

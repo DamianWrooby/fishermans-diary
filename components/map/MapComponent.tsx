@@ -1,4 +1,4 @@
-import { Ref, useEffect, useRef, memo } from 'react';
+import { Ref, useState, useEffect, useRef, memo } from 'react';
 import 'ol/ol.css';
 import Map from 'ol/Map';
 import View from 'ol/View';
@@ -13,9 +13,34 @@ import { fromLonLat, toLonLat } from 'ol/proj';
 import Control from 'ol/control/Control';
 import { PinchZoom, defaults as defaultInteractions } from 'ol/interaction';
 import Overlay from 'ol/Overlay';
+import useLanguage from '../../hooks/useLanguage';
+import en from '../../translations/en';
+import pl from '../../translations/pl';
+
+interface CatchDataType {
+  author_email: string;
+  author_name: string;
+  author_photo: string;
+  author_uid: string;
+  bait: string;
+  coords: Array<number>;
+  date: string;
+  exists: boolean;
+  hasPendingWrites: boolean;
+  id: string;
+  image: string;
+  length: string;
+  method: string;
+  private: boolean;
+  species: string;
+  time: string;
+  weight: string;
+  __snapshot: any;
+}
 export interface MapProps {
   sourceUrl: string;
   markers?: Array<Number>;
+  catchData?: Array<CatchDataType>;
   centerCoords: Array<Number>;
   getDataCallback?: (args: Array<Number>) => void;
   showFormCallback?: () => void;
@@ -26,6 +51,7 @@ export interface MapProps {
 
 const MapComponent = ({
   sourceUrl,
+  catchData,
   markers,
   centerCoords,
   getDataCallback,
@@ -36,10 +62,11 @@ const MapComponent = ({
 }: MapProps) => {
   const mapRef: Ref<any> = useRef(null);
   let id: undefined | number;
-  let container: undefined | HTMLElement;
-  let content: undefined | HTMLElement;
-  let overlay: Overlay;
+  let popupContainer: undefined | HTMLElement;
+  let popupContent: undefined | HTMLElement;
+  let popup: Overlay;
   const zoomVal = zoom ? zoom : 6;
+  const t = useLanguage() === 'en' ? en : pl;
 
   const source = new TileJSON({
     url: sourceUrl,
@@ -75,23 +102,47 @@ const MapComponent = ({
     const centerBtn = new Control({ element: element });
 
     if (markers) {
-      markers.forEach((el) => {
-        const marker: Feature = new Feature({
-          geometry: new Point(fromLonLat(el)),
-          name: 'Catch',
+      let marker: Feature;
+      if (catchData) {
+        console.log(catchData);
+        catchData.forEach((el) => {
+          marker = new Feature({
+            geometry: new Point(fromLonLat(el.coords)),
+            name: `${t[el.species]} - ${el.weight} kg`,
+          });
+
+          marker.setStyle(
+            new Style({
+              image: new Icon({
+                crossOrigin: 'anonymous',
+                // For Internet Explorer 11
+                scale: 0.04,
+                src: '/fish.svg',
+              }),
+            })
+          );
+          vectorSource.addFeature(marker);
         });
-        marker.setStyle(
-          new Style({
-            image: new Icon({
-              crossOrigin: 'anonymous',
-              // For Internet Explorer 11
-              scale: 0.04,
-              src: '/fish.svg',
-            }),
-          })
-        );
-        vectorSource.addFeature(marker);
-      });
+      } else {
+        markers.forEach((el) => {
+          marker = new Feature({
+            geometry: new Point(fromLonLat(el)),
+            name: 'Catch',
+          });
+
+          marker.setStyle(
+            new Style({
+              image: new Icon({
+                crossOrigin: 'anonymous',
+                // For Internet Explorer 11
+                scale: 0.04,
+                src: '/fish.svg',
+              }),
+            })
+          );
+          vectorSource.addFeature(marker);
+        });
+      }
     }
 
     if (showFormCallback && getDataCallback) {
@@ -103,33 +154,33 @@ const MapComponent = ({
     }
 
     if (tooltips) {
-      container = document.getElementById('popup');
-      content = document.getElementById('popup-content');
-      overlay = new Overlay({
-        element: container,
-        autoPan: true,
-        autoPanAnimation: {
-          duration: 250,
-        },
+      popupContainer = document.getElementById('popup');
+      popupContent = document.getElementById('popup-content');
+      popup = new Overlay({
+        element: popupContainer,
+        positioning: 'bottom-center',
+        stopEvent: false,
+        offset: [0, -50],
       });
-      map.addOverlay(overlay);
-      map.on('click', function (evt) {
-        const features = map.forEachFeatureAtPixel(
+      map.addOverlay(popup);
+      map.on('pointermove', function (evt) {
+        const feature = map.forEachFeatureAtPixel(
           evt.pixel,
           function (feature) {
             return feature;
           }
         );
-        if (features) {
-          // var coordinates = feature.getGeometry().getCoordinates();
-          // popup.setPosition(coordinates);
-          // $(element).popover({
-          //   placement: 'top',
-          //   html: true,
-          //   content: feature.get('name'),
-          // });
-          // $(element).popover('show');
-          console.log(features);
+        const pixel = map.getEventPixel(evt.originalEvent);
+        const hit = map.hasFeatureAtPixel(pixel);
+        map.getTarget().style.cursor = hit ? 'pointer' : '';
+        if (feature) {
+          var coordinates = feature.getGeometry().getCoordinates();
+          popup.setPosition(coordinates);
+          popupContent.innerHTML = `${feature.get('name')}`;
+          popup.setPosition(coordinates);
+          console.log(coordinates);
+        } else {
+          popup.setPosition(undefined);
         }
       });
     }
@@ -207,13 +258,20 @@ const MapComponent = ({
     <>
       <div
         id="map"
-        className="w-full h-full m-auto  cursor-pointer border border-gray-400 bg-gray-600 rounded"
+        className={`w-full h-full m-auto  ${
+          getDataCallback ? 'cursor-pointer' : null
+        } border border-gray-400 bg-gray-600 rounded`}
         ref={mapRef}
       >
         {' '}
       </div>
-      <div id="popup" className="ol-popup">
+
+      <div
+        id="popup"
+        className="ol-popup absolute w-32 p-2 text-xs text-center bg-white text-gray-900 shadow border-2 rounded -top-8 -left-16"
+      >
         <div id="popup-content"></div>
+        <div className="w-2 h-2 relative m-auto top-4 shadow bg-white"></div>
       </div>
     </>
   );
