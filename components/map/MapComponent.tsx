@@ -270,7 +270,7 @@ const MapComponent = ({
         className="ol-popup absolute w-32 p-2 text-xs text-center bg-white text-gray-900 shadow border-2 rounded -top-8 -left-16"
       >
         <div id="popup-content"> </div>
-        <div className="w-2 h-2 relative m-auto top-4 shadow bg-white"></div>
+        <div className="ol-popup-arrow w-2 h-2 relative m-auto top-4 shadow bg-white"></div>
       </div>
     </>
   );
