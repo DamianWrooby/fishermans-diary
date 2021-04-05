@@ -2,7 +2,6 @@ import { MemoMapComponent } from '../map/MapComponent';
 import { memo } from 'react';
 import { motion } from 'framer-motion';
 import { useCollection } from '@nandorojo/swr-firestore';
-import { useEffect } from 'react';
 import useLanguage from '../../hooks/useLanguage';
 import en from '../../translations/en';
 import pl from '../../translations/pl';
@@ -54,18 +53,15 @@ const CatchMap = memo(({ userID }: CatchMapProps) => {
         centerCoords={markersCoords[markersCoords.length - 1]}
         markers={markersCoords}
         zoom={18}
+        tooltips
       />
     );
   } else {
     map = null;
   }
 
-  useEffect(() => {
-    console.log('CatchMap render', userID, markersCoords);
-  });
-
   return (
-    <>
+    <div className="pt-16">
       <motion.h2
         initial={{ opacity: 0, x: -100, y: 0 }}
         animate={{ opacity: 1, x: 0, y: 0 }}
@@ -74,7 +70,7 @@ const CatchMap = memo(({ userID }: CatchMapProps) => {
         {t.yourcatchmap}
       </motion.h2>
       <div className="w-5/6 sm:w-9/12 h-96 mx-auto cursor-pointer">{map}</div>
-    </>
+    </div>
   );
 });
 

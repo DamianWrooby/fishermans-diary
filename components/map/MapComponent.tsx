@@ -12,6 +12,7 @@ import Point from 'ol/geom/Point';
 import { fromLonLat, toLonLat } from 'ol/proj';
 import Control from 'ol/control/Control';
 import { PinchZoom, defaults as defaultInteractions } from 'ol/interaction';
+import Overlay from 'ol/Overlay';
 export interface MapProps {
   sourceUrl: string;
   markers?: Array<Number>;
@@ -20,6 +21,7 @@ export interface MapProps {
   showFormCallback?: () => void;
   geolocation?: boolean;
   zoom?: number;
+  tooltips?: boolean;
 }
 
 const MapComponent = ({
@@ -30,9 +32,13 @@ const MapComponent = ({
   showFormCallback,
   geolocation,
   zoom,
+  tooltips,
 }: MapProps) => {
   const mapRef: Ref<any> = useRef(null);
-  let id;
+  let id: undefined | number;
+  let container: undefined | HTMLElement;
+  let content: undefined | HTMLElement;
+  let overlay: Overlay;
   const zoomVal = zoom ? zoom : 6;
 
   const source = new TileJSON({
@@ -42,10 +48,6 @@ const MapComponent = ({
   });
 
   const vectorSource = new VectorSource({});
-
-  useEffect(() => {
-    console.log('MapComponent props:', sourceUrl, centerCoords, markers);
-  });
 
   useEffect(() => {
     const map: Map = new Map({
@@ -97,6 +99,38 @@ const MapComponent = ({
         const coords = toLonLat(evt.coordinate);
         getDataCallback(coords);
         showFormCallback();
+      });
+    }
+
+    if (tooltips) {
+      container = document.getElementById('popup');
+      content = document.getElementById('popup-content');
+      overlay = new Overlay({
+        element: container,
+        autoPan: true,
+        autoPanAnimation: {
+          duration: 250,
+        },
+      });
+      map.addOverlay(overlay);
+      map.on('click', function (evt) {
+        const features = map.forEachFeatureAtPixel(
+          evt.pixel,
+          function (feature) {
+            return feature;
+          }
+        );
+        if (features) {
+          // var coordinates = feature.getGeometry().getCoordinates();
+          // popup.setPosition(coordinates);
+          // $(element).popover({
+          //   placement: 'top',
+          //   html: true,
+          //   content: feature.get('name'),
+          // });
+          // $(element).popover('show');
+          console.log(features);
+        }
       });
     }
 
@@ -170,13 +204,18 @@ const MapComponent = ({
   ]);
 
   return (
-    <div
-      id="map"
-      className="w-full h-full m-auto  cursor-pointer border border-gray-400 bg-gray-600 rounded"
-      ref={mapRef}
-    >
-      {' '}
-    </div>
+    <>
+      <div
+        id="map"
+        className="w-full h-full m-auto  cursor-pointer border border-gray-400 bg-gray-600 rounded"
+        ref={mapRef}
+      >
+        {' '}
+      </div>
+      <div id="popup" className="ol-popup">
+        <div id="popup-content"></div>
+      </div>
+    </>
   );
 };
 

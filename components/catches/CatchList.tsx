@@ -48,8 +48,18 @@ const dynamicSort = (property) => {
     property = property.substr(1);
   }
   return function (a, b) {
-    const result =
-      a[property] < b[property] ? -1 : a[property] > b[property] ? 1 : 0;
+    let result;
+    if (property.includes('weight') || property.includes('length')) {
+      result =
+        parseInt(a[property], 10) < parseInt(b[property], 10)
+          ? -1
+          : parseInt(a[property], 10) > parseInt(b[property], 10)
+          ? 1
+          : 0;
+    } else {
+      result =
+        a[property] < b[property] ? -1 : a[property] > b[property] ? 1 : 0;
+    }
     return result * sortOrder;
   };
 };
@@ -157,6 +167,7 @@ const CatchList = ({
       data.map((doc) => {
         tmp.push({ id: doc.id, ...doc });
       });
+      console.log(tmp);
     }
     tmp.sort(dynamicSort('-date'));
     setSorting('-date');
