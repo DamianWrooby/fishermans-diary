@@ -79,4 +79,6 @@ export default {
   logindescription: 'Join us now and catch all species of fish',
   catchmap: 'Catch map',
   yourcatchmap: 'All your fishes in one place',
+  loginerror: 'Something went wrong',
+  tryagain: 'Try again',
 };

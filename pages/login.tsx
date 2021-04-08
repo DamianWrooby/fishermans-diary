@@ -1,4 +1,5 @@
-import { Button } from '@chakra-ui/react';
+import { useState } from 'react';
+import { Button, useDisclosure } from '@chakra-ui/react';
 import { FaFacebook, FaGoogle } from 'react-icons/fa';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
@@ -8,30 +9,45 @@ import Layout from '../layouts/layout';
 import { useAuth } from '../contexts/authContext';
 import en from '../translations/en';
 import pl from '../translations/pl';
+import ErrorDialog from '../components/partials/ErrorDialog';
 
 const Login = () => {
   const user = useAuth();
   const router = useRouter();
+  const [error, setError] = useState(null);
+  const [lastLoginAttempt, setlastLoginAttempt] = useState(null);
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const { locale } = router;
   const t = locale === 'en' ? en : pl;
 
-  const fbLogin = () => {
+  const fbLogin = (): void => {
+    setlastLoginAttempt('facebook');
     fbAuth()
       .then(() => {
         router.push('/');
       })
       .catch((error) => {
-        alert(error);
+        setError(error);
+        onOpen();
       });
   };
-  const gLogin = () => {
+  const gLogin = (): void => {
+    setlastLoginAttempt('google');
     gAuth()
       .then(() => {
         router.push('/');
       })
       .catch((error) => {
-        alert(error);
+        setError(error);
+        onOpen();
       });
+  };
+  const logAgain = (): void => {
+    if (lastLoginAttempt === 'facebook') {
+      fbLogin();
+    } else if (lastLoginAttempt === 'google') {
+      gLogin();
+    }
   };
 
   return (
@@ -68,6 +84,13 @@ const Login = () => {
                 >
                   {t.loginwithgoogle}
                 </Button>
+                <ErrorDialog
+                  handleIsOpen={isOpen}
+                  handleOnClose={onClose}
+                  handleAction={logAgain}
+                  text={t.loginerror}
+                  buttonText={t.tryagain}
+                />
               </div>
             </>
           )}
