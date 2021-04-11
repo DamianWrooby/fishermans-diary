@@ -80,4 +80,5 @@ export default {
   yourcatchmap: 'Wszystkie złowione przez ciebie ryby na jednej mapie',
   loginerror: 'Coś poszło nie tak',
   tryagain: 'Spróbuj ponownie',
+  userpage: 'Strona użytkownika',
 };

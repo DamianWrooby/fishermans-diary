@@ -1,83 +1,161 @@
+import { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import ErrorPage from 'next/error';
-import Container from '../../components/container';
-import PostBody from '../../components/post-body';
-import MoreStories from '../../components/more-stories';
-import Header from '../../components/header';
-import PostHeader from '../../components/post-header';
-import SectionSeparator from '../../components/section-separator';
-import Layout from '../../components/layout';
-import { getAllPostsWithSlug, getPostAndMorePosts } from '../../lib/api';
-import PostTitle from '../../components/post-title';
 import Head from 'next/head';
-import { CMS_NAME } from '../../lib/constants';
-import Tags from '../../components/tags';
+import { Button } from '@chakra-ui/react';
+import Link from 'next/link';
+import { FaArrowRight } from 'react-icons/fa';
+import Layout from '../../layouts/layout';
+import { useAuth } from '../../contexts/authContext';
+import CatchButton from '../../components/catches/CatchButton';
+import CatchList from '../../components/catches/CatchList';
+import CatchMap from '../../components/catches/CatchMap';
+import useLanguage from '../../hooks/useLanguage';
+import en from '../../translations/en';
+import pl from '../../translations/pl';
+import { motion, AnimatePresence } from 'framer-motion';
+import Loader from '../../components/partials/Loader';
+import { useCollection } from '@nandorojo/swr-firestore';
+import { Catches } from '../../components/catches/CatchList';
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+import { useColorModeValue } from '@chakra-ui/react';
 
-export default function User({ post, posts, preview }) {
+const User = () => {
+  const t = useLanguage() === 'en' ? en : pl;
+  const user = useAuth();
   const router = useRouter();
-  const morePosts = posts?.edges;
+  const { id } = router.query;
+  let content, userInfo;
+  const skeletonColor = useColorModeValue('#b1b1b1', '#242c3c');
+  const skeletonHighlightColor = useColorModeValue('#b9b9b9', '#2a3346');
+  const { data, error } = useCollection<Catches>(`catches`, {
+    where: [
+      ['author_uid', '==', id],
+      ['private', '==', false],
+    ],
+    limit: 1,
+    listen: true,
+  });
 
-  if (!router.isFallback && !post?.slug) {
-    return <ErrorPage statusCode={404} />;
+  useEffect(() => {
+    if (data) {
+      console.log(data);
+    }
+  }, [data]);
+
+  if (data) {
+    userInfo = data[0].author_photo ? (
+      <div className="flex flex-row justify-center items-center">
+        <div className="w-8 h-8 mr-2 rounded-full bg-gray-300 overflow-hidden">
+          <img src={data[0].author_photo} />
+        </div>
+        <div className="mr-2">
+          {data[0].author_name ? data[0].author_name : data[0].author_email}
+        </div>
+      </div>
+    ) : (
+      <div className="flex flex-row justify-center items-center">
+        <div className="p-1 w-8 h-8 mr-2 rounded-full bg-gray-300 overflow-hidden">
+          <img src="/user.svg" />
+        </div>
+        <div className="mr-2">
+          {data[0].author_name ? data[0].author_name : data[0].author_email}
+        </div>
+      </div>
+    );
+  } else {
+    userInfo = (
+      <SkeletonTheme
+        color={skeletonColor}
+        highlightColor={skeletonHighlightColor}
+      >
+        <Skeleton count={1} height={100} />
+      </SkeletonTheme>
+    );
+  }
+
+  if (user.isAuthenticated && !user.loading) {
+    content = (
+      <>
+        <div className="p-5 pt-20 sm:pt-12">
+          <AnimatePresence>
+            <motion.div
+              initial={{ opacity: 0, x: -100, y: 0 }}
+              animate={{ opacity: 1, x: 0, y: 0 }}
+              exit={{ opacity: 0, x: 100, y: 0 }}
+              className="p-3 text-md sm:text-xl text-center"
+            >
+              {userInfo}
+            </motion.div>
+          </AnimatePresence>
+          <CatchList
+            features={[
+              'image',
+              'species',
+              'weight',
+              'length',
+              'method',
+              'bait',
+              'date',
+              'time',
+            ]}
+            userID={id}
+            pagination={true}
+            paginationAmount={5}
+            personal={false}
+          />
+          <CatchMap userID={id} />
+        </div>
+        <CatchButton />
+      </>
+    );
+  } else if (!user.isAuthenticated && user.loading) {
+    content = (
+      <div className="w-24 m-auto fill-current	text-blue-200">
+        <Loader />
+      </div>
+    );
+  } else if (!user.isAuthenticated && !user.loading) {
+    content = (
+      <div className="container flex flex-col justify-center items-center h-screen">
+        <p className="p-2">{t.youhavetosignin}</p>
+        <Link href="/login">
+          <a href="/login" className="p-2">
+            <Button colorScheme="blue" size="sm">
+              {t.signin}
+            </Button>
+          </a>
+        </Link>
+        <Link href="/create-account">
+          <a href="/create-account" className="p-2">
+            <Button
+              rightIcon={<FaArrowRight />}
+              colorScheme="blue"
+              variant="outline"
+              size="sm"
+            >
+              {t.createaccount}
+            </Button>
+          </a>
+        </Link>
+      </div>
+    );
   }
 
   return (
-    <Layout preview={preview}>
-      <Container>
-        <Header />
-        {router.isFallback ? (
-          <PostTitle>Loading…</PostTitle>
-        ) : (
-          <>
-            <article>
-              <Head>
-                <title>
-                  {post.title} | Next.js Blog Example with {CMS_NAME}
-                </title>
-                <meta
-                  property="og:image"
-                  content={post.featuredImage?.node?.sourceUrl}
-                />
-              </Head>
-              <PostHeader
-                title={post.title}
-                coverImage={post.featuredImage?.node}
-                date={post.date}
-                author={post.author?.node}
-                categories={post.categories}
-              />
-              <PostBody content={post.content} />
-              <footer>
-                {post.tags.edges.length > 0 && <Tags tags={post.tags} />}
-              </footer>
-            </article>
-
-            <SectionSeparator />
-            {morePosts.length > 0 && <MoreStories posts={morePosts} />}
-          </>
-        )}
-      </Container>
-    </Layout>
+    <div className="h-screen">
+      <Layout>
+        <Head>
+          <title>{t.userpage} - Fisherman&apos;s Diary</title>
+          <meta
+            name="viewport"
+            content="initial-scale=1.0, width=device-width"
+          />
+          <meta name="description" content="Fishbook - every angler's diary" />
+        </Head>
+        {content}
+      </Layout>
+    </div>
   );
-}
+};
 
-export async function getStaticProps({ params, preview = false, previewData }) {
-  const data = await getPostAndMorePosts(params.slug, preview, previewData);
-
-  return {
-    props: {
-      preview,
-      post: data.post,
-      posts: data.posts,
-    },
-  };
-}
-
-export async function getStaticPaths() {
-  const allPosts = await getAllPostsWithSlug();
-
-  return {
-    paths: allPosts.edges.map(({ node }) => `/posts/${node.slug}`) || [],
-    fallback: true,
-  };
-}
+export default User;

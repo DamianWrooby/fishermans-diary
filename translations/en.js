@@ -81,4 +81,5 @@ export default {
   yourcatchmap: 'All your fishes in one place',
   loginerror: 'Something went wrong',
   tryagain: 'Try again',
+  userpage: 'User page',
 };

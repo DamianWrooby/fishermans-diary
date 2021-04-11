@@ -38,7 +38,7 @@ export default function AuthProvider({ children }: ProviderProps) {
         nookies.set(undefined, 'token', token, '');
         setLoading(false);
       } catch (err) {
-        (err) => console.log('Błąd obsłużony:', err);
+        (err) => console.log('Auth error:', err);
       }
     });
   }, []);

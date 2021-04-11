@@ -16,7 +16,6 @@ import Loader from '../../components/partials/Loader';
 const MyCatches = () => {
   const t = useLanguage() === 'en' ? en : pl;
   const user = useAuth();
-
   let content;
 
   if (user.isAuthenticated && !user.loading) {

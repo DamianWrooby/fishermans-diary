@@ -28,7 +28,7 @@ interface Catches {
 }
 
 type CatchMapProps = {
-  userID: string;
+  userID: string | string[];
 };
 
 const CatchMap = memo(({ userID }: CatchMapProps) => {

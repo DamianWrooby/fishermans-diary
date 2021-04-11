@@ -14,13 +14,13 @@ import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 type CatchListProps = {
   features: Array<string>;
   amount?: number;
-  userID?: string;
+  userID?: string | string[];
   pagination?: boolean;
   paginationAmount?: number;
   personal: boolean;
 };
 
-interface Catches {
+export interface Catches {
   author_email: string;
   author_name: string;
   author_photo: string;
@@ -164,6 +164,7 @@ const CatchList = ({
     setLoading(true);
     const tmp = [];
     if (data) {
+      console.log(data);
       data.map((doc) => {
         tmp.push({ id: doc.id, ...doc });
       });

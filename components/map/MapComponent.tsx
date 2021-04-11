@@ -180,7 +180,6 @@ const MapComponent = ({
           popup.setPosition(coordinates);
           popupContent.innerHTML = `${feature.get('name')}`;
           popup.setPosition(coordinates);
-          console.log(coordinates);
         } else {
           popup.setPosition(undefined);
         }
@@ -256,6 +255,16 @@ const MapComponent = ({
     geolocation,
   ]);
 
+  const popupElements = tooltips ? (
+    <div
+      id="popup"
+      className="ol-popup absolute w-32 p-2 text-xs text-center bg-white text-gray-900 shadow border-2 rounded -top-8 -left-16"
+    >
+      <div id="popup-content"></div>
+      <div className="ol-popup-arrow w-2 h-2 relative m-auto top-4 shadow bg-white"></div>
+    </div>
+  ) : null;
+
   return (
     <>
       <div
@@ -267,13 +276,7 @@ const MapComponent = ({
       >
         {' '}
       </div>
-      <div
-        id="popup"
-        className="ol-popup absolute w-32 p-2 text-xs text-center bg-white text-gray-900 shadow border-2 rounded -top-8 -left-16"
-      >
-        <div id="popup-content"></div>
-        <div className="ol-popup-arrow w-2 h-2 relative m-auto top-4 shadow bg-white"></div>
-      </div>
+      {popupElements}
     </>
   );
 };
