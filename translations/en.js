@@ -1,7 +1,7 @@
 export default {
   signin: 'Sign In',
   yourlastcatches: 'Your last catches',
-  fishrecentlycatchedbysociety: 'Fish recently catched by society',
+  fishrecentlycaughtbysociety: 'Fish recently caught by society',
   showall: 'Show all',
   createaccount: 'Create account',
   signin: 'Sign in',
@@ -33,7 +33,6 @@ export default {
   carp: 'carp',
   perch: 'perch',
   bleak: 'bleak',
-  carp: 'carp',
   catfish: 'catfish',
   sturgeon: 'sturgeon',
   walleye: 'walleye',

@@ -23,8 +23,8 @@ const DynamicMapComponent = dynamic<MapProps>(() =>
 const CatchCard = ({ data, open, close }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const marker: Array<number> = [];
-  const t: typeof en | typeof pl = useLanguage() === 'en' ? en : pl;
-  const escapedBait: string = data.bait.replace(' ', '');
+  const t = useLanguage() === 'en' ? en : pl;
+  const escapedBait = data.bait.replace(' ', '');
 
   marker[0] = data.coords;
   const escapedName = data.species.replace(' ', '');
@@ -49,9 +49,9 @@ const CatchCard = ({ data, open, close }) => {
                     <span>{`${t[data.method]}`}</span>
                   </p>
                   <p className="mr-3">
-                    <p className="capitalize">
+                    <div className="capitalize">
                       <strong>{t.bait}: </strong>
-                    </p>
+                    </div>
                     {t[escapedBait] ? t[escapedBait] : data.bait}
                   </p>
                 </div>

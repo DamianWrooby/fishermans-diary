@@ -56,7 +56,7 @@ const Home = (): React.ReactNode => {
               exit={{ opacity: 0, x: 100, y: 0 }}
               className="text-md sm:text-xl text-center p-3"
             >
-              {t.fishesrecentlycatchedbysociety}
+              {t.fishrecentlycaughtbysociety}
             </motion.h2>
           </AnimatePresence>
           <CatchList

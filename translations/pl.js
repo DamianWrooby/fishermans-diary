@@ -1,7 +1,7 @@
 export default {
   signin: 'Zaloguj się',
   yourlastcatches: 'Twoje ostatnio złowione ryby',
-  fishrecentlycatchedbysociety: 'Ryby ostatnio złowione przez społeczność',
+  fishrecentlycaughtbysociety: 'Ryby ostatnio złowione przez społeczność',
   showall: 'Pokaż wszystkie',
   createaccount: 'Utwórz nowe konto',
   signin: 'Zaloguj się',
