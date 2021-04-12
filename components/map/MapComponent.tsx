@@ -110,7 +110,7 @@ const MapComponent = ({
             geometry: new Point(fromLonLat(el.coords)),
             name: `${t[escapedSpecies] ? t[escapedSpecies] : el.species} - ${
               el.weight
-            } kg`,
+            }kg - ${el.length}cm`,
           });
 
           marker.setStyle(
@@ -165,7 +165,8 @@ const MapComponent = ({
         offset: [0, -50],
       });
       map.addOverlay(popup);
-      map.on('pointermove', function (evt) {
+
+      const showPopup = function (evt) {
         const feature = map.forEachFeatureAtPixel(
           evt.pixel,
           function (feature) {
@@ -183,7 +184,10 @@ const MapComponent = ({
         } else {
           popup.setPosition(undefined);
         }
-      });
+      };
+
+      map.on('pointermove', showPopup);
+      map.on('click', showPopup);
     }
 
     map.addControl(centerBtn);

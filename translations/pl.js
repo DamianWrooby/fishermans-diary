@@ -1,7 +1,7 @@
 export default {
   signin: 'Zaloguj się',
   yourlastcatches: 'Twoje ostatnio złowione ryby',
-  fishesrecentlycatchedbysociety: 'Ryby ostatnio złowione przez społeczność',
+  fishrecentlycatchedbysociety: 'Ryby ostatnio złowione przez społeczność',
   showall: 'Pokaż wszystkie',
   createaccount: 'Utwórz nowe konto',
   signin: 'Zaloguj się',
@@ -49,7 +49,7 @@ export default {
   fetchingdataerror: 'Błąd pobierania danych',
   float: 'spławik',
   fly: 'mucha',
-  catched: 'Złapana',
+  caught: 'Złapana',
   at: 'o',
   showonmap: 'Pokaż na mapie',
   nophoto: 'Brak zdjęcia',
@@ -81,4 +81,6 @@ export default {
   loginerror: 'Coś poszło nie tak',
   tryagain: 'Spróbuj ponownie',
   userpage: 'Strona użytkownika',
+  allfish: 'Wszystkie ryby na jednej mapie',
+  caughtby: 'Wędkarz',
 };

@@ -68,7 +68,7 @@ const CatchMap = memo(({ userID }: CatchMapProps) => {
         animate={{ opacity: 1, x: 0, y: 0 }}
         className="pt-8 pb-3 text-md sm:text-xl text-center"
       >
-        {t.yourcatchmap}
+        {t.allfish}
       </motion.h2>
       <div className="w-5/6 sm:w-9/12 h-96 mx-auto">{map}</div>
     </div>

@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import Image from 'next/image';
 import PinIcon from '../../public/pin.svg';
 import {
@@ -21,9 +22,9 @@ const DynamicMapComponent = dynamic<MapProps>(() =>
 
 const CatchCard = ({ data, open, close }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const marker = [];
-  const t = useLanguage() === 'en' ? en : pl;
-  const escapedBait = data.bait.replace(' ', '');
+  const marker: Array<number> = [];
+  const t: typeof en | typeof pl = useLanguage() === 'en' ? en : pl;
+  const escapedBait: string = data.bait.replace(' ', '');
 
   marker[0] = data.coords;
   const escapedName = data.species.replace(' ', '');
@@ -40,23 +41,46 @@ const CatchCard = ({ data, open, close }) => {
           <ModalBody>
             <div className="flex flex-col sm:flex-row">
               <div className="w-2/3">
-                <div className="flex flex-row sm:flex-row items-end text-sm -mt-3 text-gray-600 dark:text-gray-100 capitalize">
+                <div className="flex flex-row sm:flex-row items-end text-sm -mt-3 text-gray-600 dark:text-gray-100 ">
                   <p className="mr-3">
-                    <strong>{t.method}: </strong>
+                    <p className="capitalize">
+                      <strong>{t.method}: </strong>
+                    </p>
                     <span>{`${t[data.method]}`}</span>
                   </p>
                   <p className="mr-3">
-                    <strong>{t.bait}: </strong>
+                    <p className="capitalize">
+                      <strong>{t.bait}: </strong>
+                    </p>
                     {t[escapedBait] ? t[escapedBait] : data.bait}
                   </p>
                 </div>
                 <div className="flex flex-row sm:flex-row  text-sm text-gray-400">
-                  <p>{`${t.catched} ${data.date} ${t.at} ${data.time}`}</p>
+                  <p>{`${t.caught} ${data.date} ${t.at} ${data.time}`}</p>
+                </div>
+                <div className="flex flex-row sm:flex-row py-2 text-sm">
+                  <div className="mr-3 flex flex-row">
+                    <p>
+                      <strong>{t.caughtby}:&nbsp;</strong>
+                    </p>
+                    <span>
+                      <Link href={`/users/${data.author_uid}`}>
+                        <a
+                          className="text-blue-500 hover:text-blue-600 dark:text-blue-300 dark:hover:text-blue-400"
+                          href={`/users/${data.author_uid}`}
+                        >
+                          {data.author_name
+                            ? data.author_name
+                            : data.author_email}
+                        </a>
+                      </Link>
+                    </span>
+                  </div>
                 </div>
               </div>
               <div
                 onClick={onOpen}
-                className="flex flex-row group w-1/3 text-sm cursor-pointer"
+                className="flex flex-row group text-sm cursor-pointer"
               >
                 <p className="group">
                   <PinIcon className="w-4 -mt-1 mr-1 inline fill-current transform transition duration-300  group-hover:rotate-12 dark:text-white" />
