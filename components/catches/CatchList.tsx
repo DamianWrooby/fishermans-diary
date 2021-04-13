@@ -127,13 +127,12 @@ const CatchList = ({
 
     if (sorting === sortIndex) {
       setSorting(`-${sortIndex}`);
-      //* Translate  catches object's values if language is not en
-      if (t === en) {
-        sortedCatches = catches.sort(dynamicSort(`-${sortIndex}`));
-      } else {
-        translatedCatches = translateCatches(catches);
-        sortedCatches = translatedCatches.sort(dynamicSort(`-${sortIndex}`));
-      }
+      // if (t === en) {
+      sortedCatches = catches.sort(dynamicSort(`-${sortIndex}`));
+      // } else {
+      // translatedCatches = translateCatches(catches);
+      // sortedCatches = translatedCatches.sort(dynamicSort(`-${sortIndex}`));
+      //}
     } else {
       setSorting(sortIndex);
       sortedCatches = catches.sort(dynamicSort(sortIndex));

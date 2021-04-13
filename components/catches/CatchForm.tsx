@@ -88,6 +88,7 @@ const CatchForm = ({ passCoords, closeFormCallback }: FormProps) => {
     setSending(true);
     try {
       actions.setSubmitting(false);
+      console.log(values.species);
       await db.collection('catches').add({
         author_uid: uid,
         author_name: displayName,

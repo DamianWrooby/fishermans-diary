@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import PinIcon from '../../public/pin.svg';
@@ -29,6 +30,12 @@ const CatchCard = ({ data, open, close }) => {
   marker[0] = data.coords;
   const escapedName = data.species.replace(' ', '');
 
+  useEffect(() => {
+    if (data) {
+      console.log(data);
+    }
+  }, []);
+
   return (
     <>
       <Modal isOpen={open} onClose={close}>
@@ -42,18 +49,18 @@ const CatchCard = ({ data, open, close }) => {
             <div className="flex flex-col sm:flex-row">
               <div className="w-2/3">
                 <div className="flex flex-row sm:flex-row items-end text-sm -mt-3 text-gray-600 dark:text-gray-100 ">
-                  <p className="mr-3">
+                  <div className="mr-3">
                     <p className="capitalize">
                       <strong>{t.method}: </strong>
                     </p>
                     <span>{`${t[data.method]}`}</span>
-                  </p>
-                  <p className="mr-3">
+                  </div>
+                  <div className="mr-3">
                     <div className="capitalize">
                       <strong>{t.bait}: </strong>
                     </div>
                     {t[escapedBait] ? t[escapedBait] : data.bait}
-                  </p>
+                  </div>
                 </div>
                 <div className="flex flex-row sm:flex-row  text-sm text-gray-400">
                   <p>{`${t.caught} ${data.date} ${t.at} ${data.time}`}</p>
