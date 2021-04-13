@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import PinIcon from '../../public/pin.svg';
@@ -29,12 +28,6 @@ const CatchCard = ({ data, open, close }) => {
 
   marker[0] = data.coords;
   const escapedName = data.species.replace(' ', '');
-
-  useEffect(() => {
-    if (data) {
-      console.log(data);
-    }
-  }, []);
 
   return (
     <>

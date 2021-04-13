@@ -119,23 +119,57 @@ const CatchList = ({
     });
     return translatedCatches;
   };
+  const detranslateCatches = (arr: typeof catches) => {
+    let detranslatedCatches: typeof catches = [];
+    let i: number = 0;
+
+    arr.forEach((obj) => {
+      detranslatedCatches[i] = {};
+      for (const property in obj) {
+        if (typeof obj[property] === 'string') {
+          let key = Object.keys(pl).find((k) => pl[k] === obj[property]);
+          if (key) {
+            detranslatedCatches[i][property] = en[key];
+          } else {
+            detranslatedCatches[i][property] = obj[property];
+          }
+        } else {
+          detranslatedCatches[i][property] = obj[property];
+        }
+      }
+      i++;
+    });
+    return detranslatedCatches;
+  };
 
   const sortRows = (id: string) => {
     let sortedCatches = [];
     let translatedCatches = [];
+    let sortedTranslatedCatches = [];
     const sortIndex = id === 'date' ? 'timestamp' : id;
 
     if (sorting === sortIndex) {
       setSorting(`-${sortIndex}`);
-      // if (t === en) {
-      sortedCatches = catches.sort(dynamicSort(`-${sortIndex}`));
-      // } else {
-      // translatedCatches = translateCatches(catches);
-      // sortedCatches = translatedCatches.sort(dynamicSort(`-${sortIndex}`));
-      //}
+      if (t === en) {
+        sortedCatches = catches.sort(dynamicSort(`-${sortIndex}`));
+      } else {
+        translatedCatches = translateCatches(catches);
+        sortedTranslatedCatches = translatedCatches.sort(
+          dynamicSort(`-${sortIndex}`)
+        );
+        sortedCatches = detranslateCatches(sortedTranslatedCatches);
+      }
     } else {
       setSorting(sortIndex);
-      sortedCatches = catches.sort(dynamicSort(sortIndex));
+      if (t === en) {
+        sortedCatches = catches.sort(dynamicSort(sortIndex));
+      } else {
+        translatedCatches = translateCatches(catches);
+        sortedTranslatedCatches = translatedCatches.sort(
+          dynamicSort(sortIndex)
+        );
+        sortedCatches = detranslateCatches(sortedTranslatedCatches);
+      }
     }
     setCatches(sortedCatches);
   };
