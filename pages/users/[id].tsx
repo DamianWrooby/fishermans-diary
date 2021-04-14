@@ -36,12 +36,6 @@ const User = () => {
     listen: true,
   });
 
-  useEffect(() => {
-    if (data) {
-      console.log(data);
-    }
-  }, [data]);
-
   if (data) {
     userInfo = data[0].author_photo ? (
       <div className="flex flex-row justify-center items-center">

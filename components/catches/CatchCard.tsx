@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import { useAuth } from '../../contexts/authContext';
 import PinIcon from '../../public/pin.svg';
 import {
   Modal,
@@ -21,13 +22,20 @@ const DynamicMapComponent = dynamic<MapProps>(() =>
 );
 
 const CatchCard = ({ data, open, close }) => {
+  const user = useAuth();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const marker: Array<number> = [];
-  const t = useLanguage() === 'en' ? en : pl;
-  const escapedBait = data.bait.replace(' ', '');
+  const t: typeof en | typeof pl = useLanguage() === 'en' ? en : pl;
+  const escapedBait: string = data.bait.replace(' ', '');
+  const escapedName: string = data.species.replace(' ', '');
 
   marker[0] = data.coords;
-  const escapedName = data.species.replace(' ', '');
+  let userLink: string;
+
+  userLink =
+    data.author_uid === user.data.uid
+      ? '/catches/my-catches'
+      : `/users/${data.author_uid}`;
 
   return (
     <>
@@ -64,10 +72,10 @@ const CatchCard = ({ data, open, close }) => {
                       <strong>{t.caughtby}:&nbsp;</strong>
                     </p>
                     <span>
-                      <Link href={`/users/${data.author_uid}`}>
+                      <Link href={userLink}>
                         <a
                           className="text-blue-500 hover:text-blue-600 dark:text-blue-300 dark:hover:text-blue-400"
-                          href={`/users/${data.author_uid}`}
+                          href={userLink}
                         >
                           {data.author_name
                             ? data.author_name

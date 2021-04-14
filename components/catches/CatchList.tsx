@@ -197,7 +197,6 @@ const CatchList = ({
     setLoading(true);
     const tmp = [];
     if (data) {
-      console.log(data);
       data.map((doc) => {
         tmp.push({ id: doc.id, ...doc });
       });
