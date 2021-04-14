@@ -6,6 +6,7 @@ import AuthProvider from '../contexts/authContext';
 import { FuegoProvider } from '@nandorojo/swr-firestore';
 import { Fuego } from '../services/fuego';
 import { firebaseConfig } from '../services/firebase';
+import theme from '../styles/theme';
 
 const fuego = new Fuego(firebaseConfig);
 
@@ -13,7 +14,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <FuegoProvider fuego={fuego}>
       <AuthProvider>
-        <ChakraProvider>
+        <ChakraProvider theme={theme}>
           <Component {...pageProps} />
         </ChakraProvider>
       </AuthProvider>
