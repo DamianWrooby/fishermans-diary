@@ -74,7 +74,7 @@ const CatchList = ({
 }: CatchListProps) => {
   const [catches, setCatches] = useState(null);
   const [paginationPage, setPaginationPage] = useState(1);
-  const [sorting, setSorting] = useState('date');
+  const [sorting, setSorting] = useState('timestamp');
   const [elementToRemove, setElementToRemove] = useState('');
   const [loading, setLoading] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -201,8 +201,8 @@ const CatchList = ({
         tmp.push({ id: doc.id, ...doc });
       });
     }
-    tmp.sort(dynamicSort('-date'));
-    setSorting('-date');
+    tmp.sort(dynamicSort('-timestamp'));
+    setSorting('-timestamp');
     setCatches(tmp);
     setLoading(false);
   }, [data]);
