@@ -33,6 +33,8 @@ const Layout = ({ children }) => {
           width={450}
           height={265}
           layout="responsive"
+          priority
+          quality={50}
         />
       </div>
     </div>
