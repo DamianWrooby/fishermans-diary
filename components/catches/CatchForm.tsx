@@ -88,7 +88,6 @@ const CatchForm = ({ passCoords, closeFormCallback }: FormProps) => {
     setSending(true);
     try {
       actions.setSubmitting(false);
-      console.log(values.species);
       await db.collection('catches').add({
         author_uid: uid,
         author_name: displayName,
@@ -124,9 +123,7 @@ const CatchForm = ({ passCoords, closeFormCallback }: FormProps) => {
   };
 
   const CatchFormSchema = Yup.object().shape({
-    weight: Yup.number()
-      .positive('Weight should be positive number!')
-      .required('Weight is required!'),
+    // weight: Yup.number().positive('Weight should be positive number!'),
     length: Yup.number()
       .positive('Length should be positive number!')
       .required('Length is required!'),
@@ -141,7 +138,7 @@ const CatchForm = ({ passCoords, closeFormCallback }: FormProps) => {
         <Formik
           initialValues={{
             species: '',
-            weight: undefined,
+            weight: 0,
             length: undefined,
             method: '',
             bait: '',
@@ -180,7 +177,6 @@ const CatchForm = ({ passCoords, closeFormCallback }: FormProps) => {
                     <Box w="45%" mb="5">
                       <FormControl
                         isInvalid={form.errors.weight && form.touched.weight}
-                        isRequired
                       >
                         <FormLabel mb="1" htmlFor="weight">
                           {[t.weight]} <span className="lowercase">(kg)</span>

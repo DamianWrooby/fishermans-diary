@@ -51,11 +51,12 @@ const dynamicSort = (property) => {
     let result;
     if (property.includes('weight') || property.includes('length')) {
       result =
-        parseInt(a[property], 10) < parseInt(b[property], 10)
+        parseFloat(a[property], 10) < parseFloat(b[property], 10)
           ? -1
-          : parseInt(a[property], 10) > parseInt(b[property], 10)
+          : parseFloat(a[property], 10) > parseFloat(b[property], 10)
           ? 1
           : 0;
+      console.log(parseFloat(a[property]));
     } else {
       result =
         a[property] < b[property] ? -1 : a[property] > b[property] ? 1 : 0;
@@ -72,7 +73,7 @@ const CatchList = ({
   pagination,
   paginationAmount,
 }: CatchListProps) => {
-  const [catches, setCatches] = useState(null);
+  const [catches, setCatches] = useState([]);
   const [paginationPage, setPaginationPage] = useState(1);
   const [sorting, setSorting] = useState('timestamp');
   const [elementToRemove, setElementToRemove] = useState('');
@@ -91,6 +92,7 @@ const CatchList = ({
         limit: amount,
         listen: true,
       });
+
   const t = useLanguage() === 'en' ? en : pl;
   const skeletonColor = useColorModeValue('#b1b1b1', '#242c3c');
   const skeletonHighlightColor = useColorModeValue('#b9b9b9', '#2a3346');
@@ -263,7 +265,7 @@ const CatchList = ({
 
   return (
     <>
-      {catches ? (
+      {catches.length !== 0 ? (
         <CatchListHeader
           featureList={features}
           sortingType={sorting}

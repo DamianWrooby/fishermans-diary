@@ -57,10 +57,23 @@ const CatchRow = ({
             <div className="m-auto sm:w-full sm:flex sm:items-center">
               {rowFeatures.map((feature) => {
                 let escapedName: string;
+                let featureData;
+
                 if (data[feature]) {
                   escapedName = data[feature].replace(' ', '');
                 } else {
                   escapedName = '';
+                }
+
+                if (
+                  feature === 'weight' &&
+                  (data[feature] === '0' || data[feature] === '')
+                ) {
+                  featureData = '-';
+                } else if (t[escapedName]) {
+                  featureData = t[escapedName];
+                } else {
+                  featureData = data[feature];
                 }
 
                 return feature === 'image' ? (
@@ -98,8 +111,10 @@ const CatchRow = ({
                       {feature === 'author_name' && !data[feature]
                         ? data['author_email']
                         : null}
-                      {t[escapedName] ? t[escapedName] : data[feature]}
-                      {feature === 'weight' ? (
+                      {featureData}
+                      {feature === 'weight' &&
+                      data[feature] !== '0' &&
+                      data[feature] !== '' ? (
                         <span className="lowercase"> kg</span>
                       ) : null}
                       {feature === 'length' ? (

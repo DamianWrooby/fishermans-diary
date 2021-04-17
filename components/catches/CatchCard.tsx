@@ -42,25 +42,29 @@ const CatchCard = ({ data, open, close }) => {
       <Modal isOpen={open} onClose={close}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader size="sm" className="pb-0 capitalize">{`${
+          <ModalHeader size="sm" className="pb-0 ">{`${
             t[escapedName] ? t[escapedName] : t[data.species]
-          } - ${data.weight}kg / ${data.length}cm`}</ModalHeader>
+          } - ${
+            data.weight === '0' || data.weight === ''
+              ? ''
+              : `${data.weight} kg /`
+          } ${data.length}cm`}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <div className="flex flex-col sm:flex-row">
               <div className="w-2/3">
                 <div className="flex flex-row sm:flex-row items-end text-sm -mt-3 text-gray-600 dark:text-gray-100 ">
-                  <div className="mr-3">
+                  <div className="flex flex-row mr-3">
                     <p className="capitalize">
-                      <strong>{t.method}: </strong>
+                      <strong>{t.method}:&nbsp;</strong>
                     </p>
                     <span>{`${t[data.method]}`}</span>
                   </div>
-                  <div className="mr-3">
+                  <div className="flex flex-row mr-3">
                     <div className="capitalize">
-                      <strong>{t.bait}: </strong>
+                      <strong>{t.bait}:&nbsp;</strong>
                     </div>
-                    {t[escapedBait] ? t[escapedBait] : data.bait}
+                    <span>{t[escapedBait] ? t[escapedBait] : data.bait}</span>
                   </div>
                 </div>
                 <div className="flex flex-row sm:flex-row  text-sm text-gray-400">

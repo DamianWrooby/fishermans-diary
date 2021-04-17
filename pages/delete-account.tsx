@@ -13,6 +13,12 @@ const DeleteAccount = () => {
     console.log('redirection');
     router.push('/login');
   };
+
+  const handleUserDelete = () => {
+    deleteUser();
+    redirect();
+  };
+
   useEffect(() => {
     user.data ? null : redirect();
     console.log(user);
@@ -27,7 +33,7 @@ const DeleteAccount = () => {
             className="p-4 m-4"
             colorScheme="red"
             size="sm"
-            onClick={deleteUser}
+            onClick={handleUserDelete}
           >
             Delete my account
           </Button>

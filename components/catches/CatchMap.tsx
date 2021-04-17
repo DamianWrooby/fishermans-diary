@@ -34,7 +34,8 @@ type CatchMapProps = {
 const CatchMap = memo(({ userID }: CatchMapProps) => {
   const t = useLanguage() === 'en' ? en : pl;
   let markersCoords = [];
-  let map = null;
+  let map,
+    header = null;
   const { data, error } = useCollection<Catches>(`catches`, {
     where: ['author_uid', '==', userID],
     listen: true,
@@ -47,6 +48,15 @@ const CatchMap = memo(({ userID }: CatchMapProps) => {
   }
 
   if (markersCoords[0]) {
+    header = (
+      <motion.h2
+        initial={{ opacity: 0, x: -100, y: 0 }}
+        animate={{ opacity: 1, x: 0, y: 0 }}
+        className="pt-8 pb-3 text-md sm:text-xl text-center"
+      >
+        {t.allfish}
+      </motion.h2>
+    );
     map = (
       <MemoMapComponent
         sourceUrl="https://api.maptiler.com/maps/outdoor/tiles.json?key=GflTzOMvFDCYQ9RjOmMu"
@@ -58,18 +68,13 @@ const CatchMap = memo(({ userID }: CatchMapProps) => {
       />
     );
   } else {
+    header = null;
     map = null;
   }
 
   return (
     <div className="pt-16">
-      <motion.h2
-        initial={{ opacity: 0, x: -100, y: 0 }}
-        animate={{ opacity: 1, x: 0, y: 0 }}
-        className="pt-8 pb-3 text-md sm:text-xl text-center"
-      >
-        {t.allfish}
-      </motion.h2>
+      {header}
       <div className="w-5/6 sm:w-9/12 h-96 mx-auto">{map}</div>
     </div>
   );
