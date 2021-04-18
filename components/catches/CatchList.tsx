@@ -50,13 +50,17 @@ const dynamicSort = (property) => {
   return function (a, b) {
     let result;
     if (property.includes('weight') || property.includes('length')) {
+      if (a[property] == '') {
+        a[property] = '0';
+      } else if (b[property] == '') {
+        b[property] = '0';
+      }
       result =
         parseFloat(a[property]) < parseFloat(b[property])
           ? -1
           : parseFloat(a[property]) > parseFloat(b[property])
           ? 1
           : 0;
-      console.log(parseFloat(a[property]));
     } else {
       result =
         a[property] < b[property] ? -1 : a[property] > b[property] ? 1 : 0;

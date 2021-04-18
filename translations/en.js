@@ -83,4 +83,6 @@ export default {
   userpage: 'User page',
   allfish: 'All fish on one map',
   caughtby: 'Caught by',
+  areyousure: 'Are you sure?',
+  deletemyaccount: 'Delete my account',
 };
