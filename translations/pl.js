@@ -84,5 +84,5 @@ export default {
   allfish: 'Wszystkie ryby na jednej mapie',
   caughtby: 'Wędkarz',
   areyousure: 'Jesteś pewny, że chcesz usunąć konto?',
-  deletemyaccount: 'Tak, usuń moje konto',
+  confirmdeletemyaccount: 'Tak, usuń moje konto',
 };

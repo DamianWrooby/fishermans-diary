@@ -38,7 +38,7 @@ const DeleteAccount = () => {
             size="sm"
             onClick={handleUserDelete}
           >
-            {t.deletemyaccount}
+            {t.confirmdeletemyaccount}
           </Button>
         </div>
       ) : null}

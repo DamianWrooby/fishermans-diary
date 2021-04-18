@@ -84,5 +84,5 @@ export default {
   allfish: 'All fish on one map',
   caughtby: 'Caught by',
   areyousure: 'Are you sure?',
-  deletemyaccount: 'Delete my account',
+  confirmdeletemyaccount: 'Delete my account',
 };
