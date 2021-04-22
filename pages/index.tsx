@@ -93,7 +93,10 @@ const Home = (): React.ReactNode => {
       <Head>
         <title>Fisherman&apos;s Diary </title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-        <meta name="description" content="Fishbook - every angler's diary" />
+        <meta
+          name="description"
+          content="Write down your fish in Fisherman's Diary"
+        />
       </Head>
       {content}
     </Layout>
