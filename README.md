@@ -2,6 +2,8 @@
 
 Fisherman's Diary is a Next.js based web application dedicted to anglers. Users can save information about fish species, method, bait etc. by interactive map. It is possible also to display fish caught by society or display place of catch on map.
 
+[Live demo](https://fishermans-diary.vercel.app/pl)
+
 ## Main goal
 
 Create something like fullstack app with authentication and database.
@@ -12,12 +14,6 @@ Create something like fullstack app with authentication and database.
 - **Firebase**: delivers backend solutions for those who wants to focus on frontend
 - **Typescript**: becomes default choise in 2021
 - **Tailwind.css nad Chakra UI**: I decided not focus on custom graphic design and try utility-first approach
-
-## Problems resolved
-
-**Map component rerender** - map rerender resulted in displaying several maps so I had to make sure the map would only be rendered once. To achieve this, I passed proper custom props check function into React.memo().
-**Rows sorting in non-english language** - data is stored in English so for correct alphabetical sorting in non-english language I decided to translate data on demand during sorting and then translate back to avoid mixing languages locally in component state
-**Sorting by date** - to achieve correct sorting by date every catch has an additional timestamp field in the database
 
 ## Upcoming features
 
