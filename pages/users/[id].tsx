@@ -15,7 +15,7 @@ import pl from '../../translations/pl';
 import { motion, AnimatePresence } from 'framer-motion';
 import Loader from '../../components/partials/Loader';
 import { useCollection } from '@nandorojo/swr-firestore';
-import { Catches } from '../../components/catches/CatchList';
+import { CatchTypes } from '../../components/catches/CatchList';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import { useColorModeValue } from '@chakra-ui/react';
 
@@ -27,7 +27,7 @@ const User = () => {
   let content, userInfo;
   const skeletonColor = useColorModeValue('#b1b1b1', '#242c3c');
   const skeletonHighlightColor = useColorModeValue('#b9b9b9', '#2a3346');
-  const { data, error } = useCollection<Catches>(`catches`, {
+  const { data, error } = useCollection<CatchTypes>(`catches`, {
     where: [
       ['author_uid', '==', id],
       ['private', '==', false],
