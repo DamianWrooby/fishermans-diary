@@ -30,6 +30,7 @@ yarn-error.log*
 .env.development.local
 .env.test.local
 .env.production.local
+fisherman-s-diary-firebase-adminsdk-sckjl-fdfb7a638b.json
 
 # vercel
 .vercel

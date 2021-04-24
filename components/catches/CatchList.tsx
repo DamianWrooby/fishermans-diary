@@ -20,7 +20,7 @@ type CatchListProps = {
   personal: boolean;
 };
 
-export interface Catches {
+export interface CatchTypes {
   author_email: string;
   author_name: string;
   author_photo: string;
@@ -86,12 +86,12 @@ const CatchList = ({
 
   //* If userID is not specified, fetch non-private catches from all users
   const { data, error } = userID
-    ? useCollection<Catches>(`catches`, {
+    ? useCollection<CatchTypes>(`catches`, {
         where: ['author_uid', '==', userID],
         limit: amount,
         listen: true,
       })
-    : useCollection<Catches>(`catches`, {
+    : useCollection<CatchTypes>(`catches`, {
         where: ['private', '==', false],
         limit: amount,
         listen: true,
