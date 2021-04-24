@@ -1,5 +1,4 @@
 import * as firebaseAdmin from 'firebase-admin';
-import serviceAccount from '../fisherman-s-diary-firebase-adminsdk-sckjl-fdfb7a638b.json';
 
 if (!firebaseAdmin.apps.length) {
   try {
