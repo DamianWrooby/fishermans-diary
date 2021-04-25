@@ -85,4 +85,7 @@ export default {
   caughtby: 'Caught by',
   areyousure: 'Are you sure?',
   confirmdeletemyaccount: 'Delete my account',
+  ranking: 'Ranking',
+  largestfish: 'The largest fish caught by users',
+  allspecies: 'All species',
 };

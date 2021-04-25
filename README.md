@@ -4,7 +4,7 @@ Fisherman's Diary is a Next.js based web application dedicted to anglers. Users 
 
 [Live demo](https://fishermans-diary.vercel.app/pl)
 
-You can also retrieve all catches of chosen user from the following endpoint:
+You can also retrieve all non-private catches of chosen user from the following endpoint:
 
 ```
 /api/catches/[User_ID]

@@ -85,4 +85,7 @@ export default {
   caughtby: 'Wędkarz',
   areyousure: 'Jesteś pewny, że chcesz usunąć konto?',
   confirmdeletemyaccount: 'Tak, usuń moje konto',
+  ranking: 'Ranking',
+  largestfish: 'Największe okazy złowione przez użytkowników',
+  allspecies: 'Wszystkie gatunki',
 };

@@ -1,7 +1,4 @@
 import Head from 'next/head';
-import { Button } from '@chakra-ui/react';
-import Link from 'next/link';
-import { FaArrowRight } from 'react-icons/fa';
 import Layout from '../../layouts/layout';
 import { useAuth } from '../../contexts/authContext';
 import CatchButton from '../../components/catches/CatchButton';
@@ -12,11 +9,14 @@ import en from '../../translations/en';
 import pl from '../../translations/pl';
 import { motion, AnimatePresence } from 'framer-motion';
 import Loader from '../../components/partials/Loader';
+import NoUserLinks from '../../components/partials/NoUserLinks';
+import { ReactNode } from 'react';
 
 const MyCatches = () => {
-  const t = useLanguage() === 'en' ? en : pl;
+  const t: typeof en | typeof pl = useLanguage() === 'en' ? en : pl;
   const user = useAuth();
-  let content;
+
+  let content: ReactNode | null;
 
   if (user.isAuthenticated && !user.loading) {
     content = (
@@ -60,28 +60,10 @@ const MyCatches = () => {
     );
   } else if (!user.isAuthenticated && !user.loading) {
     content = (
-      <div className="container flex flex-col justify-center items-center h-screen">
-        <p className="p-2">{t.youhavetosignin}</p>
-        <Link href="/login">
-          <a href="/login" className="p-2">
-            <Button colorScheme="blue" size="sm">
-              {t.signin}
-            </Button>
-          </a>
-        </Link>
-        <Link href="/create-account">
-          <a href="/create-account" className="p-2">
-            <Button
-              rightIcon={<FaArrowRight />}
-              colorScheme="blue"
-              variant="outline"
-              size="sm"
-            >
-              {t.createaccount}
-            </Button>
-          </a>
-        </Link>
-      </div>
+      <>
+        <p className="p-2 text-center">{t.youhavetosignin}</p>
+        <NoUserLinks />
+      </>
     );
   }
 
@@ -94,7 +76,10 @@ const MyCatches = () => {
             name="viewport"
             content="initial-scale=1.0, width=device-width"
           />
-          <meta name="description" content="Fishbook - every angler's diary" />
+          <meta
+            name="description"
+            content="Fisherman's Diary - every angler's diary"
+          />
         </Head>
         {content}
       </Layout>

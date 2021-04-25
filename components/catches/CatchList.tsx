@@ -18,6 +18,8 @@ type CatchListProps = {
   pagination?: boolean;
   paginationAmount?: number;
   personal: boolean;
+  sortBy?: string;
+  species?: string;
 };
 
 export interface CatchTypes {
@@ -76,6 +78,8 @@ const CatchList = ({
   personal,
   pagination,
   paginationAmount,
+  sortBy,
+  species,
 }: CatchListProps) => {
   const [catches, setCatches] = useState([]);
   const [paginationPage, setPaginationPage] = useState(1);
@@ -88,16 +92,14 @@ const CatchList = ({
   const { data, error } = userID
     ? useCollection<CatchTypes>(`catches`, {
         where: ['author_uid', '==', userID],
-        limit: amount,
         listen: true,
       })
     : useCollection<CatchTypes>(`catches`, {
         where: ['private', '==', false],
-        limit: amount,
         listen: true,
       });
 
-  const t = useLanguage() === 'en' ? en : pl;
+  const t: typeof en | typeof pl = useLanguage() === 'en' ? en : pl;
   const skeletonColor = useColorModeValue('#b1b1b1', '#242c3c');
   const skeletonHighlightColor = useColorModeValue('#b9b9b9', '#2a3346');
   const perChunk = paginationAmount ? paginationAmount : 3;
@@ -201,17 +203,25 @@ const CatchList = ({
 
   useEffect(() => {
     setLoading(true);
-    const tmp = [];
+    let tmp = [];
     if (data) {
       data.map((doc) => {
         tmp.push({ id: doc.id, ...doc });
       });
+      if (species) {
+        tmp = tmp.filter((el) => {
+          return el['species'] === species;
+        });
+      }
     }
-    tmp.sort(dynamicSort('-timestamp'));
-    setSorting('-timestamp');
+    setSorting(sortBy ? sortBy : '-timestamp');
+    tmp.sort(dynamicSort(sortBy ? sortBy : '-timestamp'));
+    if (amount) {
+      tmp = tmp.splice(0, amount);
+    }
     setCatches(tmp);
     setLoading(false);
-  }, [data]);
+  }, [data, species]);
 
   if (catches && pagination) {
     chunkedCatchesArr = catches.reduce((resultArray, item, index) => {

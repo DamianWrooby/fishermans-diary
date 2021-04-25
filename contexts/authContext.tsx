@@ -3,7 +3,7 @@ import nookies from 'nookies';
 import firebase from 'firebase/app';
 import { auth } from '../services/firebase';
 
-interface Context {
+export interface ContextTypes {
   isAuthenticated: boolean;
   data: firebase.User | null;
   loading: boolean;
@@ -12,7 +12,7 @@ interface ProviderProps {
   children: React.ReactNode;
 }
 
-const AuthContext = createContext<Context>({
+const AuthContext = createContext<ContextTypes>({
   isAuthenticated: false,
   data: null,
   loading: false,
@@ -52,7 +52,7 @@ export default function AuthProvider({ children }: ProviderProps) {
   );
 }
 
-export function useAuth(): Context {
+export function useAuth(): ContextTypes {
   const context = useContext(AuthContext);
   if (context === undefined) {
     throw new Error('useUser must be used within a AuthProvider');

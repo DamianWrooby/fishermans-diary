@@ -48,6 +48,19 @@ const DesktopMenu = ({ data }: DesktopMenuProps) => {
                   </a>
                 </Link>
               </li>
+              <li
+                className={
+                  router.pathname == '/ranking'
+                    ? 'dark:text-blue-300 text-blue-500'
+                    : 'dark:hover:text-blue-300 hover:text-blue-500'
+                }
+              >
+                <Link href="/ranking">
+                  <a href="/ranking" className="p-1">
+                    {t.ranking}
+                  </a>
+                </Link>
+              </li>
             </ul>
           ) : (
             <ul className="flex flex-row">
