@@ -9,7 +9,9 @@ You can also retrieve all non-private catches of chosen user from the following 
 ```
 /api/catches/[User_ID]
 ```
+
 i.e.
+
 ```
 https://fishermans-diary.vercel.app/api/catches/SdhsQ32h0bT0CM2hQhSHBnTyrVZ2
 ```
@@ -28,7 +30,6 @@ Create something like fullstack app with authentication and database.
 ## Upcoming features
 
 - Fish rating
-- Ranking
 - Stats
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
