@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router';
+
 import { setCookie } from 'nookies';
 
 const LanguageToggler = () => {

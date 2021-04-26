@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { useAuth } from '../../contexts/authContext';
+import dynamic from 'next/dynamic';
+
 import PinIcon from '../../public/pin.svg';
 import {
   Modal,
@@ -11,11 +12,12 @@ import {
   ModalCloseButton,
 } from '@chakra-ui/react';
 import { useDisclosure } from '@chakra-ui/react';
-import useLanguage from '../../hooks/useLanguage';
-import en from '../../translations/en';
-import pl from '../../translations/pl';
-import dynamic from 'next/dynamic';
+
+import { useAuth } from '../../contexts/authContext';
 import { MapProps } from '../map/MapComponent';
+import useLanguage from '../../hooks/useLanguage';
+import pl from '../../translations/pl';
+import en from '../../translations/en';
 
 const DynamicMapComponent = dynamic<MapProps>(() =>
   import('../map/MapComponent').then((mod) => mod.MemoMapComponent)

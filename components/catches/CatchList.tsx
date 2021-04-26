@@ -1,15 +1,17 @@
-import { useEffect, useState } from 'react';
+import { SyntheticEvent, useEffect, useState } from 'react';
+
 import { useDisclosure, useColorModeValue } from '@chakra-ui/react';
-import CatchListHeader from './CatchListHeader';
-import CatchRow from './CatchRow';
-import PaginationControls from '../partials/PaginationControls';
-import ConfirmationDialog from './ConfirmationDialog';
 import { db } from '../../services/firebase';
 import { useCollection } from '@nandorojo/swr-firestore';
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+
+import PaginationControls from '../partials/PaginationControls';
+import CatchRow from './CatchRow';
+import ConfirmationDialog from './ConfirmationDialog';
 import useLanguage from '../../hooks/useLanguage';
+import CatchListHeader from './CatchListHeader';
 import en from '../../translations/en';
 import pl from '../../translations/pl';
-import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 
 type CatchListProps = {
   features: Array<string>;
@@ -43,7 +45,9 @@ export interface CatchTypes {
   __snapshot: any;
 }
 
-const dynamicSort = (property) => {
+const dynamicSort: (
+  property: string
+) => (a: CatchTypes, b: CatchTypes) => number = (property) => {
   let sortOrder = 1;
   if (property[0] === '-') {
     sortOrder = -1;
@@ -106,7 +110,9 @@ const CatchList = ({
   let chunkedCatchesArr = null;
   let rows = null;
 
-  const translateCatches = (arr: typeof catches) => {
+  const translateCatches: (arr: typeof catches) => Array<CatchTypes> = (
+    arr
+  ) => {
     let translatedCatches: typeof catches = [];
     let i: number = 0;
     let noSpaceValue: string = '';
@@ -127,7 +133,10 @@ const CatchList = ({
     });
     return translatedCatches;
   };
-  const detranslateCatches = (arr: typeof catches) => {
+
+  const detranslateCatches: (arr: typeof catches) => Array<CatchTypes> = (
+    arr
+  ) => {
     let detranslatedCatches: typeof catches = [];
     let i: number = 0;
 
@@ -150,11 +159,11 @@ const CatchList = ({
     return detranslatedCatches;
   };
 
-  const sortRows = (id: string) => {
-    let sortedCatches = [];
-    let translatedCatches = [];
-    let sortedTranslatedCatches = [];
-    const sortIndex = id === 'date' ? 'timestamp' : id;
+  const sortRows: (id: string) => void = (id) => {
+    let sortedCatches: Array<CatchTypes> = [];
+    let translatedCatches: Array<CatchTypes> = [];
+    let sortedTranslatedCatches: Array<CatchTypes> = [];
+    const sortIndex: string = id === 'date' ? 'timestamp' : id;
 
     if (sorting === sortIndex) {
       setSorting(`-${sortIndex}`);
@@ -182,13 +191,16 @@ const CatchList = ({
     setCatches(sortedCatches);
   };
 
-  const prepareRemove = (event, id) => {
+  const prepareRemove: (event: SyntheticEvent, id: string) => void = (
+    event,
+    id
+  ) => {
     event.stopPropagation();
     setElementToRemove(id);
     onOpen();
   };
 
-  const removeRow = (id) => {
+  const removeRow: (id: string) => void = (id) => {
     db.collection('catches')
       .doc(id)
       .delete()
@@ -203,7 +215,7 @@ const CatchList = ({
 
   useEffect(() => {
     setLoading(true);
-    let tmp = [];
+    let tmp: Array<CatchTypes> = [];
     if (data) {
       data.map((doc) => {
         tmp.push({ id: doc.id, ...doc });
@@ -267,13 +279,13 @@ const CatchList = ({
     });
   }
 
-  const changePage = (id) => {
+  const changePage: (id: string) => void = (id) => {
     if (id === 'prevPage') {
       setPaginationPage(paginationPage - 1);
     } else if (id === 'nextPage') {
       setPaginationPage(paginationPage + 1);
     } else {
-      setPaginationPage(id);
+      setPaginationPage(parseInt(id));
     }
   };
 
@@ -290,8 +302,8 @@ const CatchList = ({
           {t.addfirstfish}
         </p>
       )}
-      {error ? <p>{t.fetchingdataerror}</p> : null}
-      {!data ? (
+      {error && <p>{t.fetchingdataerror}</p>}
+      {!data && (
         <div className="max-w-screen-lg m-auto">
           <SkeletonTheme
             color={skeletonColor}
@@ -300,20 +312,20 @@ const CatchList = ({
             <Skeleton count={amount ? amount : 3} height={100} />
           </SkeletonTheme>
         </div>
-      ) : null}
+      )}
       <div
         className={`w-full flex flex-row flex-wrap sm:flex-col justify-start px-8 xs:px-16 sm:px-0 sm:min-h-${perChunk}`}
       >
         {rows}
       </div>
 
-      {pagination && catches && Math.ceil(catches.length / perChunk) > 1 ? (
+      {pagination && catches && Math.ceil(catches.length / perChunk) > 1 && (
         <PaginationControls
           pages={Math.ceil(catches.length / perChunk)}
           currentPage={paginationPage}
           handleClick={changePage}
         />
-      ) : null}
+      )}
 
       <ConfirmationDialog
         handleIsOpen={isOpen}

@@ -1,7 +1,8 @@
+import Link from 'next/link';
+
 import { IconButton } from '@chakra-ui/react';
 import { FaPlus } from 'react-icons/fa';
 import { motion } from 'framer-motion';
-import Link from 'next/link';
 
 const CatchButton = () => {
   return (

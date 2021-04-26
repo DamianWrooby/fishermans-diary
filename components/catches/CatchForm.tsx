@@ -1,7 +1,7 @@
 import { useState } from 'react';
+
 import firebase from 'firebase/app';
 import { db } from '../../services/firebase';
-import { useAuth } from '../../contexts/authContext';
 import CustomUploadButton from 'react-firebase-file-uploader/lib/CustomUploadButton';
 import { storage } from '../../services/firebase';
 import { Formik, Form, Field } from 'formik';
@@ -20,8 +20,11 @@ import {
   Switch,
   useColorModeValue,
   Box,
+  ChakraTheme,
 } from '@chakra-ui/react';
 import * as Yup from 'yup';
+
+import { useAuth } from '../../contexts/authContext';
 import { SpeciesList } from '../../data/SpeciesList';
 import useLanguage from '../../hooks/useLanguage';
 import en from '../../translations/en';
@@ -43,36 +46,42 @@ const CatchForm = ({ passCoords, closeFormCallback }: FormProps) => {
   const t = useLanguage() === 'en' ? en : pl;
   const [sendBtnText, setSendBtnText] = useState(t.addcatch);
 
-  const coords = passCoords;
+  const coords: Array<Number> = passCoords;
 
   const {
     data: { uid, displayName, email, photoURL },
   } = useAuth();
 
-  const now = new Date();
-  const date = `${now.getDate()}-${now.getMonth() + 1}-${now.getFullYear()}`;
-  const time = `${now.getHours()}:${
+  const now: Date = new Date();
+  const date: string = `${now.getDate()}-${
+    now.getMonth() + 1
+  }-${now.getFullYear()}`;
+  const time: string = `${now.getHours()}:${
     now.getMinutes() < 10 ? '0' : ''
   }${now.getMinutes()}:${now.getSeconds()}`;
-  const timeStamp = firebase.firestore.Timestamp.fromDate(new Date()).seconds;
+  const timeStamp: number = firebase.firestore.Timestamp.fromDate(new Date())
+    .seconds;
 
-  const uploadBtn = useColorModeValue('#2d3748', 'lightgreen');
-  const uploadBtnText = useColorModeValue('white', '#2d3748');
+  const uploadBtn: string = useColorModeValue('#2d3748', 'lightgreen');
+  const uploadBtnText: string = useColorModeValue('white', '#2d3748');
 
-  const handleUploadStart = () => {
+  const handleUploadStart: () => void = () => {
     setIsUploading(true);
     setUploadProgress(0);
   };
 
-  const handleProgress = (progress: number) => setUploadProgress(progress);
+  const handleProgress: (progress: number) => void = (progress: number) =>
+    setUploadProgress(progress);
 
-  const handleUploadError = (error) => {
+  const handleUploadError: (error: any) => void = (error) => {
     setIsUploading(false);
     console.log(error);
     setUploadErrorMessage(error.message);
   };
 
-  const handleUploadSuccess = async (filename: string) => {
+  const handleUploadSuccess: (filename: string) => Promise<void> = async (
+    filename: string
+  ) => {
     setImage(filename);
     setUploadProgress(100);
     setIsUploading(false);
@@ -84,7 +93,10 @@ const CatchForm = ({ passCoords, closeFormCallback }: FormProps) => {
       .then((url) => setImageURL(url));
   };
 
-  const submitForm = async (values, actions) => {
+  const submitForm: (values: any, actions: any) => Promise<void> = async (
+    values: any,
+    actions: any
+  ) => {
     setSending(true);
     try {
       actions.setSubmitting(false);
@@ -132,18 +144,29 @@ const CatchForm = ({ passCoords, closeFormCallback }: FormProps) => {
       .required('Bait is required'),
   });
 
+  interface FormValues {
+    species: string;
+    weight: number;
+    length: number;
+    method: string;
+    bait: string;
+    private: boolean;
+  }
+
+  const initialValues: FormValues = {
+    species: '',
+    weight: 0,
+    length: undefined,
+    method: '',
+    bait: '',
+    private: false,
+  };
+
   return (
     <div className="flex justify-center items-center w-full h-full capitalize">
       <Box overflow="hidden" width="full" p="8" pt="2">
         <Formik
-          initialValues={{
-            species: '',
-            weight: 0,
-            length: undefined,
-            method: '',
-            bait: '',
-            private: false,
-          }}
+          initialValues={initialValues}
           validationSchema={CatchFormSchema}
           onSubmit={submitForm}
         >
@@ -340,16 +363,16 @@ const CatchForm = ({ passCoords, closeFormCallback }: FormProps) => {
             </Form>
           )}
         </Formik>
-        {errorMessage ? (
+        {errorMessage && (
           <Box mt="5" color="red.500">
             {errorMessage}
           </Box>
-        ) : null}
-        {uploadErrorMessage ? (
+        )}
+        {uploadErrorMessage && (
           <Box mt="5" color="red.500">
             {uploadErrorMessage}
           </Box>
-        ) : null}
+        )}
       </Box>
     </div>
   );
