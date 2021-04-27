@@ -111,7 +111,10 @@ const Home = (): React.ReactNode => {
           property="og:description"
           content="Fisherman's Diary is a web application dedicted to anglers. Users can save information about fish species, method, bait etc. by interactive map. It is possible also to display fish caught by society or display place of catch on map."
         />
-        <meta property="og:image" content={'/og-image.png'} />
+        <meta
+          property="og:image"
+          content="https://fishermans-diary.vercel.app/og-image.png"
+        />
       </Head>
       {content}
     </Layout>
