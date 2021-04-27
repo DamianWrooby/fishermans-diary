@@ -111,12 +111,7 @@ const Home = (): React.ReactNode => {
           property="og:description"
           content="Fisherman's Diary is a web application dedicted to anglers. Users can save information about fish species, method, bait etc. by interactive map. It is possible also to display fish caught by society or display place of catch on map."
         />
-        <meta
-          property="og:image"
-          content={
-            'https://firebasestorage.googleapis.com/v0/b/fisherman-s-diary.appspot.com/o/images%2Fapp%2Fog-image.png?alt=media&token=c01e50af-9dd4-4964-a93f-4f4cb996ee29'
-          }
-        />
+        <meta property="og:image" content={'/og-image.png'} />
       </Head>
       {content}
     </Layout>
