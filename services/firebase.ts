@@ -40,34 +40,34 @@ const gProvider = new firebase.auth.GoogleAuthProvider();
 export const createUser = (
   email: string,
   password: string
-): Promise<unknown> => {
+): Promise<firebase.auth.UserCredential> => {
   return firebase.auth().createUserWithEmailAndPassword(email, password);
 };
 
-export const resetPassword = (email: string): Promise<unknown> => {
+export const resetPassword = (email: string): Promise<void> => {
   return firebase.auth().sendPasswordResetEmail(email);
 };
 
 export const emailAuth = (
   email: string,
   password: string
-): Promise<unknown> => {
+): Promise<firebase.auth.UserCredential> => {
   return firebase.auth().signInWithEmailAndPassword(email, password);
 };
 
-export const fbAuth = (): Promise<unknown> => {
+export const fbAuth = (): Promise<firebase.auth.UserCredential> => {
   return firebase.auth().signInWithPopup(fbProvider);
 };
 
-export const gAuth = (): Promise<unknown> => {
+export const gAuth = (): Promise<firebase.auth.UserCredential> => {
   return firebase.auth().signInWithPopup(gProvider);
 };
 
-export const signOut = (): Promise<unknown> => {
+export const signOut = (): Promise<void> => {
   return firebase.auth().signOut();
 };
 
-export const deleteUser = (): Promise<unknown> => {
+export const deleteUser = (): Promise<void> => {
   return firebase.auth().currentUser.delete();
 };
 
