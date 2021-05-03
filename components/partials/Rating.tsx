@@ -15,15 +15,9 @@ interface RatingProps {
   docID: string;
   ratingData: RatingDataType;
   userID: string;
-  ratingChangedHandler: () => void;
 }
 
-const Rating = ({
-  docID,
-  ratingData,
-  userID,
-  ratingChangedHandler,
-}: RatingProps) => {
+const Rating = ({ docID, ratingData, userID }: RatingProps) => {
   const [ratingError, setRatingError] = useState(false);
   const [hovered, setHovered] = useState(false);
   const [active, setActive] = useState(false);

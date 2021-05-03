@@ -28,7 +28,6 @@ const DynamicMapComponent = dynamic<MapProps>(() =>
 const CatchCard = ({ data, open, close }) => {
   const user = useAuth();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [ratingChange, setRatingChange] = useState(0);
 
   const marker: Array<number> = [];
   const t: typeof en | typeof pl = useLanguage() === 'en' ? en : pl;
@@ -131,7 +130,6 @@ const CatchCard = ({ data, open, close }) => {
               docID={data.id}
               ratingData={data.ratings}
               userID={user.data.uid}
-              ratingChangedHandler={rerenderComponent}
             />
           </ModalBody>
         </ModalContent>
