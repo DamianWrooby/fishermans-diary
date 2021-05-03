@@ -42,11 +42,6 @@ const CatchCard = ({ data, open, close }) => {
       ? '/catches/my-catches'
       : `/users/${data.author_uid}`;
 
-  const rerenderComponent = () => {
-    setRatingChange((prevState) => prevState + 1);
-    console.log('rerender');
-  };
-
   return (
     <>
       <Modal isOpen={open} onClose={close}>
