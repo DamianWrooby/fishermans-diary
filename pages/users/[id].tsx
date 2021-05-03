@@ -144,7 +144,10 @@ const User = () => {
             name="viewport"
             content="initial-scale=1.0, width=device-width"
           />
-          <meta name="description" content="Fishbook - every angler's diary" />
+          <meta
+            name="description"
+            content="Fisherman's Diary - every angler's diary"
+          />
         </Head>
         {content}
       </Layout>

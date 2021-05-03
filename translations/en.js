@@ -88,4 +88,7 @@ export default {
   ranking: 'Ranking',
   largestfish: 'The largest fish caught by users',
   allspecies: 'All species',
+  ratingerror: 'Error. Try again later',
+  ratingcount: 'ratings',
+  bethefirsttorate: 'Be the first to rate this fish!',
 };

@@ -88,4 +88,7 @@ export default {
   ranking: 'Ranking',
   largestfish: 'Największe okazy złowione przez użytkowników',
   allspecies: 'Wszystkie gatunki',
+  ratingerror: 'Wystąpił błąd. Spróbuj ponownie później.',
+  ratingcount: 'liczba ocen',
+  bethefirsttorate: 'Oceń tę rybę jako pierwszy!',
 };

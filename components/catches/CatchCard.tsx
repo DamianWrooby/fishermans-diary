@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
@@ -15,6 +16,7 @@ import { useDisclosure } from '@chakra-ui/react';
 
 import { useAuth } from '../../contexts/authContext';
 import { MapProps } from '../map/MapComponent';
+import Rating from '../partials/Rating';
 import useLanguage from '../../hooks/useLanguage';
 import pl from '../../translations/pl';
 import en from '../../translations/en';
@@ -26,6 +28,8 @@ const DynamicMapComponent = dynamic<MapProps>(() =>
 const CatchCard = ({ data, open, close }) => {
   const user = useAuth();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [ratingChange, setRatingChange] = useState(0);
+
   const marker: Array<number> = [];
   const t: typeof en | typeof pl = useLanguage() === 'en' ? en : pl;
   const escapedBait: string = data.bait.replace(' ', '');
@@ -38,6 +42,11 @@ const CatchCard = ({ data, open, close }) => {
     data.author_uid === user.data.uid
       ? '/catches/my-catches'
       : `/users/${data.author_uid}`;
+
+  const rerenderComponent = () => {
+    setRatingChange((prevState) => prevState + 1);
+    console.log('rerender');
+  };
 
   return (
     <>
@@ -118,6 +127,12 @@ const CatchCard = ({ data, open, close }) => {
                 </p>
               </div>
             )}
+            <Rating
+              docID={data.id}
+              ratingData={data.ratings}
+              userID={user.data.uid}
+              ratingChangedHandler={rerenderComponent}
+            />
           </ModalBody>
         </ModalContent>
       </Modal>

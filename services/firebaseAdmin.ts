@@ -15,8 +15,6 @@ if (!firebaseAdmin.apps.length) {
       console.error('Firebase admin initialization error', error.stack);
     }
   }
-
-  console.log(firebaseAdmin.app().name);
 }
 
 export default firebaseAdmin.firestore();

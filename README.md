@@ -1,6 +1,6 @@
 # Fisherman's diary
 
-Fisherman's Diary is a Next.js based web application dedicted to anglers. Users can save information about fish species, method, bait etc. by interactive map. It is possible also to display fish caught by society or display place of catch on map.
+Fisherman's Diary is a Next.js based web application dedicted to anglers. Users can save information about fish species, method, bait etc. by interactive map. It is possible also to display fish caught by society, rate fish or display place of catch on map.
 
 [Live demo](https://fishermans-diary.vercel.app/pl)
 
@@ -29,7 +29,6 @@ Create something like fullstack app with authentication and database.
 
 ## Upcoming features
 
-- Fish rating
 - Stats
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).

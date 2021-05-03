@@ -1,9 +1,6 @@
 import { useState } from 'react';
 
-import firebase from 'firebase/app';
-import { db } from '../../services/firebase';
 import CustomUploadButton from 'react-firebase-file-uploader/lib/CustomUploadButton';
-import { storage } from '../../services/firebase';
 import { Formik, Form, Field } from 'formik';
 import {
   FormControl,
@@ -24,6 +21,9 @@ import {
 } from '@chakra-ui/react';
 import * as Yup from 'yup';
 
+import firebase from 'firebase/app';
+import { db } from '../../services/firebase';
+import { storage } from '../../services/firebase';
 import { useAuth } from '../../contexts/authContext';
 import { SpeciesList } from '../../data/SpeciesList';
 import useLanguage from '../../hooks/useLanguage';
