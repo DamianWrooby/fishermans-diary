@@ -43,7 +43,7 @@ const CatchCard = ({ data, open, close }) => {
       : `/users/${data.author_uid}`;
 
   return (
-    <>
+    <div className="h-screen sm:h-auto">
       <Modal isOpen={open} onClose={close}>
         <ModalOverlay />
         <ModalContent>
@@ -106,7 +106,7 @@ const CatchCard = ({ data, open, close }) => {
               </div>
             </div>
             {data.image ? (
-              <div className="w-full h-80 relative">
+              <div className="w-full h-60 sm:h-80 relative">
                 <Image
                   src={data.image}
                   alt={data.species}
@@ -115,7 +115,7 @@ const CatchCard = ({ data, open, close }) => {
                 />
               </div>
             ) : (
-              <div className="w-full h-80 relative flex justify-center align-middle">
+              <div className="w-full h-60 sm:h-80 relative flex justify-center align-middle">
                 <p className="m-auto text-gray-700 dark:text-gray-400">
                   {t.nophoto}
                 </p>
@@ -146,7 +146,7 @@ const CatchCard = ({ data, open, close }) => {
           </ModalBody>
         </ModalContent>
       </Modal>
-    </>
+    </div>
   );
 };
 

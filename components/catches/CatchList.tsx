@@ -89,7 +89,6 @@ const CatchList = ({
   const [paginationPage, setPaginationPage] = useState(1);
   const [sorting, setSorting] = useState('timestamp');
   const [elementToRemove, setElementToRemove] = useState('');
-  const [loading, setLoading] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   //* If userID is not specified, fetch non-private catches from all users
@@ -214,7 +213,6 @@ const CatchList = ({
   };
 
   useEffect(() => {
-    setLoading(true);
     let tmp: Array<CatchTypes> = [];
     if (data) {
       data.map((doc) => {
@@ -232,8 +230,7 @@ const CatchList = ({
       tmp = tmp.splice(0, amount);
     }
     setCatches(tmp);
-    setLoading(false);
-  }, [data, species]);
+  }, [data]);
 
   if (catches && pagination) {
     chunkedCatchesArr = catches.reduce((resultArray, item, index) => {
