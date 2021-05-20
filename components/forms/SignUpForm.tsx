@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+
 import { Formik, Form, Field } from 'formik';
 import {
   FormControl,
@@ -12,6 +13,7 @@ import {
   Box,
 } from '@chakra-ui/react';
 import * as Yup from 'yup';
+
 import { createUser } from '../../services/firebase';
 import useLanguage from '../../hooks/useLanguage';
 import en from '../../translations/en';
@@ -97,6 +99,7 @@ const SignUpForm = () => {
                   </Box>
                 )}
               </Field>
+
               <Field name="password">
                 {({ field, form }) => (
                   <Box mb="5">
@@ -129,6 +132,7 @@ const SignUpForm = () => {
                   </Box>
                 )}
               </Field>
+
               <Field name="confirmPassword">
                 {({ field, form }) => (
                   <Box mb="5">
@@ -166,6 +170,7 @@ const SignUpForm = () => {
                   </Box>
                 )}
               </Field>
+
               <Button
                 mt={4}
                 colorScheme="teal"

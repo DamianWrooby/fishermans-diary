@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router';
+
 import Arrow from '../../public/arrow.svg';
 import en from '../../translations/en';
 import pl from '../../translations/pl';

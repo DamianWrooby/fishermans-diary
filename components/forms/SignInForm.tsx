@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+
 import { Formik, Form, Field } from 'formik';
 import {
   FormControl,
@@ -12,6 +13,7 @@ import {
   Box,
 } from '@chakra-ui/react';
 import * as Yup from 'yup';
+
 import { emailAuth } from '../../services/firebase';
 import useLanguage from '../../hooks/useLanguage';
 import en from '../../translations/en';
@@ -77,6 +79,7 @@ const SignInForm = () => {
                   </Box>
                 )}
               </Field>
+
               <Field name="password">
                 {({ field, form }) => (
                   <Box mb="5">
@@ -105,6 +108,7 @@ const SignInForm = () => {
                   </Box>
                 )}
               </Field>
+
               <div className="flex flex-row items-center">
                 <Button
                   mt={4}

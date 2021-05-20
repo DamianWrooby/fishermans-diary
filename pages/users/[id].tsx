@@ -1,9 +1,14 @@
-import { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import Head from 'next/head';
-import { Button } from '@chakra-ui/react';
 import Link from 'next/link';
+import Head from 'next/head';
+
+import { Button } from '@chakra-ui/react';
 import { FaArrowRight } from 'react-icons/fa';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useCollection } from '@nandorojo/swr-firestore';
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+import { useColorModeValue } from '@chakra-ui/react';
+
 import Layout from '../../layouts/layout';
 import { useAuth } from '../../contexts/authContext';
 import CatchButton from '../../components/catches/CatchButton';
@@ -12,12 +17,8 @@ import CatchMap from '../../components/catches/CatchMap';
 import useLanguage from '../../hooks/useLanguage';
 import en from '../../translations/en';
 import pl from '../../translations/pl';
-import { motion, AnimatePresence } from 'framer-motion';
 import Loader from '../../components/partials/Loader';
-import { useCollection } from '@nandorojo/swr-firestore';
 import { CatchTypes } from '../../components/catches/CatchList';
-import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
-import { useColorModeValue } from '@chakra-ui/react';
 
 const User = () => {
   const t = useLanguage() === 'en' ? en : pl;

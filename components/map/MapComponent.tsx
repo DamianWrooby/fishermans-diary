@@ -1,4 +1,5 @@
 import { Ref, useEffect, useRef, memo } from 'react';
+
 import 'ol/ol.css';
 import Map from 'ol/Map';
 import View from 'ol/View';
@@ -9,13 +10,15 @@ import VectorSource from 'ol/source/Vector';
 import VectorLayer from 'ol/layer/Vector';
 import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
+import Overlay from 'ol/Overlay';
 import { fromLonLat, toLonLat } from 'ol/proj';
 import Control from 'ol/control/Control';
 import { PinchZoom, defaults as defaultInteractions } from 'ol/interaction';
-import Overlay from 'ol/Overlay';
+
 import useLanguage from '../../hooks/useLanguage';
 import en from '../../translations/en';
 import pl from '../../translations/pl';
+import { Tile } from 'openlayers';
 
 interface CatchDataType {
   author_email: string;
@@ -68,13 +71,13 @@ const MapComponent = ({
   const zoomVal = zoom ? zoom : 6;
   const t = useLanguage() === 'en' ? en : pl;
 
-  const source = new TileJSON({
+  const source: Tile = new TileJSON({
     url: sourceUrl,
     tileSize: 512,
     crossOrigin: 'anonymous',
   });
 
-  const vectorSource = new VectorSource({});
+  const vectorSource: VectorSource = new VectorSource({});
 
   useEffect(() => {
     const map: Map = new Map({
