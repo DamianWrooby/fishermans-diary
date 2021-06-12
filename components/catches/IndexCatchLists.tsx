@@ -17,7 +17,7 @@ const IndexCatchLists = () => {
     return (
         <>
         <section className="p-5 pt-24 sm:pt-12 pb-12">
-          <Heading text={t.yourlastcatches} />
+          <Heading text={t.yourlastcatches} tag={'h2'} />
           <CatchList
             amount={3}
             features={[
@@ -35,7 +35,7 @@ const IndexCatchLists = () => {
           />
         </section>
         <section className="p-5 pt-12 pb-12">
-          <Heading text={t.fishrecentlycaughtbysociety} />
+          <Heading text={t.fishrecentlycaughtbysociety} tag={'h2'} />
           <CatchList
             amount={30}
             features={[

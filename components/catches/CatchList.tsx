@@ -230,7 +230,7 @@ const CatchList = ({
       tmp = tmp.splice(0, amount);
     }
     setCatches(tmp);
-  }, [data]);
+  }, [data, species]);
 
   if (catches && pagination) {
     chunkedCatchesArr = catches.reduce((resultArray, item, index) => {
