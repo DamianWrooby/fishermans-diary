@@ -1,5 +1,6 @@
 const Loader = () => {
   return (
+    <div className="w-24 m-auto fill-current	text-blue-200">
     <svg
       version="1.1"
       id="L7"
@@ -54,6 +55,7 @@ const Loader = () => {
         />
       </path>
     </svg>
+    </div>
   );
 };
 
