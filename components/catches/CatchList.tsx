@@ -6,7 +6,7 @@ import { useCollection } from '@nandorojo/swr-firestore';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 
 import PaginationControls from '../partials/PaginationControls';
-import CatchRow from './CatchRow';
+import CatchRow from './CatchRow'; 
 import ConfirmationDialog from './ConfirmationDialog';
 import useLanguage from '../../hooks/useLanguage';
 import CatchListHeader from './CatchListHeader';
@@ -230,7 +230,7 @@ const CatchList = ({
       tmp = tmp.splice(0, amount);
     }
     setCatches(tmp);
-  }, [data]);
+  }, [data, species]);
 
   if (catches && pagination) {
     chunkedCatchesArr = catches.reduce((resultArray, item, index) => {

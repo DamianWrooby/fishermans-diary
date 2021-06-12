@@ -18,7 +18,7 @@ const Login = () => {
   const [lastLoginAttempt, setlastLoginAttempt] = useState(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { locale } = router;
-  const t = locale === 'en' ? en : pl;
+  const t = locale === 'en' ? en : pl; 
 
   const fbLogin = (): void => {
     setlastLoginAttempt('facebook');
